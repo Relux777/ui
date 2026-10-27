@@ -1,0 +1,127 @@
+// generic/_reset.scss
+// Полное обнуление браузерных стилей. Никаких токенов и цветов — только геометрия и поведение.
+// Оптимизировано под мобильные приложения (iOS / Android) и веб-вью.
+
+@layer reset {
+    /* 1. Глобальный box-sizing + прозрачная подсветка тапа на мобилках */
+    *,
+    ::before,
+    ::after {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 2. Мобильные фиксы уровня документа (iOS/Android) */
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        scroll-behavior: smooth;
+        scrollbar-gutter: stable;
+        /* Отключаем вызов системного контекстного меню (Copy / Save Image) при долгом тапе */
+        -webkit-touch-callout: none;
+        /* Как в приложении: без «резинки» и pull-to-refresh у страницы. Прокручивается <html>,
+           поэтому свойство здесь — на body Chrome и Safari его у корня не видят */
+        overscroll-behavior-y: none;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        min-height: 100dvh; /* Учитывает динамические панели Safari/Chrome на мобилках */
+    }
+
+    /* Разделитель: одна линия сверху цветом текста (цвет — классом border-…), без отступов браузера */
+    hr {
+        height: 0;
+        margin: 0;
+        border: 0;
+        border-top: 1px solid;
+        color: inherit;
+    }
+
+    /* 3. Типографика: снимаем дефолтные отступы и списки */
+    h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, pre {
+        margin: 0;
+    }
+
+    ul, ol, menu {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    :where(ul, ol)[role='list'] {
+        list-style: none;
+    }
+
+    /* 4. Медиа: не вылезать за контейнер и не «сплющиваться» */
+    img, svg, video, canvas, audio, iframe, embed, object {
+        display: block;
+        max-width: 100%;
+    }
+
+    img, video {
+        height: auto;
+        /* Запрещаем перетаскивание картинок (часто мешает в мобильных галереях) */
+        -webkit-user-drag: none;
+        user-select: none;
+    }
+
+    /* 5. Формы: наследуют шрифт, не имеют лишних рамок и фона */
+    button, input, select, textarea {
+        font: inherit;
+        color: inherit;
+        margin: 0;
+    }
+
+    button {
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        /* Запрещаем выделение текста на кнопках (чтобы не появлялся синий фон при быстрых тапах) */
+        user-select: none;
+    }
+
+    textarea {
+        resize: none;
+        field-sizing: content;
+        /* В полях ввода текст выделять МОЖНО (в отличие от кнопок) */
+        user-select: text; 
+    }
+
+    /* 6. Ссылки */
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    /* 7. Скрытые элементы не должны проигрывать .flex / .block */
+    [hidden] {
+        display: none !important;
+    }
+
+    /* 8. Диалоги */
+    dialog {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: none;
+        max-width: initial;
+        max-height: initial;
+    }
+
+    /* 9. Уважение к prefers-reduced-motion на уровне сброса */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+        *,
+        ::before,
+        ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+}

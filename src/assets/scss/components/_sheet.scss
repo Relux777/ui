@@ -1,0 +1,101 @@
+// components/_sheet.scss
+// .sheet — окно-лист на <dialog>: на телефоне выезжает снизу (как sheet в iOS и Android), с 620px — панель
+// справа во всю высоту (как модалка right в ozon). Открывается dialog.showModal(): браузер сам держит фокус
+// внутри, Esc закрывает, страница под окном недоступна; лист — в верхнем слое (top layer), поэтому ни
+// размытие, ни прозрачность предков на него не действуют.
+// Появление и уход — переходы с @starting-style и transition-behavior: allow-discrete (где их нет — сразу).
+// Прокрутка страницы под открытым листом выключена (html:has(.sheet[open])).
+// Разметка: <dialog class="sheet"><div class="…во всю высоту листа…">…</div></dialog>.
+@use "../tools/mixins" as *;
+
+@layer components {
+    .sheet {
+        position: fixed;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        max-width: none;
+        max-height: none;
+        // у <dialog> браузер ставит height: fit-content и overflow: auto — высоту задают отступы (inset),
+        // прокручивается содержимое внутри листа
+        height: auto;
+        overflow: hidden;
+        color: var(--foreground);
+        background: var(--surface);
+        box-shadow: var(--shadow-6);
+        overscroll-behavior: contain;
+        // где allow-discrete не понимают, вся строка ниже отбрасывается — остаётся эта
+        transition: translate 0.5s var(--ease-spring);
+        transition:
+            translate 0.5s var(--ease-spring),
+            display 0.5s allow-discrete,
+            overlay 0.5s allow-discrete;
+
+        &::backdrop {
+            background: rgb(0 0 0 / 0%);
+            transition:
+                background-color 0.35s ease,
+                display 0.35s allow-discrete,
+                overlay 0.35s allow-discrete;
+        }
+
+        &[open]::backdrop {
+            background: rgb(0 0 0 / 35%);
+        }
+
+        @starting-style {
+            &[open]::backdrop {
+                background: rgb(0 0 0 / 0%);
+            }
+        }
+
+        // телефон — лист снизу, над полосой «Домой»
+        @include down(sm) {
+            inset: auto 0 0;
+            width: 100%;
+            max-height: 85dvh;
+            border-radius: 28px 28px 0 0;
+            padding-bottom: env(safe-area-inset-bottom);
+            translate: 0 100%;
+
+            &[open] {
+                translate: 0 0;
+            }
+
+            @starting-style {
+                &[open] {
+                    translate: 0 100%;
+                }
+            }
+        }
+
+        // планшет и компьютер — панель справа с полями 8px
+        @include up(sm) {
+            inset: 8px 8px 8px auto;
+            width: min(380px, calc(100vw - 16px));
+            border-radius: 28px;
+            translate: calc(100% + 16px) 0;
+
+            &[open] {
+                translate: 0 0;
+            }
+
+            @starting-style {
+                &[open] {
+                    translate: calc(100% + 16px) 0;
+                }
+            }
+        }
+    }
+
+    html:has(.sheet[open]) {
+        overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .sheet,
+        .sheet::backdrop {
+            transition: none;
+        }
+    }
+}

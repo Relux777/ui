@@ -1,0 +1,51 @@
+// tools/_mixins.scss
+@use "sass:map";
+@use "../generated/screens" as s;
+
+// :hover срабатывает только на устройствах с мышью/трекпадом.
+// На тач-экранах :hover залипает после тапа — там мы используем touch-press.
+@mixin hover {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            @content;
+        }
+    }
+}
+
+// Замена hover для сенсорных экранов: эффект на время нажатия (:active).
+@mixin touch-press {
+    @media (hover: none) {
+        &:active {
+            @content;
+        }
+    }
+}
+
+// Единый фокус-ринг для доступности (клавиатура).
+@mixin focus-ring {
+    &:focus-visible {
+        outline: 2px solid rgb(var(--ring));
+        outline-offset: 2px;
+        @content;
+    }
+}
+// ── Брейкпоинты ─────────────────────────────────────────────────────
+// Значения берутся из ren.config.mjs: движок пишет их в generated/_screens.scss,
+// поэтому SCSS и классы md:… / max-md:… всегда используют одни и те же границы.
+
+// Имя 2xl пишется в кавычках: @include up("2xl").
+// @include up(md) { … }  →  @media (width >= 770px)  — как префикс md:
+@mixin up($name) {
+    @if not map.has-key(s.$screens, $name) { @error "Нет брейкпоинта #{$name} в ren.config.mjs"; }
+    @media (width >= #{map.get(s.$screens, $name)}) {
+        @content;
+    }
+}
+
+// @include down(md) { … }  →  @media (width < 770px)  — как префикс max-md:
+@mixin down($name) {
+    @if not map.has-key(s.$screens, $name) { @error "Нет брейкпоинта #{$name} в ren.config.mjs"; }
+    @media (width < #{map.get(s.$screens, $name)}) {
+        @content;
+    }
+}

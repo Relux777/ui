@@ -1,0 +1,34 @@
+// layout/_grid.scss
+// Сетка из 12 колонок (замена .flex > .f-w-* и .row-flush из ReluxCode).
+//
+//   <div class="row gutter-24">
+//     <div class="col-12 md:col-6 lg:col-4">…</div>
+//     <div class="col">растягивается</div>
+//     <div class="col-auto">по содержимому</div>
+//   </div>
+//
+// Как устроено (как в Bootstrap 5, но без !important и с вариантами RenDit Code):
+//   • .row — flex с переносом; отрицательный margin по бокам компенсирует поля колонок,
+//     поэтому край ряда совпадает с текстом рядом;
+//   • каждый ребёнок .row по умолчанию на всю ширину (телефон), ширину задают классы движка
+//     col-N / col / col-auto / offset-N — они в слое utilities и всегда сильнее этих правил;
+//   • расстояние между колонками — переменные --gutter-x / --gutter-y,
+//     меняются классами gutter-N, gutter-x-N, gutter-y-N (тоже с вариантами: md:gutter-32).
+
+@layer layout {
+    .row {
+        --gutter-x: 20px;
+        --gutter-y: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: var(--gutter-y);
+        margin-inline: calc(var(--gutter-x) / -2);
+
+        > * {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 100%;
+            padding-inline: calc(var(--gutter-x) / 2);
+        }
+    }
+}

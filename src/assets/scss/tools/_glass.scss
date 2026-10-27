@@ -1,0 +1,75 @@
+// tools/_glass.scss
+// «Жидкое стекло» (Liquid Glass) для плавающих панелей: шапка, нижнее меню, плашки поверх фото.
+// CSS не выводит — только миксины, подключаются в модулях: @use "tools/glass";
+//
+//   .bar { @include glass.liquid-glass; }                  — стекло без SVG: работает везде, в т. ч. на iPhone
+//   .bar { @include glass.liquid-glass($blur: 20px, $tint: 30%); }
+//   .bar[data-refract] { @include glass.refract("#lg-filter"); } — настоящее преломление (только Chromium)
+//
+// Из чего стекло:
+//   • фон — цвет страницы с прозрачностью $tint, под ним размытие + насыщенность (свет «собирается» в стекле);
+//   • кромка ::before — светлая сверху-слева и снизу-справа, как свет на ребре; толщина $edge;
+//   • дисперсия — розоватый отсвет слева изнутри и голубоватый справа;
+//   • объём — блик сверху изнутри и тень снизу изнутри.
+// Элементу нужен position (relative/absolute/fixed/sticky) — кромка рисуется ::before поверх.
+
+@mixin liquid-glass($blur: 14px, $tint: 22%, $saturate: 190%, $edge: 1px) {
+    isolation: isolate;
+    background: color-mix(in oklab, var(--background) #{$tint}, transparent);
+    -webkit-backdrop-filter: blur($blur) saturate($saturate) brightness(1.06);
+    backdrop-filter: blur($blur) saturate($saturate) brightness(1.06);
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 0.18),
+        inset 2px 0 3px -2px rgb(255 60 120 / 0.35),
+        inset -2px 0 3px -2px rgb(40 160 255 / 0.4),
+        inset 0 8px 14px -10px rgb(255 255 255 / 0.55),
+        inset 0 -10px 16px -12px rgb(0 0 0 / 0.18),
+        0 16px 36px -14px rgb(0 0 0 / 0.3),
+        0 2px 6px rgb(0 0 0 / 0.06);
+
+    [data-theme='dark'] & {
+        box-shadow:
+            inset 0 0 0 1px rgb(255 255 255 / 0.1),
+            inset 2px 0 3px -2px rgb(255 60 120 / 0.45),
+            inset -2px 0 3px -2px rgb(60 170 255 / 0.5),
+            inset 0 8px 14px -10px rgb(255 255 255 / 0.16),
+            inset 0 -10px 16px -12px rgb(0 0 0 / 0.5),
+            0 16px 36px -14px rgb(0 0 0 / 0.8);
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        padding: $edge;
+        border-radius: inherit;
+        pointer-events: none;
+        background: linear-gradient(135deg, rgb(255 255 255 / 0.85), rgb(255 255 255 / 0) 30%, rgb(255 255 255 / 0) 70%, rgb(255 255 255 / 0.6));
+        mask:
+            linear-gradient(#000 0 0) content-box exclude,
+            linear-gradient(#000 0 0);
+
+        [data-theme='dark'] & {
+            background: linear-gradient(135deg, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0) 30%, rgb(255 255 255 / 0) 70%, rgb(255 255 255 / 0.2));
+        }
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+        background: var(--surface);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+
+    @media (forced-colors: active) {
+        border: 1px solid CanvasText;
+    }
+}
+
+// Настоящее преломление: SVG-фильтр feDisplacementMap в backdrop-filter. Работает только в Chromium
+// (Safari и Firefox url() в backdrop-filter не понимают и теряют всё размытие), поэтому включайте его
+// по атрибуту, который ставит JS после проверки браузера. $filter — "#id" фильтра на странице.
+@mixin refract($filter, $blur: 3px, $saturate: 180%) {
+    -webkit-backdrop-filter: url($filter) blur($blur) saturate($saturate);
+    backdrop-filter: url($filter) blur($blur) saturate($saturate);
+}

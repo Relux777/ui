@@ -1,0 +1,48 @@
+// components/_route-enter.scss
+// .route-enter — плавная смена страниц без View Transitions. Класс ставится на контейнер, куда layout выводит
+// {children}: <div class="route-enter contents">{children}</div>.
+//
+// Как работает. Next (Cache Components) не размонтирует прежнюю страницу, а прячет её через <Activity>
+// (display: none у верхних узлов страницы) и показывает новую. У узла, который снова показали или только что
+// вставили, CSS-анимации запускаются заново — поэтому страница проявляется на каждом переходе, в том числе
+// по «назад», без JS.
+//
+// Проявляется не сама страница, а тает накладка ::before цвета фона поверх неё. У самой страницы
+// не меняются ни opacity, ни filter, ни transform:
+//   • opacity < 1 или filter делают элемент «корнем» размытия (Filter Effects 2, Backdrop Root) — стекло
+//     (backdrop-filter) внутри страницы до конца анимации не размывало бы фон и включалось рывком;
+//   • transform сдвинул бы position: fixed внутри страницы.
+// View Transitions сюда не годятся: на время перехода браузер рисует снимок страницы поверх всего документа,
+// и стеклянные шапка и нижнее меню оказывались под ним — пропадали и теряли размытие.
+
+@keyframes route-enter {
+    from {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@layer components {
+    .route-enter > * {
+        position: relative;
+        isolation: isolate; // накладка — над всем содержимым страницы, но в её собственном слое
+    }
+
+    .route-enter > *::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1000;
+        background: var(--background);
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        animation: route-enter 0.26s cubic-bezier(0.2, 0, 0, 1) backwards;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .route-enter > *::before {
+            animation: none;
+        }
+    }
+}

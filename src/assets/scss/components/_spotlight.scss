@@ -1,0 +1,63 @@
+// components/_spotlight.scss
+// .spotlight — «прожектор»: тусклое пятно света по панели и подсвеченный кусок кромки идут за курсором.
+// Слой кладётся внутрь панели с position и isolation: <nav class="relative isolate …"><span class="spotlight" />…
+// Координаты курсора — --mx/--my на панели, включение — атрибут data-spot на панели
+// (всё это делает компонент Header/spotlight.tsx, только для мыши). Цвет — --spotlight (по умолчанию secondary).
+
+// зарегистрированы — свет плавно догоняет курсор transition'ом, а не прыгает за ним
+@property --mx {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+
+@property --my {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+
+@layer components {
+    .spotlight {
+        position: absolute;
+        inset: 0;
+        z-index: -1; // над фоном панели, под содержимым
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0;
+        transition:
+            opacity 0.6s ease,
+            --mx 0.35s ease-out,
+            --my 0.35s ease-out;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+        }
+
+        // пятно по стеклу — 9 % цвета
+        &::before {
+            background: radial-gradient(220px circle at var(--mx) var(--my), color-mix(in oklab, var(--spotlight, var(--secondary)) 9%, transparent), transparent 70%);
+        }
+
+        // кромка у курсора — 35 %
+        &::after {
+            padding: 1px;
+            background: radial-gradient(160px circle at var(--mx) var(--my), color-mix(in oklab, var(--spotlight, var(--secondary)) 35%, transparent), transparent 70%);
+            mask:
+                linear-gradient(#000 0 0) content-box exclude,
+                linear-gradient(#000 0 0);
+        }
+
+        [data-spot] > & {
+            opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: opacity 0.6s ease;
+        }
+    }
+}

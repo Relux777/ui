@@ -1,0 +1,9 @@
+// settings/_index.scss
+// Все токены дизайна (CSS-переменные). RenDit Code компилирует этот файл, чтобы узнать имена
+// цветов, теней, скруглений и градиентов, — новый токен сразу доступен как класс.
+
+@use "palette";
+@use "tokens.semantic";
+@use "shadows";
+@use "radius";
+@use "motion";

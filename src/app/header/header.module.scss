@@ -1,0 +1,1249 @@
+// Страница /header — варианты анимации шапки. Стили только этой служебной страницы.
+// Общее вынесено в RenDit: пружины — токены --ease-spring / --ease-spring-bouncy (settings/_motion.scss,
+// классы ease-spring …), стекло — миксин liquid-glass (tools/_glass.scss).
+//
+// Прокрутку окна-примера даёт Stage (_lab/stage.tsx): --p (0…1 за первые 160px), --progress (0…1 всей страницы),
+// data-scrolled и data-dir="down|up" на .frame.
+@use "sass:list";
+@use "tools/mixins" as *;
+@use "tools/glass";
+
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+// ───────────── страница ─────────────
+
+.jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    a {
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--surface-muted);
+        font-size: 13px;
+        transition: background-color 0.2s;
+
+        @include hover {
+            background: var(--border-strong);
+        }
+
+        @include focus-ring;
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+
+    > article {
+        scroll-margin-top: 80px;
+    }
+}
+
+// «Что попробовать» — чипами
+.tries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    li {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: color-mix(in oklab, var(--secondary) 12%, transparent);
+        color: var(--secondary);
+        font-size: 13px;
+    }
+}
+
+// ───────────── окно-пример ─────────────
+
+.frame {
+    --p: 0;
+    --progress: 0;
+
+    container-type: inline-size;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    block-size: 460px;
+    border-radius: 28px;
+    background: var(--background);
+    box-shadow:
+        0 0 0 1px var(--border),
+        var(--shadow-5);
+
+    @include down(md) {
+        block-size: 420px;
+        border-radius: 22px;
+    }
+}
+
+.screen {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: -2px;
+        border-radius: inherit;
+    }
+}
+
+// SVG только с фильтрами — места не занимает
+.defs {
+    position: absolute;
+    inline-size: 0;
+    block-size: 0;
+    overflow: hidden;
+}
+
+// заглушка страницы
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 12px 12px 48px;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+    min-block-size: 300px;
+    padding: 96px 28px 28px;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 18% 18%, #ed70a7 0, transparent 42%),
+        radial-gradient(circle at 82% 8%, #7a5af8 0, transparent 50%),
+        radial-gradient(circle at 62% 92%, #f7ae49 0, transparent 44%),
+        linear-gradient(135deg, #1c1036, #0d5ef5);
+}
+
+.heroLine {
+    display: block;
+    block-size: 20px;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.88);
+}
+
+.heroSub {
+    display: block;
+    block-size: 10px;
+    border-radius: 6px;
+    background: rgb(255 255 255 / 0.55);
+}
+
+.heroBtns {
+    display: flex;
+    gap: 10px;
+    margin-block-start: 6px;
+
+    span {
+        inline-size: 120px;
+        block-size: 38px;
+        border-radius: 999px;
+        background: #fff;
+    }
+
+    span + span {
+        inline-size: 100px;
+        background: rgb(255 255 255 / 0.18);
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4);
+    }
+}
+
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+
+    @container (width < 620px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.tile {
+    aspect-ratio: 1.5;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c), #fff 35%));
+}
+
+.lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 16px;
+}
+
+.line {
+    display: block;
+    block-size: 10px;
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+// крупные буквы и полосы — на них лучше всего видно преломление
+.bigText {
+    padding-inline: 12px;
+    font-size: clamp(56px, 13cqi, 140px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.stripes {
+    block-size: 140px;
+    border-radius: 20px;
+    background:
+        repeating-linear-gradient(90deg, color-mix(in oklab, var(--foreground) 70%, transparent) 0 3px, transparent 3px 26px),
+        linear-gradient(90deg, #7a5af8, #ed70a7, #f7ae49);
+}
+
+// ───────────── общая шапка ─────────────
+
+.dock {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline: 12px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+}
+
+.bar {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    inline-size: 100%;
+    block-size: 52px;
+    padding-inline: 16px 8px;
+    border-radius: 999px;
+    color: var(--foreground);
+
+    // кнопки всегда справа, даже когда меню в узком окне скрыто
+    > :last-child {
+        grid-column: 3;
+    }
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-inline-size: 0;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+
+    svg {
+        flex: none;
+    }
+}
+
+.menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    @container (width < 720px) {
+        display: none;
+    }
+}
+
+.link {
+    position: relative;
+    z-index: 1;
+    padding: 7px 13px;
+    border-radius: 999px;
+    color: color-mix(in oklab, var(--foreground) 70%, transparent);
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 0.2s;
+
+    &[aria-current] {
+        color: var(--foreground);
+    }
+
+    @include hover {
+        color: var(--foreground);
+    }
+
+    @include focus-ring;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+}
+
+.iconBtn {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: 36px;
+    block-size: 36px;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--foreground) 7%, transparent);
+    color: var(--foreground);
+    transition:
+        background-color 0.2s,
+        scale 0.4s var(--ease-spring-bouncy);
+
+    @include hover {
+        background: color-mix(in oklab, var(--foreground) 13%, transparent);
+    }
+
+    &:active {
+        scale: 0.88;
+    }
+
+    @include focus-ring;
+}
+
+.cta {
+    flex: none;
+    block-size: 36px;
+    padding-inline: 16px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font-size: 14px;
+    font-weight: 600;
+    transition: scale 0.4s var(--ease-spring-bouncy);
+
+    &:active {
+        scale: 0.93;
+    }
+
+    @include focus-ring;
+
+    @container (width < 440px) {
+        display: none;
+    }
+}
+
+// ───────────── 1. Жидкое стекло ─────────────
+// Стекло — миксин liquid-glass; в Chromium поверх — настоящее преломление SVG-фильтром (data-refract ставит JS).
+// При прокрутке панель сужается вместе с --p. Линза под пунктом едет на пружине и при нажатии «надувается»
+
+.liquid {
+    @include glass.liquid-glass($blur: 8px, $tint: 12%);
+
+    inline-size: max(min(100%, 600px), calc(100% - var(--p) * 30%));
+
+    &[data-refract] {
+        @include glass.refract("#rd-liquid-refract", 1.5px);
+    }
+}
+
+.lens {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 0;
+    inline-size: var(--iw, 0px);
+    border-radius: 999px;
+    translate: var(--il, 0px) 0;
+    background:
+        linear-gradient(180deg, rgb(255 255 255 / 0.5), rgb(255 255 255 / 0.12) 60%, rgb(255 255 255 / 0.25)),
+        color-mix(in oklab, var(--secondary) 10%, transparent);
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 0.6),
+        inset 2px 0 3px -2px rgb(255 50 110 / 0.5),
+        inset -2px 0 3px -2px rgb(30 150 255 / 0.55),
+        inset 0 3px 5px -2px rgb(255 255 255 / 0.7),
+        inset 0 -4px 8px -3px rgb(0 0 0 / 0.12),
+        0 4px 12px -4px rgb(0 0 0 / 0.25);
+    transition:
+        translate 0.6s var(--ease-spring),
+        inline-size 0.6s var(--ease-spring),
+        scale 0.45s var(--ease-spring-bouncy);
+
+    [data-theme='dark'] & {
+        background:
+            linear-gradient(180deg, rgb(255 255 255 / 0.2), rgb(255 255 255 / 0.04) 60%, rgb(255 255 255 / 0.1)),
+            color-mix(in oklab, var(--secondary) 16%, transparent);
+        box-shadow:
+            inset 0 0 0 1px rgb(255 255 255 / 0.28),
+            inset 2px 0 3px -2px rgb(255 60 120 / 0.6),
+            inset -2px 0 3px -2px rgb(60 170 255 / 0.65),
+            inset 0 3px 5px -2px rgb(255 255 255 / 0.25),
+            inset 0 -4px 8px -3px rgb(0 0 0 / 0.4),
+            0 4px 12px -4px rgb(0 0 0 / 0.6);
+    }
+
+    // нажали — линза приподнимается и раздувается
+    .menu:active & {
+        scale: 1.14 1.1;
+    }
+}
+
+// ───────────── 2. Капли ─────────────
+
+.drops {
+    position: relative;
+    inline-size: 100%;
+}
+
+.goo {
+    position: absolute;
+    inset: 0;
+    filter: url("#rd-goo") drop-shadow(0 10px 18px rgb(0 0 0 / 0.18));
+
+    [data-theme='dark'] & {
+        filter: url("#rd-goo") drop-shadow(0 10px 22px rgb(0 0 0 / 0.7));
+    }
+}
+
+.blob {
+    --x: 0px;
+    --w: 0px;
+
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--surface), #fff 40%), var(--surface));
+    transition:
+        inset-inline-start 0.9s var(--ease-spring-bouncy),
+        inline-size 0.9s var(--ease-spring-bouncy),
+        inset-block 0.9s var(--ease-spring-bouncy);
+
+    [data-theme='dark'] & {
+        background: linear-gradient(180deg, var(--gray-800), var(--gray-900));
+    }
+
+    &:nth-child(1) {
+        --x: var(--d0-x);
+        --w: var(--d0-w);
+    }
+
+    &:nth-child(2) {
+        --x: var(--d1-x);
+        --w: var(--d1-w);
+    }
+
+    &:nth-child(3) {
+        --x: var(--d2-x);
+        --w: var(--d2-w);
+    }
+
+    // капли отрываются по очереди: края, потом середина
+    .frame[data-scrolled] & {
+        inset-block: 3px;
+        inset-inline-start: var(--x);
+        inline-size: var(--w);
+
+        &:nth-child(2) {
+            transition-delay: 90ms;
+        }
+
+        &:nth-child(3) {
+            transition-delay: 40ms;
+        }
+    }
+}
+
+.dropStart {
+    justify-self: start;
+}
+
+.dropEnd {
+    justify-self: end;
+}
+
+// ───────────── 3. Динамический остров ─────────────
+
+.island {
+    // остров всегда чёрный — свои цвета поверх темы
+    --foreground: #fff;
+    --primary: #fff;
+    --primary-foreground: #000;
+
+    position: relative;
+    overflow: hidden;
+    inline-size: 100%;
+    block-size: 52px;
+    border-radius: 26px;
+    background: #000;
+    color: #fff;
+    box-shadow:
+        0 0 0 1px rgb(255 255 255 / 0.08),
+        0 14px 34px -14px rgb(0 0 0 / 0.6);
+    transition:
+        inline-size 0.75s var(--ease-spring-bouncy),
+        block-size 0.75s var(--ease-spring-bouncy),
+        border-radius 0.6s var(--ease-spring);
+
+    .frame[data-scrolled] & {
+        inline-size: 260px;
+        block-size: 40px;
+        border-radius: 20px;
+    }
+
+    .frame[data-scrolled] &[data-open] {
+        inline-size: min(100%, 440px);
+        block-size: 160px;
+        border-radius: 32px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .frame[data-scrolled] &:hover {
+            inline-size: min(100%, 440px);
+            block-size: 160px;
+            border-radius: 32px;
+        }
+    }
+}
+
+// три слоя: полная шапка, мини-остров, раскрытое меню — сменяются с размытием
+%island-layer {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    transition:
+        opacity 0.3s ease,
+        filter 0.35s ease,
+        scale 0.55s var(--ease-spring),
+        visibility 0.35s;
+}
+
+%island-hidden {
+    opacity: 0;
+    filter: blur(8px);
+    scale: 0.92;
+    visibility: hidden;
+}
+
+.islandFull {
+    @extend %island-layer;
+
+    .frame[data-scrolled] & {
+        @extend %island-hidden;
+    }
+}
+
+.islandMini {
+    @extend %island-layer;
+    @extend %island-hidden;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    block-size: 40px;
+    padding-inline: 12px 14px;
+    color: #fff;
+
+    .brand {
+        font-size: 14px;
+
+        svg {
+            inline-size: 20px;
+            block-size: 20px;
+        }
+    }
+
+    .frame[data-scrolled] & {
+        opacity: 1;
+        filter: none;
+        scale: 1;
+        visibility: visible;
+    }
+
+    .frame[data-scrolled] .island[data-open] & {
+        @extend %island-hidden;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .frame[data-scrolled] .island:hover & {
+            opacity: 0;
+            filter: blur(8px);
+            scale: 0.92;
+            visibility: hidden;
+        }
+    }
+
+    @include focus-ring;
+}
+
+.islandNow {
+    margin-inline-start: auto;
+    color: rgb(255 255 255 / 0.6);
+    font-size: 13px;
+}
+
+.islandDot {
+    flex: none;
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: var(--lime-300);
+    box-shadow: 0 0 10px var(--lime-300);
+    animation: pulse 1.8s ease-in-out infinite;
+}
+
+.islandPanel {
+    @extend %island-layer;
+    @extend %island-hidden;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 14px;
+
+    .frame[data-scrolled] .island[data-open] & {
+        opacity: 1;
+        filter: none;
+        scale: 1;
+        visibility: visible;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .frame[data-scrolled] .island:hover & {
+            opacity: 1;
+            filter: none;
+            scale: 1;
+            visibility: visible;
+        }
+    }
+}
+
+.islandLink {
+    block-size: 60px;
+    border-radius: 20px;
+    background: rgb(255 255 255 / 0.08);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition:
+        background-color 0.2s,
+        scale 0.4s var(--ease-spring-bouncy);
+
+    &[aria-current] {
+        background: var(--lime-300);
+        color: #000;
+    }
+
+    @include hover {
+        background: rgb(255 255 255 / 0.16);
+
+        &[aria-current] {
+            background: var(--lime-200);
+        }
+    }
+
+    &:active {
+        scale: 0.95;
+    }
+
+    @include focus-ring;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.4;
+        scale: 0.8;
+    }
+}
+
+// ───────────── 4. Прячется и возвращается ─────────────
+// Вниз — уезжает быстро и без пружины, вверх — возвращается с упругим перелётом
+
+.headroom {
+    transition:
+        translate 0.75s var(--ease-spring-bouncy),
+        background-color 0.3s,
+        box-shadow 0.3s,
+        backdrop-filter 0.3s;
+
+    .frame[data-scrolled] & {
+        background: color-mix(in oklab, var(--background) 60%, transparent);
+        backdrop-filter: blur(16px) saturate(180%);
+        box-shadow: var(--shadow-7);
+    }
+
+    .frame[data-scrolled][data-dir='down'] & {
+        translate: 0 calc(-100% - 20px);
+        transition:
+            translate 0.35s cubic-bezier(0.4, 0, 1, 1),
+            background-color 0.3s,
+            box-shadow 0.3s,
+            backdrop-filter 0.3s;
+    }
+}
+
+// ───────────── 5. Сжатие, как на сайте ─────────────
+// То же, что делает шапка сайта (components/Header), только по прокрутке окна: ширина, меню и тень shadow-7 идут за --p
+
+.shrink {
+    inline-size: max(min(100%, 520px), calc(100% - var(--p) * 40%));
+    background: color-mix(in oklab, var(--background) 50%, transparent);
+    backdrop-filter: blur(12px);
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: var(--shadow-7);
+        opacity: var(--p);
+        pointer-events: none;
+    }
+
+    .menu {
+        overflow: hidden;
+        max-inline-size: calc((1 - var(--p)) * 40rem);
+        opacity: calc(1 - var(--p) * 1.6);
+    }
+}
+
+// ───────────── 6. Рябь на воде ─────────────
+
+.rippleBar {
+    @include glass.liquid-glass($blur: 12px, $tint: 30%);
+
+    cursor: pointer;
+    touch-action: manipulation;
+
+    > :not(.ripples) {
+        position: relative;
+        z-index: 1;
+    }
+
+    // блики на воде медленно плывут по стеклу
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background:
+            radial-gradient(60px 22px at 20% 30%, rgb(120 200 255 / 0.35), transparent 70%),
+            radial-gradient(80px 26px at 70% 70%, rgb(255 255 255 / 0.4), transparent 70%),
+            radial-gradient(50px 18px at 45% 20%, rgb(150 120 255 / 0.3), transparent 70%);
+        background-size: 200% 100%;
+        mix-blend-mode: soft-light;
+        animation: caustics 9s ease-in-out infinite alternate;
+    }
+}
+
+.ripples {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.rippleDrop {
+    position: absolute;
+    inset-inline-start: var(--x);
+    inset-block-start: var(--y);
+
+    i {
+        position: absolute;
+        inset-inline-start: -12px;
+        inset-block-start: -12px;
+        inline-size: 24px;
+        block-size: 24px;
+        border-radius: 50%;
+        box-shadow:
+            0 0 0 1.5px rgb(90 170 255 / 0.75),
+            inset 0 0 10px rgb(140 200 255 / 0.5);
+        opacity: 0;
+        animation: ripple 1.3s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+
+        &:nth-child(2) {
+            animation-delay: 0.14s;
+        }
+
+        &:nth-child(3) {
+            animation-delay: 0.28s;
+        }
+    }
+}
+
+@keyframes ripple {
+    from {
+        opacity: 1;
+        scale: 0.2;
+    }
+
+    to {
+        opacity: 0;
+        scale: 14;
+    }
+}
+
+@keyframes caustics {
+    from {
+        background-position: 0% 0;
+    }
+
+    to {
+        background-position: 100% 0;
+    }
+}
+
+// ───────────── 7. Северное сияние ─────────────
+// Кромка — conic-gradient, который вращается (--angle зарегистрирован через @property).
+// Под панелью — размытое свечение того же градиента, при прокрутке ярче
+
+.auroraWrap {
+    position: relative;
+    inline-size: 100%;
+}
+
+%aurora-gradient {
+    background: conic-gradient(from var(--angle), #ed70a7, #f7ae49, #b8e04a, #36c2b4, #7a5af8, #ed70a7);
+    animation: aurora-spin 6s linear infinite;
+}
+
+.auroraGlow {
+    @extend %aurora-gradient;
+
+    position: absolute;
+    inset: 6px 10px;
+    border-radius: 999px;
+    filter: blur(18px);
+    opacity: calc(0.35 + var(--p) * 0.55);
+}
+
+.aurora {
+    background: color-mix(in oklab, var(--background) 72%, transparent);
+    backdrop-filter: blur(18px) saturate(160%);
+
+    &::after {
+        @extend %aurora-gradient;
+
+        content: "";
+        position: absolute;
+        inset: 0;
+        padding: 1.5px;
+        border-radius: inherit;
+        pointer-events: none;
+        mask:
+            linear-gradient(#000 0 0) content-box exclude,
+            linear-gradient(#000 0 0);
+    }
+}
+
+@keyframes aurora-spin {
+    to {
+        --angle: 360deg;
+    }
+}
+
+// ───────────── 8. Прожектор ─────────────
+
+.spot {
+    --mx: 50%;
+    --my: 50%;
+
+    background: color-mix(in oklab, var(--background) 60%, transparent);
+    backdrop-filter: blur(16px) saturate(170%);
+    box-shadow:
+        0 0 0 1px var(--border),
+        var(--shadow-4);
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    // пятно света по стеклу и подсвеченная кромка у курсора
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s;
+    }
+
+    &::before {
+        background: radial-gradient(200px circle at var(--mx) var(--my), color-mix(in oklab, var(--secondary) 22%, transparent), transparent 70%);
+    }
+
+    &::after {
+        padding: 1.5px;
+        background: radial-gradient(140px circle at var(--mx) var(--my), var(--secondary), transparent 70%);
+        mask:
+            linear-gradient(#000 0 0) content-box exclude,
+            linear-gradient(#000 0 0);
+    }
+
+    &:hover::before,
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+// ───────────── 9. Волна прогресса ─────────────
+// Панель «наливается» слева направо по мере чтения, передний край — бегущая волна (маска с синусоидой)
+
+.waveBar {
+    overflow: hidden;
+    background: color-mix(in oklab, var(--background) 62%, transparent);
+    backdrop-filter: blur(16px) saturate(170%);
+    box-shadow:
+        0 0 0 1px var(--border),
+        var(--shadow-7);
+
+    > :not(.wave) {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.wave {
+    --wave-c: color-mix(in oklab, var(--secondary) 42%, transparent);
+
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: calc(var(--progress) * 100%);
+    background: linear-gradient(90deg, color-mix(in oklab, var(--secondary) 8%, transparent), var(--wave-c));
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 100%;
+        inline-size: 12px;
+        background: var(--wave-c);
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20'%3E%3Cpath d='M0 0H6C12 5 12 5 6 10S0 15 6 20H0Z'/%3E%3C/svg%3E") 0 0 / 12px 20px repeat-y;
+        animation: wave-run 0.9s linear infinite;
+    }
+}
+
+@keyframes wave-run {
+    to {
+        mask-position: 0 20px;
+    }
+}
+
+// ───────────── 10. Тянучка ─────────────
+// Левый и правый край плашки едут с разной скоростью: передний (по направлению движения) — быстро, задний — медленно
+
+.stretchBar {
+    background: var(--surface);
+    box-shadow:
+        0 0 0 1px var(--border),
+        var(--shadow-7);
+}
+
+.stretch {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: var(--il, 0px);
+    inset-inline-end: calc(100% - var(--ir, 0px));
+    z-index: 0;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--foreground) 9%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent);
+    transition:
+        inset-inline-start 0.5s var(--ease-spring),
+        inset-inline-end 0.5s var(--ease-spring);
+
+    .menu[data-dir='right'] & {
+        transition-duration: 0.8s, 0.35s;
+    }
+
+    .menu[data-dir='left'] & {
+        transition-duration: 0.35s, 0.8s;
+    }
+}
+
+// ───────────── 11. Капля-меню ─────────────
+
+.burgerDock {
+    justify-content: flex-end;
+}
+
+.burgerBar {
+    @include glass.liquid-glass($blur: 14px, $tint: 40%);
+
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    transition: inline-size 0.85s var(--ease-spring-bouncy);
+
+    .frame[data-scrolled] & {
+        inline-size: 52px;
+    }
+}
+
+// содержимое не сжимается вместе с панелью — уезжает за край и гаснет
+.burgerContent {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    block-size: 100%;
+    min-inline-size: min(100cqi - 24px, 900px);
+    padding-inline: 16px 52px;
+    transition:
+        opacity 0.3s,
+        filter 0.3s;
+
+    > :last-child {
+        grid-column: 3;
+    }
+
+    .frame[data-scrolled] & {
+        opacity: 0;
+        filter: blur(6px);
+        pointer-events: none;
+    }
+}
+
+.burgerBtn {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-end: 8px;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    inline-size: 36px;
+    block-size: 36px;
+    border-radius: 50%;
+    color: var(--foreground);
+    transition: scale 0.4s var(--ease-spring-bouncy);
+
+    &:active {
+        scale: 0.86;
+    }
+
+    @include focus-ring;
+}
+
+.burgerIcon {
+    position: relative;
+    inline-size: 18px;
+    block-size: 10px;
+
+    span {
+        position: absolute;
+        inset-inline: 0;
+        block-size: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition:
+            translate 0.5s var(--ease-spring-bouncy),
+            rotate 0.5s var(--ease-spring-bouncy);
+    }
+
+    span:first-child {
+        inset-block-start: 0;
+    }
+
+    span:last-child {
+        inset-block-end: 0;
+    }
+
+    [data-open] & span:first-child {
+        translate: 0 4px;
+        rotate: 45deg;
+    }
+
+    [data-open] & span:last-child {
+        translate: 0 -4px;
+        rotate: -45deg;
+    }
+}
+
+.sheet {
+    @include glass.liquid-glass($blur: 22px, $tint: 55%);
+
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    inline-size: min(100%, 320px);
+    padding: 56px 12px 12px;
+    border-radius: 28px;
+    clip-path: circle(0 at calc(100% - 26px) 26px);
+    transition: clip-path 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &[data-open] {
+        clip-path: circle(150% at calc(100% - 26px) 26px);
+        transition: clip-path 0.8s var(--ease-spring);
+    }
+}
+
+.sheetLink {
+    padding: 12px 14px;
+    border-radius: 16px;
+    color: var(--foreground);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: start;
+    opacity: 0;
+    translate: 0 -10px;
+    transition:
+        opacity 0.2s,
+        translate 0.2s,
+        background-color 0.2s;
+
+    [data-open] > & {
+        opacity: 1;
+        translate: 0 0;
+        transition:
+            opacity 0.4s calc(0.12s + var(--i) * 0.05s),
+            translate 0.6s var(--ease-spring-bouncy) calc(0.12s + var(--i) * 0.05s),
+            background-color 0.2s;
+    }
+
+    @include hover {
+        background: color-mix(in oklab, var(--foreground) 7%, transparent);
+    }
+
+    @include focus-ring;
+}
+
+// ───────────── 12. Прогрессивное размытие ─────────────
+// Полосы снизу вверх: каждая следующая размыта вдвое сильнее, маски перекрываются — переход без ступенек
+
+.blurStack {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 9;
+    block-size: 110px;
+    pointer-events: none;
+    opacity: var(--p);
+    background: linear-gradient(color-mix(in oklab, var(--background) 55%, transparent), transparent);
+
+    i {
+        position: absolute;
+        inset: 0;
+    }
+
+    $steps: (0.5px, 1px, 2px, 4px, 8px, 16px);
+
+    @for $n from 1 through 6 {
+        i:nth-child(#{$n}) {
+            $a: ($n - 1) * 12.5%;
+            backdrop-filter: blur(list.nth($steps, $n));
+            mask: linear-gradient(to top, transparent $a, #000 ($a + 12.5%), #000 ($a + 25%), transparent ($a + 37.5%));
+        }
+    }
+
+    // верхняя полоса — до самого края
+    i:nth-child(6) {
+        mask: linear-gradient(to top, transparent 62.5%, #000 75%);
+    }
+}
+
+// ───────────── 13. Две таблетки ─────────────
+// Наверху шапка полностью прозрачная: ни фона, ни размытия. При прокрутке логотип и кнопки остаются на своих местах,
+// и каждый получает свою стеклянную таблетку: размытие blur 12 и shadow-7, надпись и меню уходят.
+// У самой панели размытия нет никогда: панель с backdrop-filter стала бы «корнем» размытия, и стекло таблеток
+// внутри неё ничего бы не размывало
+
+%pair-piece {
+    border-radius: 999px;
+    transition:
+        background-color 0.45s ease,
+        backdrop-filter 0.45s ease,
+        box-shadow 0.45s ease;
+
+    .frame[data-scrolled] & {
+        background-color: color-mix(in oklab, var(--background) 50%, transparent);
+        backdrop-filter: blur(12px) saturate(160%);
+        box-shadow: var(--shadow-7);
+    }
+}
+
+// логотип не двигается: таблетка 44px вокруг него появляется на месте (отступ −10px — иконка там же, где была)
+.pairLogo {
+    @extend %pair-piece;
+
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    margin-inline-start: -10px;
+}
+
+.pairText {
+    display: inline-block;
+    max-inline-size: 7em;
+    overflow: hidden;
+    transition:
+        max-inline-size 0.5s var(--ease-spring),
+        opacity 0.25s ease,
+        filter 0.3s ease;
+
+    .frame[data-scrolled] & {
+        max-inline-size: 0;
+        opacity: 0;
+        filter: blur(6px);
+    }
+}
+
+.pairMenu {
+    transition:
+        opacity 0.25s ease,
+        filter 0.3s ease,
+        scale 0.45s var(--ease-spring),
+        visibility 0.3s;
+
+    .frame[data-scrolled] & {
+        opacity: 0;
+        filter: blur(6px);
+        scale: 0.94;
+        visibility: hidden;
+    }
+}
+
+// кнопки на месте, вокруг — таблетка с полем 4px
+.pairEnd {
+    @extend %pair-piece;
+
+    justify-self: end; // таблетка по содержимому, а не во всю колонку
+    margin-inline-end: -4px;
+    padding: 4px;
+}
+
+// ───────────── доступность ─────────────
+
+@media (prefers-reduced-motion: reduce) {
+    .frame *,
+    .frame *::before,
+    .frame *::after {
+        transition-duration: 0.01ms !important;
+        animation: none !important;
+    }
+}

@@ -1,0 +1,110 @@
+// settings/_shadows.scss
+// Тени RenDit UI. Каждая --shadow-ИМЯ становится классом движка shadow-ИМЯ
+// (с вариантами: hover:shadow-4, md:shadow-2, dark:shadow-none …).
+//
+// 1…6   — высота «подъёма» элемента: чем больше число, тем выше он над страницей;
+// 7     — «кромка» плавающей панели (нижнее меню как в YouTube): светлая линия по верхнему краю;
+// 8…12  — тени из ReluxCode (там были shadow-1…5), значения те же.
+// В тёмной теме тени плотнее: на тёмном фоне мягкая тень не видна.
+
+@layer theme {
+    :root {
+        --shadow-color: 0 0 0;
+
+        /* Переменные «стекла» из ReluxCode: на них построены shadow-8…12, тема меняет только их */
+        --glass-reflex-dark: 1;                       /* сила тёмных бликов */
+        --glass-reflex-light: 1;                      /* сила светлых бликов */
+        --glass-line: #fff;                           /* линия сверху у shadow-10 */
+        --glass-shadow: rgb(0 0 0 / 0.1);
+        --glass-highlight: rgb(255 255 255 / 0.8);
+        --glass-caustic: rgb(255 255 255 / 0.4);
+        --glass-border: rgb(255 255 255 / 0.4);
+
+        --shadow-1: 0 1px 2px 0 rgb(var(--shadow-color) / 0.05);                                   /* поля, чипы */
+        --shadow-2: 0 1px 3px 0 rgb(var(--shadow-color) / 0.1), 0 1px 2px -1px rgb(var(--shadow-color) / 0.1); /* карточки */
+        --shadow-3: 0 4px 6px -1px rgb(var(--shadow-color) / 0.1), 0 2px 4px -2px rgb(var(--shadow-color) / 0.1); /* кнопки при наведении */
+        --shadow-4: 0 10px 15px -3px rgb(var(--shadow-color) / 0.1), 0 4px 6px -4px rgb(var(--shadow-color) / 0.1); /* выпадающие меню */
+        --shadow-5: 0 20px 25px -5px rgb(var(--shadow-color) / 0.1), 0 8px 10px -6px rgb(var(--shadow-color) / 0.1); /* поповеры */
+        --shadow-6: 0 25px 50px -12px rgb(var(--shadow-color) / 0.25);                             /* модалки */
+
+        /* кромка плавающей панели (меню YouTube на iOS), светлая тема: белый блик по верхнему краю,
+           еле заметный контур в 1px и мягкая рассеянная тень — панель «приподнята», но без грязной полосы снизу */
+        --shadow-7:
+            inset 0 1px 0 0 rgb(255 255 255 / 0.7),
+            0 0 0 1px rgb(var(--shadow-color) / 0.04),
+            0 1px 2px 0 rgb(var(--shadow-color) / 0.04),
+            0 6px 20px -6px rgb(var(--shadow-color) / 0.1);
+
+        /* ── из ReluxCode ── */
+        /* 8 (Relux shadow-1): объёмное стекло — блики и тени по краям, для кнопок и плашек */
+        --shadow-8:
+            inset 0 0 0 1px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 1.8px 3px 0 -2px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 90%), transparent),
+            inset -2px -2px 0 -2px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 80%), transparent),
+            inset -3px -8px 1px -6px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 60%), transparent),
+            inset -0.3px -1px 4px 0 color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 12%), transparent),
+            inset -1.5px 2.5px 0 -2px color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0 3px 4px -2px color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 2px -6.5px 1px -4px color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 10%), transparent),
+            0 1px 5px 0 color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 10%), transparent),
+            0 6px 16px 0 color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 8%), transparent);
+        /* 9 (Relux shadow-2): то же стекло, тоньше — для маленьких элементов */
+        --shadow-9:
+            inset 0 0 0 1px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 2px 1px 0 -1px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 90%), transparent),
+            inset -1.5px -1px 0 -1px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 80%), transparent),
+            inset -2px -6px 1px -5px color-mix(in srgb, #fff calc(var(--glass-reflex-light) * 60%), transparent),
+            inset -1px 2px 3px -1px color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0 -4px 1px -2px color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 10%), transparent),
+            0 3px 6px 0 color-mix(in srgb, #000 calc(var(--glass-reflex-dark) * 8%), transparent);
+        /* 10 (Relux shadow-3): линия по верхнему краю */
+        --shadow-10: 0 -1px 0 0 var(--glass-line);
+        /* 11 (Relux shadow-4): глубокое стекло — модалки, большие карточки поверх фона */
+        --shadow-11:
+            0 40px 80px -20px var(--glass-shadow),
+            0 10px 30px -10px var(--glass-shadow),
+            inset 0 2px 3px -1px var(--glass-highlight),
+            inset 0 -2px 4px -1px var(--glass-caustic),
+            inset 0 0 0 1px var(--glass-border);
+        /* 12 (Relux shadow-5): мягкое «парение» */
+        --shadow-12: 0 0 15px rgb(0 0 0 / 0.06), 0 2px 30px rgb(0 0 0 / 0.22), inset 0 0 1px rgb(255 255 255 / 0.15);
+
+        /* особые */
+        --shadow-inset: inset 0 2px 4px 0 rgb(var(--shadow-color) / 0.05);                         /* «утопленное» поле */
+        --shadow-line: 0 -1px 0 0 var(--border);                                                   /* линия сверху: нижнее меню */
+        --shadow-glass:
+            inset 0 1px 0 0 rgb(255 255 255 / 0.4),
+            inset 0 0 0 1px rgb(255 255 255 / 0.15),
+            0 8px 24px -6px rgb(var(--shadow-color) / 0.15);                                        /* стекло поверх фото */
+    }
+
+    [data-theme='dark'] {
+        --shadow-1: 0 1px 2px 0 rgb(var(--shadow-color) / 0.3);
+        --shadow-2: 0 1px 3px 0 rgb(var(--shadow-color) / 0.4), 0 1px 2px -1px rgb(var(--shadow-color) / 0.4);
+        --shadow-3: 0 4px 6px -1px rgb(var(--shadow-color) / 0.4), 0 2px 4px -2px rgb(var(--shadow-color) / 0.4);
+        --shadow-4: 0 10px 15px -3px rgb(var(--shadow-color) / 0.45), 0 4px 6px -4px rgb(var(--shadow-color) / 0.45);
+        --shadow-5: 0 20px 25px -5px rgb(var(--shadow-color) / 0.5), 0 8px 10px -6px rgb(var(--shadow-color) / 0.5);
+        --shadow-6: 0 25px 50px -12px rgb(var(--shadow-color) / 0.7);
+
+        /* как на фото: светлая кромка сверху плавно гаснет к бокам, снизу — едва заметная */
+        --shadow-7:
+            inset 0 1.5px 1px -0.5px rgb(255 255 255 / 0.22),
+            inset 0 -1px 1px -0.5px rgb(255 255 255 / 0.08),
+            0 12px 32px -12px rgb(var(--shadow-color) / 0.9);
+
+        /* стекло ReluxCode в тёмной теме: светлые блики слабее, тёмные — сильнее */
+        --glass-reflex-dark: 2;
+        --glass-reflex-light: 0.2;
+        --glass-line: #333;
+        --glass-shadow: rgb(0 0 0 / 0.6);
+        --glass-highlight: rgb(255 255 255 / 0.1);
+        --glass-caustic: rgb(255 255 255 / 0.05);
+        --glass-border: rgb(255 255 255 / 0.15);
+        --shadow-12: 0 0 15px rgb(0 0 0 / 0.3), 0 2px 30px rgb(0 0 0 / 0.6), inset 0 0 1px rgb(255 255 255 / 0.12);
+        --shadow-inset: inset 0 2px 4px 0 rgb(var(--shadow-color) / 0.3);
+        --shadow-glass:
+            inset 0 1px 0 0 rgb(255 255 255 / 0.1),
+            inset 0 0 0 1px rgb(255 255 255 / 0.08),
+            0 8px 24px -6px rgb(var(--shadow-color) / 0.6);
+    }
+}

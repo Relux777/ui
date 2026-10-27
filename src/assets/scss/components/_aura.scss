@@ -1,0 +1,40 @@
+// components/_aura.scss
+// .aura — фон страницы: мягкое свечение цветов RenDit вверху (фиолетовый, лайм, розовый) и едва заметная сетка
+// точек, тающие к низу. Рисуется ::before и ::after за всем содержимым (z-index: -1) и уезжает вместе со
+// страницей. Только градиенты — без filter: blur, без картинок и JS: на телефоне рисуется один раз и ничего
+// не стоит при прокрутке. Стеклянные шапка и меню размывают его — стекло получает лёгкий оттенок.
+// Ставится на <body>.
+
+@layer components {
+    .aura::before,
+    .aura::after {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    // свечение
+    .aura::before {
+        height: 760px;
+        background:
+            radial-gradient(42% 58% at 10% -6%, color-mix(in oklab, var(--violet-400) 17%, transparent), transparent 72%),
+            radial-gradient(38% 52% at 90% -10%, color-mix(in oklab, var(--lime-300) 20%, transparent), transparent 72%),
+            radial-gradient(46% 44% at 50% -16%, color-mix(in oklab, var(--pink-300) 11%, transparent), transparent 70%);
+    }
+
+    // сетка точек: видна у верха посередине и тает к краям и вниз
+    .aura::after {
+        height: 560px;
+        background: radial-gradient(circle at 1px 1px, color-mix(in oklab, var(--foreground) 10%, transparent) 1px, transparent 0) 0 0 / 22px 22px;
+        mask: radial-gradient(56% 100% at 50% 0%, #000, transparent);
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+        .aura::before,
+        .aura::after {
+            content: none;
+        }
+    }
+}

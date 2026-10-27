@@ -1,0 +1,58 @@
+{
+  "name": "rendit-code",
+  "displayName": "RenDit Code IntelliSense",
+  "description": "Подсказки классов RenDit Code: автодополнение, CSS при наведении, образцы цвета",
+  "version": "0.1.0",
+  "publisher": "rendit",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Расширение запускает движок RenDit Code из папки проекта (rendit-code/, rendit.config.mjs) — это код проекта, поэтому только в доверенных папках."
+    },
+    "virtualWorkspaces": false
+  },
+  "activationEvents": [
+    "workspaceContains:**/rendit.config.mjs"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "RenDit Code",
+      "properties": {
+        "renditCode.classFunctions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "cn",
+            "clsx",
+            "cva",
+            "twMerge",
+            "tv"
+          ],
+          "description": "Функции, в строках которых тоже подсказываются классы: cn(\"…\"), clsx(\"…\")"
+        },
+        "renditCode.colorDecorators": {
+          "type": "boolean",
+          "default": true,
+          "description": "Показывать образцы цвета рядом с классами bg-…, text-…, border-…"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "renditCode.reload",
+        "title": "RenDit Code: перезагрузить конфиг и токены"
+      }
+    ]
+  }
+}

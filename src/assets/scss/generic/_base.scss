@@ -1,0 +1,108 @@
+// generic/_base.scss
+// Базовая типографика и поведение элементов. Цвета — только семантические токены (settings/_tokens.semantic).
+// Никаких «классов-компонентов»: всё, что можно сделать классом RenDit Code, делается классом.
+@use "../tools/mixins" as *;
+
+@layer base {
+    /* Цвет рамки по умолчанию: border / border-t-2 сразу рисуют линию цветом --border.
+       Пока у элемента нет border-style, рамка не видна — на вёрстку это не влияет. */
+    *, ::before, ::after {
+        border-color: var(--border);
+    }
+
+    body {
+        // --font-google-sans задаёт next/font в layout.tsx (googleSans.variable на <html>)
+        font-family: var(--font-google-sans), system-ui, Arial, Helvetica, sans-serif;
+        /* --text-scale — настройка «размер текста» (быстрое меню у NavBar); классы font-N умножаются на неё же */
+        font-size: calc(var(--base-font-size, 14px) * var(--text-scale, 1));
+        font-weight: 400;
+        line-height: 1.5;
+        background: var(--background);
+        color: var(--foreground);
+        -webkit-font-smoothing: antialiased;
+
+        /* Скроллбар */
+        scrollbar-width: thin;
+        scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+
+        &::-webkit-scrollbar { width: 10px; }
+        &::-webkit-scrollbar-track { background-color: var(--scrollbar-track); }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 10px;
+            @include hover { background: var(--scrollbar-thumb-hover); }
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1.2;
+        text-wrap: balance;
+    }
+
+    p { text-wrap: pretty; }
+
+    ::selection {
+        background: color-mix(in oklab, var(--accent) 70%, transparent);
+        color: var(--accent-foreground);
+    }
+
+    /* Ссылки и кнопки наследуют цвет и шрифт — оформление задают классы */
+    a, button {
+        color: inherit;
+        /* без случайного выделения текста при быстрых тапах на телефоне */
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    button:disabled,
+    [aria-disabled='true'] {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    /* Видимый фокус только с клавиатуры (мышью и тапом не показывается) */
+    :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+    }
+
+    /* Интерактивные элементы: без задержки 300 мс и зума по двойному тапу (iOS) */
+    a, button, input, select, textarea, label, summary, [role='button'] {
+        touch-action: manipulation;
+    }
+
+    /* Поля ввода */
+    input, textarea, select {
+        background: transparent;
+        border: none;
+        outline: none;
+
+        &::placeholder { color: var(--foreground-subtle); }
+        &:focus-visible {
+            outline: 2px solid var(--ring);
+            outline-offset: 2px;
+        }
+    }
+
+    /* КРИТИЧНО ДЛЯ iOS: Safari приближает страницу, если шрифт в поле меньше 16px */
+    @media (pointer: coarse) {
+        input, textarea, select {
+            font-size: max(16px, 1em);
+        }
+    }
+
+    /* Автозаполнение не ломает прозрачный фон (WebKit) */
+    input:-webkit-autofill,
+    input:-webkit-autofill:is(:hover, :focus) {
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: var(--foreground);
+    }
+
+    /* Состояние, восстановленное без участия пользователя (прокрутка после перезагрузки), — сразу, без переходов.
+       data-instant на <html> ставит и снимает встроенный скрипт из Header/scroll-state.ts */
+    [data-instant] *,
+    [data-instant] *::before,
+    [data-instant] *::after {
+        transition: none !important;
+    }
+}

@@ -1,0 +1,4 @@
+{
+  // RenDit Code IntelliSense ставится из проекта: npm run rendit-code:vscode
+  "recommendations": ["biomejs.biome"]
+}

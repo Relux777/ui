@@ -1,0 +1,12 @@
+// components/_glass.scss
+// .liquid-glass — «жидкое стекло» для плавающих панелей: нижнее меню, быстрое меню, плашки поверх фото.
+// Без SVG-фильтров — работает везде, в т. ч. на iPhone. Из чего стекло — tools/_glass.scss (миксин liquid-glass).
+// Форму и размеры задают классы рядом: <div class="liquid-glass relative br-full p-5">.
+// Элементу нужен position — светлая кромка рисуется ::before поверх.
+@use "../tools/glass";
+
+@layer components {
+    .liquid-glass {
+        @include glass.liquid-glass($tint: 38%);
+    }
+}

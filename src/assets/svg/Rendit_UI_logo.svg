@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Знак RenDit UI цветом текста (currentColor) — для вставки в HTML -->
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 7 41 15.5 24 24 7 15.5z" fill="currentColor" stroke-width="3"/>
+    <path d="m7 24.5 17 8.5 17-8.5" stroke-width="4" opacity="0.6"/>
+    <path d="m7 33 17 8.5L41 33" stroke-width="4" opacity="0.3"/>
+  </g>
+</svg>

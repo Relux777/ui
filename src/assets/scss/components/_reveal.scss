@@ -1,0 +1,27 @@
+// components/_reveal.scss
+// .reveal — блок мягко проявляется, когда въезжает в экран. Анимация привязана к прокрутке
+// (animation-timeline: view()) и считается на композиторе: без JS и без нагрузки на главный поток, плавно и на
+// телефоне. Заканчивается за первые 160px въезда — длинный блок не остаётся полупрозрачным, пока его читают.
+// Только прозрачность, без сдвига: сдвиг (translate) уводил бы переходы по якорям (#раздел) мимо заголовка —
+// браузер считает место по сдвинутому блоку.
+// Где view() нет (старые браузеры) или включено «уменьшение движения» — блок просто виден.
+// Не ставьте на предков стекла (backdrop-filter) и на сами страницы (.route-enter > *): прозрачность у предка
+// выключает размытие внутри (Filter Effects 2, Backdrop Root).
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+    }
+}
+
+@layer components {
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .reveal {
+                animation: reveal linear both;
+                animation-timeline: view();
+                animation-range: entry 0px entry 160px;
+            }
+        }
+    }
+}

@@ -1,0 +1,178 @@
+// Нижнее меню «Жидкое стекло» — только то, что классами RenDit Code не выразить: линза и появление при загрузке.
+// Раскладка, размеры, цвета, стекло (.liquid-glass) — классами в разметке (index.tsx, quick-menu.tsx).
+//
+// Положение и «подъём» линзы живут в CSS-переменных панели. --nb-x, --nb-st, --nb-lift зарегистрированы (@property),
+// поэтому плавно анимируются transition'ом, и всё, что из них считается (сдвиг копии в линзе, вырез в ряду, блик, тень),
+// едет вместе с ними без JS. --nb-i (номер пункта) ставит React, при перетаскивании --nb-x и --nb-st пишет use-tab-drag.ts
+@property --nb-x {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 0px;
+}
+
+@property --nb-st {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --nb-lift {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 1;
+}
+
+@keyframes icon-pop {
+    35% {
+        scale: 1.18;
+    }
+}
+
+// ── появление при загрузке и перезагрузке ───────────────────────────────────
+// Меню выезжает из-под нижнего края экрана мягкой пружиной (перелёт ≈ 5 %), вырастая из 92 %; быстрое меню —
+// следом, чуть позже и упруже. Как в ozon, но плавнее.
+// Только transform, без opacity: прозрачность меньше 1 у предка делает его «корнем» размытия (Filter Effects 2,
+// Backdrop Root) — стекло панели до конца анимации ничего не размывало и включалось рывком в конце.
+// Именно @keyframes, а не переход: при загрузке next-themes (disableTransitionOnChange) на миг выключает все
+// переходы и оборвал бы появление на середине, data-instant (прокрутка после перезагрузки) — тоже.
+// Анимируется transform: свойство translate у обёртки занято центрированием (-translate-x-1/2).
+// Меню живёт в layout — переходы между страницами появление не повторяют.
+@keyframes nb-enter {
+    from {
+        transform: translateY(calc(100% + 28px + env(safe-area-inset-bottom))) scale(0.92);
+    }
+}
+
+@keyframes nb-enter-late {
+    from {
+        transform: translateY(24px) scale(0.75);
+    }
+}
+
+.enter {
+    animation: nb-enter 0.9s var(--ease-spring) backwards;
+}
+
+.enterLate {
+    animation: nb-enter-late 0.8s 0.12s var(--ease-spring-bouncy) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .enter,
+    .enterLate {
+        animation: none;
+    }
+}
+// ── панель ──────────────────────────────────────────────────────────────────
+// --nb-w (ширина пункта) и --nb-pad (поле панели) задают классы на панели: [--nb-w:68px] max-[380px]:[--nb-w:50px]
+.bar {
+    --nb-x: calc(var(--nb-i, 0) * var(--nb-w));
+    // видимая ширина линзы и вырез под ней в настоящем ряду иконок (чуть уже — край линзы закрывает стык)
+    --lens-w: calc(var(--nb-w) * var(--nb-lift) * (1 + var(--nb-st)));
+    --cut-l: calc(var(--nb-x) + (var(--nb-w) - var(--lens-w)) / 2 + 4px);
+    --cut-r: calc(var(--nb-x) + (var(--nb-w) + var(--lens-w)) / 2 - 4px);
+
+    -webkit-touch-callout: none;
+    transition:
+        --nb-x 0.6s var(--ease-spring),
+        --nb-st 0.35s ease-out,
+        --nb-lift 0.55s var(--ease-spring-bouncy);
+
+    // нажали — линза переезжает под палец и поднимается
+    &[data-pressed] {
+        --nb-lift: 1.14;
+
+        transition:
+            --nb-x 0.45s var(--ease-spring),
+            --nb-st 0.35s ease-out,
+            --nb-lift 0.4s var(--ease-spring);
+    }
+
+    // держат — растёт дальше
+    &[data-hold] {
+        --nb-lift: 1.24;
+
+        transition:
+            --nb-x 0.45s var(--ease-spring),
+            --nb-st 0.35s ease-out,
+            --nb-lift 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    // за пальцем — без задержки: --nb-x и --nb-st пишутся каждый кадр
+    &[data-dragging] {
+        transition: --nb-lift 0.4s var(--ease-spring);
+    }
+
+    // блик бежит по панели за линзой и ярче, когда линза поднята
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        pointer-events: none;
+        background: radial-gradient(110px 50px at calc(var(--nb-pad) + var(--nb-x) + var(--nb-w) / 2) 0, rgb(255 255 255 / 70%), rgb(255 255 255 / 0%) 70%);
+        mix-blend-mode: soft-light;
+        opacity: calc(0.6 + (var(--nb-lift) - 1) * 2);
+    }
+}
+
+// настоящий ряд пунктов; под линзой вырезан, чтобы иконка не двоилась с увеличенной копией
+.track {
+    mask: linear-gradient(90deg, #000 var(--cut-l), transparent var(--cut-l), transparent var(--cut-r), #000 var(--cut-r));
+}
+
+// ── линза ───────────────────────────────────────────────────────────────────
+.lens {
+    inset: var(--nb-pad) auto var(--nb-pad) var(--nb-pad);
+    inline-size: var(--nb-w);
+    translate: var(--nb-x) 0;
+    scale: calc(var(--nb-lift) * (1 + var(--nb-st))) calc(var(--nb-lift) * (1 - var(--nb-st) * 0.4));
+    // блик сверху — мягкое пятно в самом фоне (раньше это была отдельная полоска поверх иконки: у её нижнего края
+    // была видна резкая граница), под ним — стекло и лёгкий оттенок secondary
+    --lens-glare: calc(0.5 + (var(--nb-lift) - 1) * 2);
+
+    background:
+        radial-gradient(120% 70% at 50% 0%, rgb(255 255 255 / calc(var(--lens-glare) * 70%)), rgb(255 255 255 / 0%) 70%),
+        linear-gradient(180deg, rgb(255 255 255 / 35%), rgb(255 255 255 / 10%) 60%, rgb(255 255 255 / 20%)),
+        color-mix(in oklab, var(--secondary) 7%, transparent);
+    // кромка линзы: белая + цветная (красноватая слева, голубоватая справа — дисперсия, едва заметная) + тень,
+    // растущая с подъёмом
+    box-shadow:
+        inset 0 0 0 1px rgb(255 255 255 / 55%),
+        inset 2px 0 3px -2px rgb(255 80 130 / 28%),
+        inset -2px 0 3px -2px rgb(60 160 255 / 30%),
+        inset 0 -4px 8px -3px rgb(0 0 0 / 8%),
+        0 calc(3px + (var(--nb-lift) - 1) * 60px) calc(8px + (var(--nb-lift) - 1) * 110px) -6px rgb(0 0 0 / calc(12% + (var(--nb-lift) - 1) * 80%));
+    will-change: translate, scale;
+
+    :global([data-theme='dark']) & {
+        background:
+            radial-gradient(120% 70% at 50% 0%, rgb(255 255 255 / calc(var(--lens-glare) * 16%)), rgb(255 255 255 / 0%) 70%),
+            linear-gradient(180deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 3%) 60%, rgb(255 255 255 / 6%)),
+            color-mix(in oklab, var(--secondary) 12%, transparent);
+        box-shadow:
+            inset 0 0 0 1px rgb(255 255 255 / 18%),
+            inset 2px 0 3px -2px rgb(255 90 140 / 32%),
+            inset -2px 0 3px -2px rgb(80 170 255 / 35%),
+            inset 0 -4px 8px -3px rgb(0 0 0 / 30%),
+            0 calc(3px + (var(--nb-lift) - 1) * 60px) calc(8px + (var(--nb-lift) - 1) * 110px) -6px rgb(0 0 0 / calc(45% + (var(--nb-lift) - 1) * 110%));
+    }
+
+    @media (forced-colors: active) {
+        outline: 2px solid Highlight;
+    }
+}
+
+// копия ряда, сдвинутая ровно под настоящий ряд: в линзе видна «своя» часть иконок; пункт под линзой «подпрыгивает».
+// Увеличение — от центра линзы, и сама линза растёт сильнее, чем копия в ней (иначе при подъёме иконки
+// «разъезжались» за края): делим на подъём — итоговое увеличение 1 + 0,7 × (подъём − 1), при 1,24 это ≈ 1,17
+.copy {
+    transform-origin: calc(var(--nb-x) + var(--nb-w) / 2) 50%;
+    translate: calc(var(--nb-x) * -1) 0;
+    scale: calc((1 + (var(--nb-lift) - 1) * 0.7) / var(--nb-lift));
+
+    [data-on] svg {
+        animation: icon-pop 0.6s cubic-bezier(0.3, 0.7, 0.3, 1);
+    }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <!-- Фавикон RenDit UI (знак «Layers»). Цвет меняется с темой браузера. Форма — src/assets/svg/Rendit_UI_logo.svg -->
+  <style>
+    g { stroke: #111; } .fill { fill: #111; }
+    @media (prefers-color-scheme: dark) { g { stroke: #fff; } .fill { fill: #fff; } }
+  </style>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path class="fill" d="M24 7 41 15.5 24 24 7 15.5z" stroke-width="3"/>
+    <path d="m7 24.5 17 8.5 17-8.5" stroke-width="4" opacity="0.6"/>
+    <path d="m7 33 17 8.5L41 33" stroke-width="4" opacity="0.3"/>
+  </g>
+</svg>

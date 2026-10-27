@@ -1,0 +1,18 @@
+{
+  // RenDit Code IntelliSense: подсказки классов появляются сразу при наборе внутри className="…"
+  // (по умолчанию VS Code не показывает автодополнение внутри строк)
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
+    "strings": "on"
+  },
+  // образцы цвета рядом с bg-…, text-…, border-…
+  "editor.colorDecorators": true,
+  // сгенерированный CSS не нужен в поиске и списке файлов
+  "search.exclude": {
+    "src/assets/scss/generated/**": true
+  },
+  // @layer, @property, @container — валидный CSS, не подчёркивать
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore"
+}

@@ -1,0 +1,25 @@
+// RenDit UI — точка входа стилей (RenDit SCSS).
+// Версия берётся из package.json: движок RenDit Code пишет её в generated/_version.scss.
+@use "generated/version" as v;
+
+/*! RenDit UI v#{v.$version} | MIT */
+
+@use "layers";
+
+@use "settings";
+
+@use "generic/reset";
+@use "generic/base";
+
+@use "layout/container";
+@use "layout/grid";
+
+@use "components/button";
+@use "components/input";
+@use "components/card";
+@use "components/glass";
+@use "components/spotlight";
+@use "components/route-enter";
+@use "components/sheet";
+@use "components/aura";
+@use "components/reveal";

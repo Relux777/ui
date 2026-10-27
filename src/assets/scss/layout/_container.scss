@@ -1,0 +1,26 @@
+// layout/_container.scss
+// Контейнер страницы (из ReluxCode): по центру, поля не меньше 10px и не меньше «чёлки» телефона.
+// Ширины — по брейкпоинтам из ren.config.mjs (mobile-first: до sm — на всю ширину).
+@use "sass:map";
+@use "../tools/mixins" as *;
+
+$container-widths: (
+    sm: 700px,
+    md: 720px,
+    lg: 960px,
+    xl: 1140px,
+    "2xl": 1320px, // в кавычках: без них Sass читает 2xl как число 2 с единицей xl
+) !default;
+
+@layer layout {
+    .container {
+        width: 100%;
+        margin-inline: auto;
+        padding-inline-start: max(var(--container-gutter, 10px), env(safe-area-inset-left));
+        padding-inline-end: max(var(--container-gutter, 10px), env(safe-area-inset-right));
+
+        @each $name, $width in $container-widths {
+            @include up($name) { max-width: $width; }
+        }
+    }
+}
