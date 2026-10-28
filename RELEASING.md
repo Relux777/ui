@@ -49,6 +49,15 @@ GitHub (`.github/workflows/release.yml`) соберёт архив и созда
 этой версии сразу доступен с CDN:
 `https://cdn.jsdelivr.net/gh/Relux777/ui@v0.3.0/dist/rendit-ui.min.css`.
 
+Релиз не собрался (например, тег ушёл одним пушем с первым появлением workflow) — запустите его вручную для
+уже отправленного тега: на GitHub **Actions → «Релиз» → Run workflow**, тег `v0.3.0`, или из терминала:
+
+```bash
+gh workflow run release.yml -f tag=v0.3.0
+```
+
+Если релиз уже есть, он обновит свои файлы и описание.
+
 ## Что в архиве
 
 ```

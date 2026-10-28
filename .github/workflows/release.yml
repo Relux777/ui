@@ -1,10 +1,17 @@
 # Релиз по тегу vX.Y.Z (его ставит npm run release, см. RELEASING.md): готовый CSS, архив rendit-ui.zip
 # (движок, RenDit SCSS, конфиг, готовый CSS) и описание из раздела этой версии в CHANGELOG.md.
+# Запустить заново для уже отправленного тега: Actions → «Релиз» → Run workflow (или
+# gh workflow run release.yml -f tag=v0.2.0) — релиз создастся или обновит свои файлы.
 name: Релиз
 
 on:
   push:
     tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Тег версии, например v0.2.0
+        required: true
 
 permissions:
   contents: write
@@ -12,8 +19,12 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -34,18 +45,25 @@ jobs:
       - name: Описание из CHANGELOG.md
         run: |
           node -e '
-            const v = process.env.GITHUB_REF_NAME.replace(/^v/, "");
+            const tag = process.env.TAG;
+            const v = tag.replace(/^v/, "");
             const log = require("fs").readFileSync("CHANGELOG.md", "utf8");
             const start = log.indexOf(`## [${v}]`);
             if (start < 0) { console.error(`нет раздела ${v} в CHANGELOG.md`); process.exit(1); }
             const next = log.indexOf("\n## [", start + 1);
             const body = log.slice(log.indexOf("\n", start) + 1, next < 0 ? undefined : next).trim();
-            require("fs").writeFileSync("notes.md", body + "\n\nГотовый CSS с CDN:\n```html\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/${{ github.repository }}@" + process.env.GITHUB_REF_NAME + "/dist/rendit-ui.min.css\">\n```\n");
+            const cdn = `https://cdn.jsdelivr.net/gh/${process.env.GITHUB_REPOSITORY}@${tag}/dist/rendit-ui.min.css`;
+            require("fs").writeFileSync("notes.md", `${body}\n\nГотовый CSS с CDN:\n\n    <link rel="stylesheet" href="${cdn}">\n`);
           '
 
       - name: Релиз на GitHub
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" rendit-ui.zip dist/rendit-ui.css dist/rendit-ui.min.css \
-            --title "RenDit UI $GITHUB_REF_NAME" --notes-file notes.md
+          FILES="rendit-ui.zip dist/rendit-ui.css dist/rendit-ui.min.css"
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" $FILES --clobber
+            gh release edit "$TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" $FILES --title "RenDit UI $TAG" --notes-file notes.md --verify-tag
+          fi
