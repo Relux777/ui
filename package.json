@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "RenDit UI — свой UI-фреймворк: стили RenDit SCSS, движок классов RenDit Code и компоненты",
   "private": true,
   "scripts": {
