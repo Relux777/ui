@@ -39,6 +39,8 @@ jobs:
           cp -r rendit-code pkg/rendit-ui/
           rm -f pkg/rendit-ui/rendit-code/vscode/*.vsix
           cp -r src/assets/scss pkg/rendit-ui/src/assets/
+          # тест сайта и классы самого сайта в архив не нужны: движок соберёт классы вашего проекта сам
+          rm -f pkg/rendit-ui/src/assets/scss/*.test.ts pkg/rendit-ui/src/assets/scss/generated/rendit-code.css
           cp -r dist rendit.config.mjs README.md CHANGELOG.md LICENSE pkg/rendit-ui/
           cd pkg && zip -qr ../rendit-ui.zip rendit-ui
 

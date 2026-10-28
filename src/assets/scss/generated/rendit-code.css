@@ -1,4 +1,4 @@
-/*! RenDit Code v0.1.0 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.2.0 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-content { syntax: "*"; inherits: false; initial-value: ""; }
