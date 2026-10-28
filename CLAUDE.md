@@ -62,7 +62,7 @@ npx tsc --noEmit     # после next build / next typegen
 | `.aura` | фон страницы: мягкое свечение и сетка точек вверху (на `<body>`) |
 | `.reveal` | блок проявляется при прокрутке (scroll-driven, только opacity — якоря не сбиваются) |
 | `.spotlight` | тусклый свет за курсором по стеклу (только мышь) |
-| `.tilt` | 3D-наклон карточки за курсором + мягкий свет `.tilt-light` (компонент `components/Tilt`), как на boxicons.com |
+| `.tilt` | 3D-наклон карточки за курсором + мягкий свет `.tilt-light` (компонент `components/ui/Tilt`), как на boxicons.com |
 | `.route-enter` | плавная смена страниц без View Transitions; при первой загрузке не играет (`data-first-load`, `config/route-enter.ts`) |
 
 ### Стекло, анимации, производительность
@@ -73,7 +73,8 @@ npx tsc --noEmit     # после next build / next typegen
   поверх шапки и меню).
 - Появление нижнего меню — `@keyframes`, не transition (next-themes на гидратации выключает переходы).
 - Анимировать transform/opacity, не размеры; где можно — CSS без JS (scroll-driven, @starting-style).
-  Без `filter: blur()` на больших площадях и без размытия подложки окон — дорого на телефоне.
+  Без `filter: blur()` на больших площадях — дорого на телефоне. Исключение по просьбе Рената: под окном
+  `.sheet` страница размыта (backdrop-filter 8px, как в ozon) и размытие тает при смахивании (`--sheet-drag`).
 - Всё интерактивное — с `motion-reduce:transition-none`; hover — только мышь (вариант `hover:` уже такой).
 - Телефон: поля ввода ≥16px (iOS не приближает), `env(safe-area-inset-*)`, касание ≥36–44px, лист снизу смахивается.
 
@@ -83,7 +84,7 @@ npx tsc --noEmit     # после next build / next typegen
 src/components/Header      шапка «две таблетки»; по центру в /docs — вкладки справки; справа «Быстрый переход»
 src/components/NavBar      нижнее меню «Жидкое стекло»: Главная · Справка · Блог · Меню (открывает QuickNav)
 src/components/DocsTabs    вкладки справки (tabs.ts — данные и выбор по адресу, под тестом)
-src/components/QuickNav    окно быстрого доступа (.sheet): вкладки, «На этой странице» (элементы с data-toc), справка
+src/components/ui/QuickNav    окно быстрого доступа (.sheet): вкладки, «На этой странице» (элементы с data-toc), справка
 src/app/docs/_nav.ts       оглавление справки (боковое меню, карточки), ready: false — «скоро»
 src/app/docs/(getting-started)  вкладка «Установка и настройка» (боковое меню); components/, releases/ — свои layout
 src/app/docs/(getting-started)/install  установка: choice.ts — платформы, вопросы, адрес (под тестом);
@@ -92,9 +93,13 @@ src/app/_docs              блоки документации: DocHeader, Headi
                            Callout, Table, Files, LinkCards, InstallCommand (npm/pnpm/yarn/bun), Toc,
                            Accordion (вопрос-ответ, плавно на WAAPI), FileTree (дерево папок);
                            copy-button.tsx — useCopy/CopyIcon/Copied: один отклик копирования для всех кнопок
-src/components/Tilt        3D-наклон карточки за курсором и свет по ней (.tilt, .tilt-light)
+src/components/ui/Tilt        3D-наклон карточки за курсором и свет по ней (.tilt, .tilt-light)
 rendit-code/               движок; README.md — справочник классов и вариантов
 ```
+
+Компоненты интерфейса (окно, тема, поиск, 3D-карточка) — в `src/components/ui/`; шапка, нижнее меню и вкладки
+справки — рядом, в `src/components/`. Страницы справки, что ещё в работе, — заготовки: план в `docs/_stubs.ts`,
+`page.tsx` из двух строк (`DocStub`). Готова — строку из `_stubs.ts` удалить, страницу написать целиком.
 
 Новая страница справки: папка в `(getting-started)/…/page.tsx`, `DocHeader` + `Heading` (они попадают в быстрый
 переход) + строка в `_nav.ts` с `ready: true` + строка в `CHANGELOG.md`.

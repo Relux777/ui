@@ -1,7 +1,7 @@
 // Строительные блоки страницы-документации: шапка страницы, заголовки-якоря, раздел, пример «превью + код»,
 // палитра, блок кода с подсветкой, шаги, заметка, таблица, список файлов, карточки-ссылки.
 // Классы в примерах написаны строками целиком — так RenDit Code находит их в исходнике.
-// Заголовки с data-toc попадают в «На этой странице» окна быстрого доступа (components/QuickNav).
+// Заголовки с data-toc попадают в «На этой странице» окна быстрого доступа (components/ui/QuickNav).
 
 import { AlertTriangle } from "@boxicons/react/AlertTriangle";
 import { ArrowRight } from "@boxicons/react/ArrowRight";
@@ -77,7 +77,7 @@ export function Example({
 
 // Палитра: цвета выводятся через style, а не классы — 154 класса ради одной таблицы не нужны.
 // В разметке проекта те же цвета пишутся классами: bg-blue-500, text-gray-600, border-violet-300/40.
-const COLORS = [
+export const COLORS = [
   "gray",
   "red",
   "orange",
@@ -93,7 +93,7 @@ const COLORS = [
   "purple",
   "pink",
 ];
-const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+export const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
 
 export function Palette() {
   return (

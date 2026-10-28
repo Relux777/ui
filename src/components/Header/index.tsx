@@ -12,9 +12,9 @@
 import Link from "next/link";
 import RenDitLogos from "@/assets/svg/Rendit_UI_logo.svg";
 import { DocsTabs } from "@/components/DocsTabs";
-import { QuickNav } from "@/components/QuickNav";
-import { SearchComponent } from "@/components/Search";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { QuickNav } from "@/components/ui/QuickNav";
+import { SearchComponent } from "@/components/ui/Search";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { version } from "../../../package.json";
 import { HomeLink } from "./home-link";
 import { Spotlight } from "./spotlight";

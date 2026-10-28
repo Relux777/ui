@@ -21,7 +21,11 @@
         height: auto;
         overflow: hidden;
         color: var(--foreground);
-        background: var(--surface);
+        // вверху листа — мягкий оттенок цветов RenDit, как свечение страницы (.aura)
+        background:
+            radial-gradient(80% 140px at 15% 0%, color-mix(in oklab, var(--violet-400) 10%, transparent), transparent),
+            radial-gradient(70% 120px at 90% 0%, color-mix(in oklab, var(--lime-300) 12%, transparent), transparent),
+            var(--surface);
         box-shadow: var(--shadow-6);
         overscroll-behavior: contain;
         // где allow-discrete не понимают, вся строка ниже отбрасывается — остаётся эта
@@ -31,21 +35,33 @@
             display 0.5s allow-discrete,
             overlay 0.5s allow-discrete;
 
+        // Под листом страница затемнена и размыта (как в ozon): чем дальше лист смахнули вниз, тем слабее —
+        // долю смахивания (0…1) пишет на лист --sheet-drag (QuickNav), ::backdrop наследует её от <dialog>.
+        // Отпустили — размытие возвращается или тает переходом.
         &::backdrop {
             background: rgb(0 0 0 / 0%);
+            backdrop-filter: blur(0);
             transition:
                 background-color 0.35s ease,
+                backdrop-filter 0.35s ease,
                 display 0.35s allow-discrete,
                 overlay 0.35s allow-discrete;
         }
 
         &[open]::backdrop {
-            background: rgb(0 0 0 / 35%);
+            background: rgb(0 0 0 / calc(28% * (1 - var(--sheet-drag, 0))));
+            backdrop-filter: blur(calc(8px * (1 - var(--sheet-drag, 0))));
+        }
+
+        // пока лист тянут пальцем — размытие идёт за пальцем без задержки
+        &[data-dragging]::backdrop {
+            transition: none;
         }
 
         @starting-style {
             &[open]::backdrop {
                 background: rgb(0 0 0 / 0%);
+                backdrop-filter: blur(0);
             }
         }
 

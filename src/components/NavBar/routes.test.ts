@@ -33,10 +33,15 @@ test("неизвестная страница — первый пункт", () =
   assert.equal(activeIndex("/logos"), 0);
 });
 
-test("пункты без страницы (Блог, Меню) никогда не выбираются адресом", () => {
-  for (const label of ["Блог", "Меню"])
-    for (const path of ["/", "/blog", "/menu", "/docs", "/x"])
-      assert.notEqual(activeIndex(path), at(label), `${label} ${path}`);
+test("«Блог» выбран во всём /blog", () => {
+  for (const path of ["/blog", "/blog/news", "/blog/2026/release"])
+    assert.equal(activeIndex(path), at("Блог"), path);
+  assert.notEqual(activeIndex("/blogger"), at("Блог"));
+});
+
+test("пункт без страницы (Меню) никогда не выбирается адресом", () => {
+  for (const path of ["/", "/blog", "/menu", "/docs", "/x"])
+    assert.notEqual(activeIndex(path), at("Меню"), path);
 });
 
 test("прочитано: 0…100 %, округление, границы", () => {

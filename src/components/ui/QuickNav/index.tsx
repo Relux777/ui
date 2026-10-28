@@ -3,8 +3,10 @@
 // Быстрый доступ (как «Быстрый переход» в ozon: PageNav + модалка right): кнопка в шапке справа от «Начать»,
 // и тот же лист открывает пункт «Меню» нижнего меню (open.ts) — на телефоне он под большим пальцем.
 // Лист (RenDit SCSS .sheet на <dialog>): на телефоне выезжает снизу, его можно смахнуть вниз; с 620px — панель
-// справа. Внутри: вкладки справки (если вы в /docs), «На этой странице» — разделы страницы с номерами, раздел
-// на экране подсвечен, и все готовые страницы справки.
+// справа. Страница под листом размыта и затемнена; смахиваете лист вниз — размытие тает вслед за пальцем
+// (--sheet-drag, как в ozon/stocks). Внутри: где вы сейчас, вкладки справки (если вы в /docs), «На этой
+// странице» — разделы страницы с номерами, раздел на экране подсвечен, и все готовые страницы справки —
+// группами, как списки настроек iOS.
 // Разделы берутся из самой страницы в момент открытия: элементы с id и data-toc="Заголовок" (data-toc-sub —
 // подраздел). Так лист работает на любой странице без отдельного оглавления.
 
@@ -69,6 +71,8 @@ export function QuickNav() {
   const titleId = useId();
   const [parts, setParts] = useState<Part[]>([]);
   const [activePart, setActivePart] = useState<string>();
+  // где вы сейчас — название страницы из <title> («Цвета — Справка RenDit UI» → «Цвета»)
+  const [here, setHere] = useState("");
 
   const open = useCallback(() => {
     const dialog = dialogRef.current;
@@ -76,7 +80,9 @@ export function QuickNav() {
     const read = readParts();
     setParts(read.parts);
     setActivePart(read.active);
+    setHere(document.title.split(" — ")[0]);
     dialog.style.translate = "";
+    dialog.style.removeProperty("--sheet-drag");
     dialog.showModal();
   }, []);
 
@@ -108,16 +114,25 @@ export function QuickNav() {
     d.dy = Math.max(0, e.clientY - d.y);
     dialog.style.transition = "none";
     dialog.style.translate = `0 ${d.dy}px`;
+    // насколько лист смахнули (0…1) — по ней тает размытие и затемнение страницы под листом (.sheet::backdrop)
+    dialog.dataset.dragging = "";
+    dialog.style.setProperty(
+      "--sheet-drag",
+      Math.min(1, d.dy / dialog.offsetHeight).toFixed(3),
+    );
   };
   const onPointerUp = () => {
     const d = drag.current;
     const dialog = dialogRef.current;
     drag.current = null;
     if (!d || !dialog) return;
-    // переход .sheet ведёт лист от места, где его отпустили: вниз (закрыть) или пружиной обратно
+    // переход .sheet ведёт лист от места, где его отпустили: вниз (закрыть) или пружиной обратно;
+    // размытие под листом тает до нуля или возвращается тем же переходом
     dialog.style.transition = "";
     dialog.style.translate = "";
+    delete dialog.dataset.dragging;
     if (d.dy > SWIPE_CLOSE) close();
+    else dialog.style.removeProperty("--sheet-drag");
   };
 
   return (
@@ -158,9 +173,16 @@ export function QuickNav() {
               aria-hidden="true"
               className="sm:hidden absolute top-8 left-1/2 -translate-x-1/2 w-40 h-5 br-full bg-foreground/15"
             />
-            <h2 id={titleId} className="font-18 font-w-700 -letter-s-1">
-              Быстрый переход
-            </h2>
+            <div className="flex flex-col min-w-0">
+              <h2 id={titleId} className="font-18 font-w-700 -letter-s-1">
+                Быстрый переход
+              </h2>
+              {here && (
+                <p className="truncate font-13 text-foreground-muted">
+                  Вы здесь: {here}
+                </p>
+              )}
+            </div>
             <button
               type="button"
               aria-label="Закрыть"
@@ -231,16 +253,20 @@ export function QuickNav() {
               return (
                 <section key={group.title} className="flex flex-col">
                   <h3 className={HEADING}>{group.title}</h3>
-                  <ul className="flex flex-col gap-2">
+                  {/* группа — общей плашкой с тонкими разделителями, как списки настроек iOS */}
+                  <ul className="flex flex-col p-4 br-20 bg-foreground/4 dark:bg-foreground/6">
                     {links.map((link) => (
-                      <li key={link.href}>
+                      <li
+                        key={link.href}
+                        className="[&+li]:border-t [&+li]:border-foreground/6"
+                      >
                         <Link
                           href={link.href}
                           onClick={close}
                           aria-current={
                             pathname === link.href ? "page" : undefined
                           }
-                          className={`${ROW} font-15 aria-[current=page]:bg-foreground/5 aria-[current=page]:font-w-600`}
+                          className={`${ROW} px-12 font-15 aria-[current=page]:bg-surface aria-[current=page]:shadow-1 aria-[current=page]:font-w-600 aria-[current=page]:text-secondary`}
                         >
                           <span className="flex-1 min-w-0">{link.title}</span>
                           <ChevronRight

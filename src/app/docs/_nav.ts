@@ -32,6 +32,7 @@ export type DocsGroup = {
   links: DocsLink[];
 };
 
+// Все страницы созданы; те, что ещё в работе, — заготовки с планом (_stubs.ts, app/_docs/stub.tsx)
 export const DOCS_NAV: DocsGroup[] = [
   {
     title: "Начало",
@@ -39,37 +40,46 @@ export const DOCS_NAV: DocsGroup[] = [
     links: [
       { title: "Обзор", href: "/docs", ready: true },
       { title: "Установка и настройка", href: "/docs/install", ready: true },
+      { title: "Устройство", href: "/docs/structure", ready: true },
     ],
   },
   {
     title: "Стеки",
     lead: "Подробная настройка под Next.js, React, HTML, CSS и SCSS.",
     links: [
-      { title: "Next.js", href: "/docs/stacks/nextjs", ready: false },
-      { title: "React", href: "/docs/stacks/react", ready: false },
-      { title: "HTML", href: "/docs/stacks/html", ready: false },
-      { title: "CSS", href: "/docs/stacks/css", ready: false },
-      { title: "SCSS", href: "/docs/stacks/scss", ready: false },
+      { title: "Next.js", href: "/docs/stacks/nextjs", ready: true },
+      { title: "React", href: "/docs/stacks/react", ready: true },
+      { title: "HTML", href: "/docs/stacks/html", ready: true },
+      { title: "CSS", href: "/docs/stacks/css", ready: true },
+      { title: "SCSS", href: "/docs/stacks/scss", ready: true },
     ],
   },
   {
     title: "RenDit SCSS",
-    lead: "Токены и основа: цвета, тени, скругления, слои, сетка.",
+    lead: "Основа стиля: токены, цвета, текст, отступы, сетки, рамки, тени, состояния, адаптив, тема.",
     links: [
       { title: "Токены", href: "/docs/scss/tokens", ready: true },
-      { title: "Цвета и тема", href: "/docs/scss/colors", ready: true },
-      { title: "Тени", href: "/docs/scss/shadows", ready: false },
-      { title: "Слои", href: "/docs/scss/layers", ready: false },
-      { title: "Сетка .row", href: "/docs/scss/grid", ready: false },
+      { title: "Цвета", href: "/docs/scss/colors", ready: true },
+      { title: "Тёмная тема", href: "/docs/scss/dark", ready: true },
+      { title: "Текст", href: "/docs/scss/text", ready: true },
+      { title: "Отступы", href: "/docs/scss/spacing", ready: true },
+      { title: "Flex", href: "/docs/scss/flex", ready: true },
+      { title: "Сетка .row", href: "/docs/scss/row", ready: true },
+      { title: "Grid", href: "/docs/scss/grid", ready: true },
+      { title: "Рамки", href: "/docs/scss/borders", ready: true },
+      { title: "Тени", href: "/docs/scss/shadows", ready: true },
+      { title: "Состояния", href: "/docs/scss/states", ready: true },
+      { title: "Адаптив", href: "/docs/scss/responsive", ready: true },
+      { title: "Слои", href: "/docs/scss/layers", ready: true },
     ],
   },
   {
     title: "RenDit Code",
     lead: "Движок классов: как пишутся классы, варианты, конфиг и команды.",
     links: [
-      { title: "Классы", href: "/docs/code/classes", ready: false },
+      { title: "Классы", href: "/docs/code/classes", ready: true },
       { title: "Варианты", href: "/docs/code/variants", ready: true },
-      { title: "Свои значения", href: "/docs/code/arbitrary", ready: false },
+      { title: "Свои значения", href: "/docs/code/arbitrary", ready: true },
       { title: "Конфиг", href: "/docs/code/config", ready: true },
       { title: "Команды", href: "/docs/code/cli", ready: true },
       { title: "VS Code", href: "/docs/code/vscode", ready: true },
@@ -83,9 +93,17 @@ export const DOCS_NAV: DocsGroup[] = [
   {
     title: "Конструктор",
     lead: "Собрать компонент мышкой и скопировать код.",
-    links: [{ title: "Редактор", href: "/docs/editor", ready: false }],
+    links: [{ title: "Редактор", href: "/docs/editor", ready: true }],
   },
 ];
+
+// группа и пункт меню по адресу страницы
+export function findDocsLink(href: string) {
+  for (const group of DOCS_NAV)
+    for (const link of group.links)
+      if (link.href === href) return { group, link };
+  throw new Error(`нет страницы ${href} в DOCS_NAV`);
+}
 
 // Стеки, под которые документация и конструктор отдают код
 export const STACKS = [

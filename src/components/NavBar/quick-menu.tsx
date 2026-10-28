@@ -18,7 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
   DEFAULT_TEXT_SIZE,
   parseTextSize,

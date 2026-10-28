@@ -93,33 +93,37 @@ describe("вкладки справки", { skip: skip ?? false }, () => {
     await page.close();
   });
 
-  test("переход между вкладками: накладка проявления не накрывает шапку и меню", async () => {
+  test("переход между вкладками: проявляется только страница, шапка и меню не мигают", async () => {
     const page = await browser.page({ width: 1440, height: 900 });
     await page.goto("/docs/install");
     await sleep(1300);
-    // накладка ::before растянута на свой узел (position: relative); у узла с display: contents своей коробки
-    // нет — накладка встала бы от начала документа, поверх шапки
+    // у узла с display: contents своей коробки нет — прозрачность к нему не применится, страница не проявится
     const rec = await page.sample(
-      `[...document.querySelectorAll('.route-enter > *')].filter((el) => el.checkVisibility()).map((el) => {
-        const s = getComputedStyle(el);
-        return { top: el.getBoundingClientRect().top, display: s.display, position: s.position, overlay: +getComputedStyle(el, '::before').opacity };
+      `({
+        pages: [...document.querySelectorAll('.route-enter > *')].filter((el) => el.checkVisibility()).map((el) => {
+          const s = getComputedStyle(el);
+          return { top: el.getBoundingClientRect().top, display: s.display, opacity: +s.opacity };
+        }),
+        chrome: Math.min(+getComputedStyle(document.querySelector('header')).opacity,
+          +getComputedStyle(document.querySelector('nav[aria-label="Основное меню"]')).opacity),
       })`,
       1200,
     );
     await page.click(TAB_LINK("/docs/components"));
-    const rows = (await rec.done()).flatMap((r) => r.v);
+    const frames = (await rec.done()).map((r) => r.v);
+    const rows = frames.flatMap((f) => f.pages);
     assert.ok(rows.length > 0);
     for (const r of rows) {
       assert.notEqual(r.display, "contents", JSON.stringify(r));
-      assert.equal(r.position, "relative", JSON.stringify(r));
-      assert.ok(
-        r.top > 40,
-        `накладка ниже начала страницы: ${JSON.stringify(r)}`,
-      );
+      assert.ok(r.top > 40, `страница ниже шапки: ${JSON.stringify(r)}`);
     }
     assert.ok(
-      rows.some((r) => r.overlay > 0.5),
+      rows.some((r) => r.opacity < 0.5),
       "новая вкладка проявляется",
+    );
+    assert.ok(
+      frames.every((f) => f.chrome === 1),
+      "шапка и нижнее меню не мигают",
     );
     await page.close();
   });

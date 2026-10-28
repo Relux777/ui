@@ -51,31 +51,23 @@ test("появление меню — @keyframes, а не переход: next-t
   assert.match(rule(nav, ".enterLate"), /animation:\s*nb-enter-late /);
 });
 
-test("смена страниц: сама страница не прозрачная и не сдвигается — тает только накладка ::before", () => {
+test("смена страниц: страница проявляется прозрачностью — без накладки цвета фона и без сдвига", () => {
   const ui = css("src/assets/scss/RenDit_UI.scss");
   const page = rule(ui, ".route-enter > *");
-  assert.doesNotMatch(page, BACKDROP_ROOT, page);
-  assert.doesNotMatch(
-    page,
-    /\b(transform|translate|scale|animation)\s*:/,
-    page,
-  );
-
-  const overlay = rule(ui, ".route-enter > *::before");
-  assert.match(overlay, /animation:\s*route-enter /);
-  assert.match(overlay, /pointer-events:\s*none/);
-  // после анимации накладка невидима и не перехватывает касания
-  assert.match(overlay, /opacity:\s*0/);
-  assert.match(overlay, /visibility:\s*hidden/);
+  assert.match(page, /animation:\s*route-enter /);
+  // накладка ::before окрашивала каждый блок в цвет фона (в тёмной теме — чёрный прямоугольник)
+  assert.doesNotMatch(ui, /\.route-enter > \*::before/);
+  const body = keyframes(ui, "route-enter");
+  assert.match(body, /opacity:\s*0/);
+  // сдвиг увёл бы position: fixed внутри страницы
+  assert.doesNotMatch(body, /\b(transform|translate|scale|rotate)\s*:/, body);
 });
 
-test("смена страниц: накладка тает от фона страницы до прозрачной", () => {
+test("смена страниц: при первой загрузке проявления нет (data-first-load)", () => {
   const ui = css("src/assets/scss/RenDit_UI.scss");
-  const body = keyframes(ui, "route-enter");
-  assert.match(body, /opacity:\s*1/);
   assert.match(
-    rule(ui, ".route-enter > *::before"),
-    /background:\s*var\(--background\)/,
+    rule(ui, "[data-first-load] .route-enter > *"),
+    /animation-duration:\s*0s/,
   );
 });
 
@@ -109,15 +101,15 @@ test("контейнеры страниц отмечены .route-enter: кор�
     assert.match(source(file), /<main className="route-enter /, file);
 });
 
-test("общий layout справки без обёртки: иначе накладка перехода растянулась бы поверх шапки и меню", () => {
-  // корни layout вкладок должны быть прямыми детьми .route-enter корневого layout; обёртка с display: contents
-  // получила бы ::before c position: absolute от всего документа
+test("общий layout справки без обёртки: иначе страницы вкладок не проявлялись бы", () => {
+  // корни layout вкладок должны быть прямыми детьми .route-enter корневого layout: у обёртки с display: contents
+  // нет своей коробки, и прозрачность к ней не применится
   const layout = source("src/app/docs/layout.tsx");
   assert.match(layout, /return \(\s*<>/);
   assert.doesNotMatch(layout, /<div|<main|<section/);
 });
 
-test("шапка и меню вне контейнера страниц — их не накрывает накладка перехода", () => {
+test("шапка и меню вне контейнера страниц — при переходе они не мигают и не теряют стекло", () => {
   const layout = source("src/app/layout.tsx");
   const wrapper = layout.indexOf('<div className="route-enter contents">');
   assert.ok(layout.indexOf("<HeaderComponent />") < wrapper);
@@ -131,7 +123,7 @@ test("появление блоков при прокрутке (.reveal) — т
   assert.doesNotMatch(body, /\b(translate|transform|scale|rotate)\s*:/, body);
 });
 
-test("при «уменьшении движения» нет ни появления меню, ни накладки", () => {
+test("при «уменьшении движения» нет ни появления меню, ни проявления страниц", () => {
   const nav = css("src/components/NavBar/navbar.module.scss");
   const ui = css("src/assets/scss/RenDit_UI.scss");
   assert.match(
@@ -140,6 +132,6 @@ test("при «уменьшении движения» нет ни появле�
   );
   assert.match(
     ui,
-    /prefers-reduced-motion: reduce\)\s*\{\s*\.route-enter > \*::before\s*\{\s*animation: none/,
+    /prefers-reduced-motion: reduce\)\s*\{\s*\.route-enter > \*\s*\{\s*animation: none/,
   );
 });

@@ -57,8 +57,14 @@ const SETUP = [
   },
   {
     href: "/docs/scss/colors",
-    title: "Цвета и тема",
-    text: "Смысловые цвета и тёмная тема через data-theme.",
+    title: "Цвета",
+    text: "Смысловые цвета, палитра, конструктор и контраст.",
+    Icon: Palette,
+  },
+  {
+    href: "/docs/scss/dark",
+    title: "Тёмная тема",
+    text: "Одним атрибутом data-theme, вариант dark:.",
     Icon: Moon,
   },
   {
@@ -225,7 +231,7 @@ const FAQ: { q: string; a: ReactNode }[] = [
     a: (
       <p>
         Токены переключает атрибут <Code>data-theme="dark"</Code> на{" "}
-        <Code>&lt;html&gt;</Code> — подробнее в «Цвета и тема».
+        <Code>&lt;html&gt;</Code> — подробнее в «Тёмной теме».
       </p>
     ),
   },

@@ -2,7 +2,7 @@
 
 // Установка: выбор платформы (карточки с логотипом и версией) и ответы на её вопросы — язык, стили, движок,
 // редактор (с движком), скрипты (choice.ts). Карточка выбора — в 3D: наклоняется за курсором, по ней бежит
-// мягкий свет цветов RenDit (components/Tilt).
+// мягкий свет цветов RenDit (components/ui/Tilt).
 // Вопросы, которых у платформы нет, плавно сворачиваются. Переключатели — как в iOS: бегунок переезжает
 // на пружине; под каждым — что значит выбранный вариант. Под выбором — сколько шагов и что понадобится, затем
 // шаги ровно для этого набора (steps.tsx), собираются в браузере мгновенно, без запросов к серверу. Выбор
@@ -18,7 +18,7 @@ import { Nodejs } from "@boxicons/react/Nodejs";
 import { ReactIcon } from "@boxicons/react/ReactIcon";
 import { Window } from "@boxicons/react/Window";
 import { type ReactNode, useEffect, useId, useState } from "react";
-import { Tilt } from "@/components/Tilt";
+import { Tilt } from "@/components/ui/Tilt";
 import {
   COPIED_RING,
   Copied,

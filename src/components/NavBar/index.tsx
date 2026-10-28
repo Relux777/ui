@@ -25,7 +25,7 @@ import { Newspaper } from "@boxicons/react/Newspaper";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { type CSSProperties, type MouseEvent, useRef, useState } from "react";
-import { openQuickNav } from "@/components/QuickNav/open";
+import { openQuickNav } from "@/components/ui/QuickNav/open";
 import styles from "./navbar.module.scss";
 import { QuickMenu } from "./quick-menu";
 import { activeIndex, ROUTES } from "./routes";
