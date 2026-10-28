@@ -3,6 +3,8 @@
 // Шаги собираются из общих кусков, имена файлов и примеры подстраиваются: layout.tsx ↔ layout.jsx,
 // next.config.ts ↔ next.config.mjs, button.module.scss ↔ button.module.css.
 
+import { ArrowDown } from "@boxicons/react/ArrowDown";
+import { cdnCss, VERSION, zipUrl } from "@/config/release";
 import { Code, CodeBlock, Files, type Step } from "../../../_docs/docs";
 import { InstallCommand } from "../../../_docs/install-command";
 import type { Choice } from "./choice";
@@ -41,21 +43,31 @@ const sass = (text: Step["text"]): Step => ({
   block: <InstallCommand pkg="sass" dev />,
 });
 
-const BUILD_ONCE = "npx sass src/assets/scss/RenDit_UI.scss rendit-ui.css";
-
-// готовый CSS без Sass: файл из релиза (с 1.0) или собранный один раз
+// готовый CSS без Sass: из архива версии (папка dist/) — всё целиком, и стили, и частые классы
 const prebuilt = (to: string): Step => ({
   title: "Возьмите готовый CSS",
   text: (
     <>
-      Готовый <Code>rendit-ui.css</Code> появится в релизах с версии 1.0. Пока
-      соберите его один раз там, где есть Node.js, и положите в{" "}
-      <Code>{to}</Code>:
+      Скачайте архив — в папке <Code>dist/</Code> лежит{" "}
+      <Code>rendit-ui.min.css</Code>: стили RenDit SCSS и готовые классы.
+      Положите его в <Code>{to}</Code>:
     </>
   ),
-  block: <CodeBlock terminal code={BUILD_ONCE} />,
+  block: <DownloadLink />,
 });
 
+// ссылка на архив последней версии
+function DownloadLink() {
+  return (
+    <a
+      href={zipUrl()}
+      className="self-start flex items-center gap-8 h-40 px-16 br-full bg-primary text-primary-foreground font-14 font-w-600 transition hover:bg-primary-hover active:scale-97"
+    >
+      <ArrowDown size="sm" aria-hidden="true" />
+      Скачать RenDit UI v{VERSION}
+    </a>
+  );
+}
 const BUTTON_CLASSES = `<button className="px-16 py-8 br-full bg-primary text-primary-foreground hover:bg-primary-hover">
   Кнопка
 </button>`;
@@ -600,23 +612,14 @@ node rendit-code/cli.mjs watch`}
   return {
     lead,
     steps: [
-      {
-        title: "Соберите RenDit UI в один CSS",
-        text: "Один раз — дальше это обычный файл:",
-        block: (
-          <CodeBlock
-            terminal
-            code="npx sass src/assets/scss/RenDit_UI.scss public/css/rendit-ui.css"
-          />
-        ),
-      },
+      prebuilt("public/css/"),
       {
         title: "Подключите стили",
         text: "Сначала RenDit UI, затем свои:",
         block: (
           <CodeBlock
             file="views/layout.html"
-            code={`<link rel="stylesheet" href="/css/rendit-ui.css">
+            code={`<link rel="stylesheet" href="/css/rendit-ui.min.css">
 <link rel="stylesheet" href="/css/style.css">`}
           />
         ),
@@ -641,15 +644,15 @@ function html(c: Choice): Guide {
         title: "Подключите стили",
         text: (
           <>
-            Готовый <Code>rendit-ui.css</Code> появится в релизах с версии 1.0;
-            пока его один раз собирают там, где есть Node.js (выберите
-            «Node.js», без движка, CSS).
+            Одной строкой с CDN — ничего не скачивая. Там всё: стили RenDit SCSS
+            и 3 000+ готовых классов (<Code>p-20</Code>, <Code>md:flex</Code>,{" "}
+            <Code>bg-primary</Code>). Свои стили — после:
           </>
         ),
         block: (
           <CodeBlock
             file="index.html"
-            code={`<link rel="stylesheet" href="css/rendit-ui.css">
+            code={`<link rel="stylesheet" href="${cdnCss()}">
 <link rel="stylesheet" href="css/style.css">`}
           />
         ),

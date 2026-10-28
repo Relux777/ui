@@ -14,7 +14,9 @@
     "test:e2e": "node --test --test-concurrency=1 \"e2e/**/*.test.mjs\"",
     "lint": "biome check",
     "format": "biome format --write",
-    "rendit-code:vscode": "node rendit-code/vscode/install.mjs"
+    "rendit-code:vscode": "node rendit-code/vscode/install.mjs",
+    "dist": "node rendit-code/dist.mjs",
+    "release": "node scripts/release.mjs"
   },
   "dependencies": {
     "@boxicons/react": "^1.0.3",

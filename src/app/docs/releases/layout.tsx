@@ -1,4 +1,4 @@
-// Вкладка «Обновления» — свой layout: здесь будут версии RenDit UI и что в них нового. Пока заглушка.
+// Вкладка «Обновления» — свой layout: версии RenDit UI, что в них нового, архив каждой (page.tsx).
 
 export default function ReleasesLayout({
   children,

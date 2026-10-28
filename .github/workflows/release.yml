@@ -1,0 +1,51 @@
+# Релиз по тегу vX.Y.Z (его ставит npm run release, см. RELEASING.md): готовый CSS, архив rendit-ui.zip
+# (движок, RenDit SCSS, конфиг, готовый CSS) и описание из раздела этой версии в CHANGELOG.md.
+name: Релиз
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist
+
+      - name: Архив rendit-ui.zip
+        run: |
+          mkdir -p pkg/rendit-ui/src/assets
+          cp -r rendit-code pkg/rendit-ui/
+          rm -f pkg/rendit-ui/rendit-code/vscode/*.vsix
+          cp -r src/assets/scss pkg/rendit-ui/src/assets/
+          cp -r dist rendit.config.mjs README.md CHANGELOG.md LICENSE pkg/rendit-ui/
+          cd pkg && zip -qr ../rendit-ui.zip rendit-ui
+
+      - name: Описание из CHANGELOG.md
+        run: |
+          node -e '
+            const v = process.env.GITHUB_REF_NAME.replace(/^v/, "");
+            const log = require("fs").readFileSync("CHANGELOG.md", "utf8");
+            const start = log.indexOf(`## [${v}]`);
+            if (start < 0) { console.error(`нет раздела ${v} в CHANGELOG.md`); process.exit(1); }
+            const next = log.indexOf("\n## [", start + 1);
+            const body = log.slice(log.indexOf("\n", start) + 1, next < 0 ? undefined : next).trim();
+            require("fs").writeFileSync("notes.md", body + "\n\nГотовый CSS с CDN:\n```html\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/${{ github.repository }}@" + process.env.GITHUB_REF_NAME + "/dist/rendit-ui.min.css\">\n```\n");
+          '
+
+      - name: Релиз на GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" rendit-ui.zip dist/rendit-ui.css dist/rendit-ui.min.css \
+            --title "RenDit UI $GITHUB_REF_NAME" --notes-file notes.md

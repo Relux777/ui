@@ -8,15 +8,14 @@
 //   ├── (getting-started)/       вкладка «Установка и настройка» — с боковым меню (группа маршрутов, в адресе её нет)
 //   │   ├── page.tsx             Справка — обзор и вход во все разделы
 //   │   ├── install/             установка и настройка под любой стек
-//   │   ├── stacks/<стек>/       подробности под стек: nextjs, react, html, css, scss
 //   │   ├── scss/<тема>/         RenDit SCSS: токены, цвета, тени, слои, сетка .row
 //   │   ├── code/<тема>/         RenDit Code: классы, варианты (md:, hover:, dark:), свои значения, конфиг
 //   │   └── editor/              конструктор: собрать компонент и скопировать код под выбранный стек
 //   ├── components/<имя>/        вкладка «Компоненты»: живое превью + вкладки HTML · CSS · SCSS · React · Next.js
 //   └── releases/                вкладка «Обновления»: версии и что в них нового
 //
-// Стеки и режим «с движком / без движка» — общие для всех разделов (STACKS ниже): страница компонента
-// и конструктор показывают код для каждого из них, поэтому список живёт в одном месте.
+// Платформа (Next.js, React, Node.js, HTML/CSS) — общая для всей справки: переключатель вверху левого меню,
+// выбор — в _platform.ts; установка и конструкторы показывают шаги и код под неё.
 
 export type DocsLink = {
   title: string;
@@ -41,17 +40,6 @@ export const DOCS_NAV: DocsGroup[] = [
       { title: "Обзор", href: "/docs", ready: true },
       { title: "Установка и настройка", href: "/docs/install", ready: true },
       { title: "Устройство", href: "/docs/structure", ready: true },
-    ],
-  },
-  {
-    title: "Стеки",
-    lead: "Подробная настройка под Next.js, React, HTML, CSS и SCSS.",
-    links: [
-      { title: "Next.js", href: "/docs/stacks/nextjs", ready: true },
-      { title: "React", href: "/docs/stacks/react", ready: true },
-      { title: "HTML", href: "/docs/stacks/html", ready: true },
-      { title: "CSS", href: "/docs/stacks/css", ready: true },
-      { title: "SCSS", href: "/docs/stacks/scss", ready: true },
     ],
   },
   {
@@ -104,21 +92,3 @@ export function findDocsLink(href: string) {
       if (link.href === href) return { group, link };
   throw new Error(`нет страницы ${href} в DOCS_NAV`);
 }
-
-// Стеки, под которые документация и конструктор отдают код
-export const STACKS = [
-  { id: "nextjs", title: "Next.js" },
-  { id: "react", title: "React" },
-  { id: "html", title: "HTML" },
-  { id: "css", title: "CSS" },
-  { id: "scss", title: "SCSS" },
-] as const;
-
-export type StackId = (typeof STACKS)[number]["id"];
-
-// с движком — классы RenDit Code в разметке, CSS собирается из кода;
-// без движка — готовый CSS-файл и свои стили, классов-утилит нет
-export const ENGINE_MODES = [
-  { id: "engine", title: "С RenDit Code" },
-  { id: "plain", title: "Без движка" },
-] as const;

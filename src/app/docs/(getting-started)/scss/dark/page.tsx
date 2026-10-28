@@ -12,19 +12,22 @@ import {
   Example,
   Heading,
   Lead,
-  Steps,
   Table,
 } from "../../../../_docs/docs";
 import { Toc, type TocItem } from "../../../../_docs/toc";
+import { ThemeInstall } from "./_install";
+import { ThemeSwitcherBuilder } from "./_switcher";
 import { ThemePreview } from "./_tools";
 
 export const metadata: Metadata = { title: "Тёмная тема" };
 
 const TOC: TocItem[] = [
+  { id: "switcher", title: "Конструктор переключателя" },
   { id: "try", title: "Попробуйте" },
   { id: "how", title: "Как устроена" },
   { id: "diff", title: "Что меняется" },
-  { id: "setup", title: "Подключение" },
+  { id: "setup", title: "Установка" },
+  { id: "best", title: "Лучшие приёмы" },
   { id: "system", title: "Тема системы" },
   { id: "variant", title: "Вариант dark:" },
   { id: "island", title: "Кусок в другой теме" },
@@ -74,20 +77,33 @@ const ROWS: ReactNode[][] = DIFF.map(([token, light, dark]) => [
   </span>,
 ]);
 
-// встроенный скрипт без мигания: тема ставится до первой отрисовки
-const NO_FLASH = `<script>
-  // выбранная тема или тема системы — до первой отрисовки, без мигания
-  const saved = localStorage.getItem("theme");
-  const dark = saved === "dark" ||
-    (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
-  document.documentElement.dataset.theme = dark ? "dark" : "light";
-</script>`;
-
-const TOGGLE = `const root = document.documentElement;
-const next = root.dataset.theme === "dark" ? "light" : "dark";
-root.dataset.theme = next;
-localStorage.setItem("theme", next);`;
-
+// лучшие приёмы тёмной темы — [заголовок, пояснение]
+const BEST: [string, string][] = [
+  [
+    "Тема до первой отрисовки",
+    "Встроенный скрипт в <head> или next-themes — иначе светлая вспышка при загрузке.",
+  ],
+  [
+    "По умолчанию — как в системе",
+    "prefers-color-scheme, пока человек сам не выбрал; следить за её сменой на лету.",
+  ],
+  [
+    "color-scheme",
+    "Браузер сам красит поля ввода, полосы прокрутки и диалоги под тему.",
+  ],
+  [
+    "Без перетекания при смене",
+    "На миг выключить переходы (disableTransitionOnChange или data-switching).",
+  ],
+  [
+    "Без расхождения с сервером",
+    "Обе иконки в разметке, видимую выбирает CSS — гидратации нечего исправлять.",
+  ],
+  [
+    "Панель браузера в тон",
+    "theme-color с media и скрипт по выбранной теме — строка состояния не «прыгает».",
+  ],
+];
 export default function DarkPage() {
   return (
     <div className="grid xl:grid-cols-[minmax(0,1fr)_200px] gap-48">
@@ -105,6 +121,15 @@ export default function DarkPage() {
           }
         />
 
+        <section className="relative z-2 flex flex-col gap-16">
+          <Heading id="switcher">Конструктор переключателя</Heading>
+          <Lead>
+            Соберите кнопку темы для своего сайта: иконка с анимацией, как в
+            шапке здесь, ползунок, три кнопки или список. Нажмите на пример — он
+            переключит тему у себя; код — для Next.js и React или чистого JS.
+          </Lead>
+          <ThemeSwitcherBuilder />
+        </section>
         <section className="flex flex-col gap-16">
           <Heading id="try">Попробуйте</Heading>
           <Lead>
@@ -147,50 +172,29 @@ export default function DarkPage() {
           <Table head={["Токен", "Светлая", "Тёмная"]} rows={ROWS} />
         </section>
 
-        <section className="flex flex-col gap-14">
-          <Heading id="setup">Подключение</Heading>
+        <section className="flex flex-col gap-16">
+          <Heading id="setup">Установка как на этом сайте</Heading>
           <Lead>
-            Главное — поставить атрибут до первой отрисовки, иначе страница
-            мигнёт светлой. Выберите свой случай:
+            Выберите, на чём ваш проект, — шаги именно для него. Везде одни
+            правила: тема ставится до первой отрисовки (без вспышки), по
+            умолчанию — как в системе, выбор запоминается.
           </Lead>
-          <Steps
-            steps={[
-              {
-                title: "Next.js — next-themes",
-                text: "Помнит выбор, по умолчанию берёт тему системы и сам ставит атрибут без мигания:",
-                block: (
-                  <CodeBlock
-                    file="src/app/layout.tsx"
-                    code={`<html lang="ru" suppressHydrationWarning>
-  <body>
-    <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-      {children}
-    </ThemeProvider>
-  </body>
-</html>`}
-                  />
-                ),
-              },
-              {
-                title: "React на Vite и HTML — свой скрипт",
-                text: (
-                  <>
-                    Первым в <Code>&lt;head&gt;</Code> — до стилей и разметки:
-                  </>
-                ),
-                block: <CodeBlock file="index.html" code={NO_FLASH} />,
-              },
-              {
-                title: "Кнопка темы",
-                text: "Меняет атрибут и запоминает выбор:",
-                block: <CodeBlock file="theme.js" code={TOGGLE} />,
-              },
-            ]}
-            done={{
-              title: "Готово",
-              text: "Классы в разметке остаются прежними — тёмная тема работает везде, где цвета взяты из токенов.",
-            }}
-          />
+          <ThemeInstall />
+        </section>
+
+        <section className="flex flex-col gap-14">
+          <Heading id="best">Лучшие приёмы 2026</Heading>
+          <ul className="grid sm:grid-cols-2 gap-10">
+            {BEST.map(([title, text]) => (
+              <li
+                key={title}
+                className="flex flex-col gap-4 p-14 br-lg border bg-surface"
+              >
+                <span className="font-14 font-w-600">{title}</span>
+                <span className="font-13 text-foreground-muted">{text}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="flex flex-col gap-14">

@@ -28,6 +28,7 @@ import {
   LinkCards,
   type TreeItem,
 } from "../../../_docs/docs";
+import { DownloadCard } from "../../../_docs/download";
 import { Toc, type TocItem } from "../../../_docs/toc";
 import { InstallGuide } from "./_guide";
 import { PLATFORMS } from "./choice";
@@ -282,10 +283,11 @@ export default function InstallPage() {
         <section className="reveal flex flex-col gap-20">
           <Heading id="install">Установка</Heading>
           <Callout>
-            Пакета в npm пока нет: до версии 1.0 файлы берутся из репозитория
-            RenDit UI и копируются в проект целиком — так их легко менять под
-            себя.
+            Пакета в npm пока нет: скачайте архив версии — файлы копируются в
+            проект целиком, так их легко менять под себя. Для HTML без сборки
+            хватит одной строки с CDN.
           </Callout>
+          <DownloadCard />
           <InstallGuide />
         </section>
 

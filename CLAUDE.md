@@ -101,5 +101,13 @@ rendit-code/               движок; README.md — справочник кл
 справки — рядом, в `src/components/`. Страницы справки, что ещё в работе, — заготовки: план в `docs/_stubs.ts`,
 `page.tsx` из двух строк (`DocStub`). Готова — строку из `_stubs.ts` удалить, страницу написать целиком.
 
+Платформа справки (Next.js · React · Node.js · HTML/CSS) — `app/docs/_platform.ts` (`useDocsPlatform`, `usesJsx`):
+новые конструкторы и инструкции показывают код под неё. Конструкторы — всегда вверху страницы.
+
+Версии: работа в `main`, выпуск — `npm run release -- X.Y.Z` и `git push --follow-tags` (RELEASING.md);
+GitHub по тегу собирает релиз (`.github/workflows/release.yml`). Готовый CSS — `npm run dist` (`rendit-code/dist.mjs`,
+набор классов там же). Адреса загрузки и CDN — `config/release.ts`. Коммиты и пуш — только по просьбе Рената;
+токены доступа из чата не использовать.
+
 Новая страница справки: папка в `(getting-started)/…/page.tsx`, `DocHeader` + `Heading` (они попадают в быстрый
 переход) + строка в `_nav.ts` с `ready: true` + строка в `CHANGELOG.md`.

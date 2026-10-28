@@ -17,7 +17,7 @@ import { NextJs } from "@boxicons/react/NextJs";
 import { Nodejs } from "@boxicons/react/Nodejs";
 import { ReactIcon } from "@boxicons/react/ReactIcon";
 import { Window } from "@boxicons/react/Window";
-import { type ReactNode, useEffect, useId, useState } from "react";
+import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { Tilt } from "@/components/ui/Tilt";
 import {
   COPIED_RING,
@@ -26,6 +26,7 @@ import {
   useCopy,
 } from "../../../_docs/copy-button";
 import { Steps } from "../../../_docs/docs";
+import { choosePlatform, readPlatform, useDocsPlatform } from "../../_platform";
 import {
   type Choice,
   choiceKey,
@@ -171,30 +172,56 @@ export function InstallGuide() {
   const [choice, setChoice] = useState<Choice>(DEFAULT_CHOICE);
   const name = useId();
 
-  // ссылка с параметрами важнее запомненного
+  // платформа — общая для всей справки (переключатель вверху левого меню); ссылка с параметрами важнее
+  // запомненного, запомненный набор ответов — свой
+  const docsPlatform = useDocsPlatform();
+  const restored = useRef(false);
   useEffect(() => {
     let saved = DEFAULT_CHOICE;
     try {
       const raw = JSON.parse(localStorage.getItem(KEY) ?? "{}");
       saved = parseChoice((p) => raw[p]);
     } catch {}
+    saved = { ...saved, platform: readPlatform() };
     const query = new URLSearchParams(location.search);
     setChoice(parseChoice((p) => query.get(p), saved));
+    restored.current = true;
   }, []);
 
-  const update = (patch: Partial<Choice>) => {
-    const next = { ...choice, ...patch };
-    setChoice(next);
+  // платформу сменили в меню — шаги под неё. Пока страница оживает, хук ещё отдаёт платформу по умолчанию —
+  // такое значение (не совпадает с сохранённым) пропускаем, чтобы не затереть восстановленный набор
+  useEffect(() => {
+    if (!restored.current || docsPlatform !== readPlatform()) return;
+    setChoice((prev) =>
+      prev.platform === docsPlatform
+        ? prev
+        : { ...prev, platform: docsPlatform },
+    );
+  }, [docsPlatform]);
+
+  // набор изменился — запомнить, в адрес и платформу справки. Первый проход (тот же кадр, что и
+  // восстановление, набор ещё по умолчанию) пропускаем
+  const persisted = useRef(false);
+  useEffect(() => {
+    if (!restored.current) return;
+    if (!persisted.current) {
+      persisted.current = true;
+      return;
+    }
+    choosePlatform(choice.platform);
     try {
       localStorage.setItem(
         KEY,
-        JSON.stringify(Object.fromEntries(choiceParams(next))),
+        JSON.stringify(Object.fromEntries(choiceParams(choice))),
       );
     } catch {}
     const url = new URL(location.href);
-    url.search = choiceParams(next).toString();
+    url.search = choiceParams(choice).toString();
     window.history.replaceState(null, "", url);
-  };
+  }, [choice]);
+
+  const update = (patch: Partial<Choice>) =>
+    setChoice((prev) => ({ ...prev, ...patch }));
 
   const guide = buildGuide(choice);
   const optional = guide.steps.filter((s) => s.optional).length;

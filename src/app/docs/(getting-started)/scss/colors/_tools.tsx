@@ -23,6 +23,7 @@ import {
   useCopy,
 } from "../../../../_docs/copy-button";
 import { COLORS, CodeBlock, STEPS } from "../../../../_docs/docs";
+import { useDocsPlatform, usesJsx } from "../../../_platform";
 
 // ── Данные ──────────────────────────────────────────────────────────────────
 
@@ -700,12 +701,13 @@ const ELEMENTS = {
   button: {
     title: "Кнопка",
     tag: "button",
-    layout: "h-40 px-18 br-full font-14 font-w-600",
+    layout:
+      "inline-flex items-center justify-center h-40 px-18 br-full font-14 font-w-600",
   },
   badge: {
     title: "Метка",
     tag: "span",
-    layout: "px-10 py-2 br-full font-12 font-w-600",
+    layout: "inline-flex items-center px-10 py-2 br-full font-12 font-w-600",
   },
   alert: {
     title: "Сообщение",
@@ -798,7 +800,10 @@ export function StyleBuilder() {
   const [variant, setVariant] = useState<Variant>("soft");
   const [el, setEl] = useState<Element>("button");
   const [hover, setHover] = useState(true);
-  const [jsx, setJsx] = useState(false);
+  // код — под платформу справки: JSX для Next.js и React, HTML для Node.js и HTML/CSS
+  const platform = useDocsPlatform();
+  const [jsx, setJsx] = useState(true);
+  useEffect(() => setJsx(usesJsx(platform)), [platform]);
   // текст на залитом фоне: пара токена или белый / почти чёрный — что контрастнее
   const [onFill, setOnFill] = useState("white");
   const [ratios, setRatios] = useState<Record<string, number>>({});
@@ -974,7 +979,7 @@ export function StyleBuilder() {
           <div className="flex items-center justify-between gap-8">
             <span className={LABEL}>Классы</span>
             <div className="flex gap-2 p-2 br-full bg-foreground/5">
-              {[false, true].map((j) => (
+              {[true, false].map((j) => (
                 <button
                   key={String(j)}
                   type="button"

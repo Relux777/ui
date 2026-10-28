@@ -5,7 +5,7 @@ import { ArrowRight } from "@boxicons/react/ArrowRight";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Code } from "../../_docs/docs";
-import { DOCS_NAV, STACKS } from "../_nav";
+import { DOCS_NAV } from "../_nav";
 
 export const metadata: Metadata = {
   title: { absolute: "Справка — RenDit UI" },
@@ -38,8 +38,9 @@ export default function DocsPage() {
         </h1>
         <p className="font-17 text-foreground-muted">
           RenDit UI — свой UI-фреймворк: стили, движок классов и компоненты. Код
-          можно взять под любой стек — {STACKS.map((s) => s.title).join(", ")}—
-          с движком RenDit Code или без него.
+          — под Next.js, React, Node.js или обычный HTML/CSS, с движком RenDit
+          Code или без него. Платформу выберите вверху левого меню — шаги и код
+          на страницах подстроятся.
         </p>
         <Link
           href="/docs/install"

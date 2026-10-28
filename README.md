@@ -12,6 +12,22 @@
 | **RenDit Code** | движок классов: находит классы в коде и генерирует CSS | `rendit-code/` |
 | **RenDit Components** | компоненты, каждый — отдельная папка | `src/components/ui/<имя>/` |
 
+## Скачать
+
+| Как | Что получите |
+| --- | --- |
+| [Архив последней версии](https://github.com/Relux777/ui/releases/latest/download/rendit-ui.zip) | движок `rendit-code/`, RenDit SCSS `src/assets/scss/`, `rendit.config.mjs`, готовый CSS в `dist/` |
+| CDN — одна строка в `<head>` | готовый CSS для HTML без сборки: стили и 3 000+ классов |
+| [Все версии](https://github.com/Relux777/ui/releases) | архив и CSS каждой версии, что в ней нового |
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Relux777/ui@v0.2.0/dist/rendit-ui.min.css">
+```
+
+`dist/rendit-ui.css` — всё целиком (стили RenDit SCSS + частые классы RenDit Code: шкала отступов и размеров,
+все цвета, брейкпоинты, состояния), `dist/rendit-ui.min.css` — то же, сжатое. Собрать самому — `npm run dist`.
+С Node.js лучше движок: он собирает только нужные классы, и любые значения работают.
+
 ## Запуск
 
 ```bash
@@ -112,6 +128,9 @@ src/components/ui/modal/
 
 Версия хранится в одном месте — `package.json`. Движок печатает её в шапке `rendit-code.css` и пишет в
 `generated/_version.scss`, откуда её берёт шапка `RenDit_UI.scss`. Каждое изменение — строка в `CHANGELOG.md`.
+
+Работа идёт в `main`; версия — тег `vX.Y.Z`: по нему GitHub сам собирает релиз с архивом и готовым CSS.
+Как выпустить версию — [RELEASING.md](RELEASING.md).
 
 ## Логотип
 

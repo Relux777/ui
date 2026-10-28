@@ -26,9 +26,12 @@ describe("установка", { skip: skip ?? false }, () => {
       const label = [...document.querySelectorAll('section:has(#install) label')].find((l) => l.textContent.includes(${JSON.stringify(text)}) && l.checkVisibility());
       if (!label) return null;
       label.id ||= 'pick-' + Math.random().toString(36).slice(2);
+      // вариант может быть ниже края экрана — мышь туда не дотянется
+      label.scrollIntoView({ block: 'center', behavior: 'instant' });
       return label.id;
     })()`);
     assert.ok(id, `нет варианта «${text}»`);
+    await sleep(150);
     await page.click(`#${id}`);
     await sleep(150);
   };
@@ -74,6 +77,31 @@ describe("установка", { skip: skip ?? false }, () => {
       "document.querySelector('section:has(#install) ol')?.textContent.includes('jquery-3.7.1')",
     );
     assert.deepEqual(page.errors, []);
+    await page.close();
+  });
+
+  test("платформа в левом меню меняет шаги установки и запоминается", async () => {
+    const page = await browser.page({ width: 1280, height: 900 });
+    await page.goto("/docs/install?stack=nextjs");
+    await sleep(600);
+    await page.click(
+      'nav[aria-label="Документация"] button[aria-haspopup="listbox"]',
+    );
+    await sleep(400);
+    await page.click(
+      'nav[aria-label="Документация"] [role="option"]:nth-child(2)',
+    );
+    await page.waitFor(`${FILES}.some((f) => f.startsWith('vite.config'))`);
+    assert.match(await page.eval("location.search"), /stack=react/);
+    await page.goto("/docs/scss/colors");
+    assert.equal(
+      await page.eval("localStorage.getItem('docs-platform')"),
+      "react",
+    );
+    // вернуть Next.js — остальным проверкам нужен он
+    await page.eval(
+      "localStorage.removeItem('docs-platform'); localStorage.removeItem('install-choice')",
+    );
     await page.close();
   });
 

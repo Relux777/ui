@@ -1,22 +1,21 @@
 "use client";
 
-// Быстрый доступ (как «Быстрый переход» в ozon: PageNav + модалка right): кнопка в шапке справа от «Начать»,
-// и тот же лист открывает пункт «Меню» нижнего меню (open.ts) — на телефоне он под большим пальцем.
+// Быстрый доступ (как «Быстрый переход» в ozon: PageNav + модалка right): кнопка в шапке справа от «Начать».
 // Лист (RenDit SCSS .sheet на <dialog>): на телефоне выезжает снизу, его можно смахнуть вниз; с 620px — панель
 // справа. Страница под листом размыта и затемнена; смахиваете лист вниз — размытие тает вслед за пальцем
-// (--sheet-drag, как в ozon/stocks). Внутри: где вы сейчас, вкладки справки (если вы в /docs), «На этой
-// странице» — разделы страницы с номерами, раздел на экране подсвечен, и все готовые страницы справки —
-// группами, как списки настроек iOS.
+// (--sheet-drag, как в ozon/stocks). Внутри: где вы сейчас, вкладки справки (если вы в /docs) и две вкладки —
+// «На странице» (разделы линией с номерами, раздел на экране подсвечен) и «Меню справки» (все готовые страницы
+// плитками в две колонки). Края списка плавно гаснут: сверху — когда прокрутили, снизу — пока есть что листать.
 // Разделы берутся из самой страницы в момент открытия: элементы с id и data-toc="Заголовок" (data-toc-sub —
 // подраздел). Так лист работает на любой странице без отдельного оглавления.
 
-import { ChevronRight } from "@boxicons/react/ChevronRight";
 import { MenuRight } from "@boxicons/react/MenuRight";
 import { X } from "@boxicons/react/X";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type PointerEvent, useEffect, useId, useRef, useState } from "react";
 import { DOCS_NAV } from "@/app/docs/_nav";
+import { PlatformSwitch } from "@/app/docs/_platform-switch";
 import { DocsTabs } from "@/components/DocsTabs";
 import { activeTab } from "@/components/DocsTabs/tabs";
 
@@ -49,6 +48,11 @@ function readParts() {
 
 const ROW =
   "flex items-center gap-12 min-h-48 px-8 py-6 br-16 transition-colors hover:bg-foreground/5 active:bg-foreground/8";
+// готовых страниц в меню справки — число на вкладке
+const MENU_COUNT = DOCS_NAV.flatMap((g) => g.links).filter(
+  (l) => l.ready,
+).length;
+
 const HEADING =
   "px-8 pb-6 font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle";
 
@@ -65,9 +69,16 @@ export function QuickNav() {
   const [activePart, setActivePart] = useState<string>();
   // где вы сейчас — название страницы из <title> («Цвета — Справка RenDit UI» → «Цвета»)
   const [here, setHere] = useState("");
-  // список прокручен — шапке листа тень (пункты уходят под неё)
+  // вкладка: разделы этой страницы или всё меню справки
+  const [tab, setTab] = useState<"page" | "menu">("page");
+  // список прокручен — шапке листа тень (пункты уходят под неё); ниже ещё есть пункты — гаснет нижний край
   const listRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [more, setMore] = useState(false);
+  const onListScroll = (el: HTMLElement) => {
+    setScrolled(el.scrollTop > 4);
+    setMore(el.scrollTop + el.clientHeight < el.scrollHeight - 4);
+  };
 
   const open = () => {
     const dialog = dialogRef.current;
@@ -76,6 +87,7 @@ export function QuickNav() {
     setParts(read.parts);
     setActivePart(read.active);
     setHere(document.title.split(" — ")[0]);
+    setTab(read.parts.length ? "page" : "menu");
     listRef.current?.scrollTo({ top: 0 });
     setScrolled(false);
     dialog.style.translate = "";
@@ -84,6 +96,15 @@ export function QuickNav() {
   };
 
   const close = () => dialogRef.current?.close();
+
+  // открыли лист или сменили вкладку — пересчитать, гаснет ли нижний край (событий прокрутки ещё не было)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: пересчёт при смене содержимого
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (listRef.current) onListScroll(listRef.current);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [tab, parts]);
 
   // сменилась страница (переход из листа, «назад») — лист закрыт
   // biome-ignore lint/correctness/useExhaustiveDependencies: закрываем именно при смене адреса
@@ -185,45 +206,71 @@ export function QuickNav() {
               <X width={18} height={18} aria-hidden="true" />
             </button>
           </header>
-
-          <div
-            ref={listRef}
-            onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 4)}
-            className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-14 pt-4 pb-24 flex flex-col gap-22"
-          >
+          {/* две вкладки: разделы этой страницы и всё меню справки */}
+          <div className="shrink-0 flex flex-col gap-12 px-14 pb-10">
             {docs && <DocsTabs variant="sheet" onNavigate={close} />}
-
-            {parts.length > 0 && (
-              <section className="flex flex-col">
-                <h3 className={HEADING}>На этой странице</h3>
-                <ol className="flex flex-col gap-2">
+            <div className="grid grid-cols-2 gap-4 p-3 br-full bg-foreground/5">
+              {(
+                [
+                  ["page", "На странице", parts.length],
+                  ["menu", "Меню справки", MENU_COUNT],
+                ] as const
+              ).map(([id, title, count]) => (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={tab === id}
+                  disabled={id === "page" && !parts.length}
+                  onClick={() => {
+                    setTab(id);
+                    listRef.current?.scrollTo({ top: 0 });
+                  }}
+                  className="flex items-center justify-center gap-6 h-34 br-full font-13 font-w-600 text-foreground-muted transition aria-pressed:bg-surface aria-pressed:text-foreground aria-pressed:shadow-2 disabled:opacity-40"
+                >
+                  {title}
+                  <span className="min-w-20 px-5 br-full bg-foreground/8 font-11 tabular-nums">
+                    {count}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+          {/* список: края плавно гаснут — сверху, когда прокрутили, снизу, пока есть что листать */}
+          <div className="relative flex-1 min-h-0 flex flex-col">
+            <div
+              ref={listRef}
+              onScroll={(e) => onListScroll(e.currentTarget)}
+              className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-14 pt-6 pb-28"
+            >
+              {tab === "page" ? (
+                <ol className="relative flex flex-col before:absolute before:left-[29px] before:top-24 before:bottom-24 before:w-2 before:br-full before:bg-foreground/8">
                   {parts.map((part, i) => {
                     const on = part.id === activePart;
                     return (
-                      <li key={part.id} className="flex flex-col gap-6">
+                      <li key={part.id} className="relative flex flex-col">
                         <a
                           href={`#${part.id}`}
                           onClick={close}
                           aria-current={on ? "location" : undefined}
-                          className={`${ROW} aria-[current=location]:bg-secondary/10`}
+                          className={`${ROW} aria-[current=location]:bg-secondary/10 aria-[current=location]:text-secondary`}
                         >
                           <span
                             aria-hidden="true"
-                            className={`size-32 shrink-0 br-full grid place-items-center font-12 font-w-700 tabular-nums ${on ? "bg-secondary text-secondary-foreground" : "bg-foreground/5 text-foreground-muted"}`}
+                            className={`relative z-1 size-32 shrink-0 br-full grid place-items-center font-12 font-w-700 tabular-nums shadow-[0_0_0_4px_var(--surface)] ${on ? "bg-secondary text-secondary-foreground" : "bg-surface-muted text-foreground-muted"}`}
                           >
-                            {String(i + 1).padStart(2, "0")}
+                            {i + 1}
                           </span>
                           <span className="flex-1 min-w-0 font-15 font-w-500">
                             {part.title}
                           </span>
-                          <ChevronRight
-                            size="sm"
-                            className="shrink-0 text-foreground-subtle"
-                            aria-hidden="true"
-                          />
+                          {on && (
+                            <span className="shrink-0 px-8 py-2 br-full bg-secondary/12 font-11 font-w-600">
+                              вы здесь
+                            </span>
+                          )}
                         </a>
                         {part.subs.length > 0 && (
-                          <ul className="flex flex-wrap gap-6 pl-52 pb-6">
+                          <ul className="flex flex-wrap gap-6 pl-52 pb-8">
                             {part.subs.map((sub) => (
                               <li key={sub.id}>
                                 <a
@@ -241,44 +288,48 @@ export function QuickNav() {
                     );
                   })}
                 </ol>
-              </section>
-            )}
-
-            {DOCS_NAV.map((group) => {
-              const links = group.links.filter((l) => l.ready);
-              if (!links.length) return null;
-              return (
-                <section key={group.title} className="flex flex-col">
-                  <h3 className={HEADING}>{group.title}</h3>
-                  {/* группа — общей плашкой с тонкими разделителями, как списки настроек iOS */}
-                  <ul className="flex flex-col p-4 br-20 bg-foreground/4 dark:bg-foreground/6">
-                    {links.map((link) => (
-                      <li
-                        key={link.href}
-                        className="[&+li]:border-t [&+li]:border-foreground/6"
+              ) : (
+                <div className="flex flex-col gap-18">
+                  {/* платформа — и на телефоне, где левого меню нет */}
+                  <PlatformSwitch />
+                  {DOCS_NAV.map((group) => {
+                    const links = group.links.filter((l) => l.ready);
+                    if (!links.length) return null;
+                    return (
+                      <section
+                        key={group.title}
+                        className="flex flex-col gap-8"
                       >
-                        <Link
-                          href={link.href}
-                          onClick={close}
-                          aria-current={
-                            pathname === link.href ? "page" : undefined
-                          }
-                          className={`${ROW} px-12 font-15 aria-[current=page]:bg-surface aria-[current=page]:shadow-1 aria-[current=page]:font-w-600 aria-[current=page]:text-secondary`}
-                        >
-                          <span className="flex-1 min-w-0">{link.title}</span>
-                          <ChevronRight
-                            size="sm"
-                            className="shrink-0 text-foreground-subtle"
-                            aria-hidden="true"
-                          />
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              );
-            })}
-          </div>
+                        <h3 className={HEADING}>{group.title}</h3>
+                        {/* плитки в две колонки: всё меню видно почти без прокрутки */}
+                        <ul className="grid grid-cols-2 gap-6">
+                          {links.map((link) => (
+                            <li key={link.href} className="min-w-0">
+                              <Link
+                                href={link.href}
+                                onClick={close}
+                                aria-current={
+                                  pathname === link.href ? "page" : undefined
+                                }
+                                className="flex items-center min-h-42 px-12 py-8 br-14 bg-foreground/4 font-14 font-w-500 transition-[background-color,scale] hover:bg-foreground/8 active:scale-97 aria-[current=page]:bg-secondary aria-[current=page]:text-secondary-foreground aria-[current=page]:font-w-600"
+                              >
+                                <span className="truncate">{link.title}</span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </section>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <span
+              aria-hidden="true"
+              data-shown={more || undefined}
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-56 bg-[linear-gradient(transparent,var(--surface)_85%)] opacity-0 transition-opacity duration-300 data-shown:opacity-100"
+            />
+          </div>{" "}
         </div>
       </dialog>
     </>

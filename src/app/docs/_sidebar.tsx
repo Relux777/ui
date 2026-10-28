@@ -6,12 +6,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { DOCS_NAV } from "./_nav";
+import { PlatformSwitch } from "./_platform-switch";
 
 export function DocsSidebar() {
   const pathname = usePathname();
 
   return (
     <nav aria-label="Документация" className="flex flex-col gap-24 font-14">
+      {/* платформа — сверху: от неё зависят шаги и код на страницах */}
+      <PlatformSwitch />
       {DOCS_NAV.map((group) => (
         <div key={group.title} className="flex flex-col gap-6">
           <h2 className="font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle">
