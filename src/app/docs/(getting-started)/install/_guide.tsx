@@ -318,7 +318,7 @@ export function InstallGuide() {
           </li>
           {platform?.node ? (
             <li
-              className={`${CHIP} border-green-500/20 bg-green-500/8 text-green-700 dark:text-green-500`}
+              className={`${CHIP} border-green-500/20 bg-green-500/8 text-green-600 dark:text-green-500`}
             >
               <Nodejs size="xs" aria-hidden="true" />
               Нужен Node.js 20+
