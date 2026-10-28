@@ -5,6 +5,9 @@
 // движок собирает только классы, написанные в коде целиком, а здесь цвет выбирают на лету.
 // «Две темы рядом» — островки data-theme="light" / "dark": токены пересчитываются внутри них.
 
+import { ChevronDown } from "@boxicons/react/ChevronDown";
+import { InfoCircle } from "@boxicons/react/InfoCircle";
+import { Shuffle } from "@boxicons/react/Shuffle";
 import {
   type CSSProperties,
   type ReactNode,
@@ -19,7 +22,7 @@ import {
   CopyIcon,
   useCopy,
 } from "../../../../_docs/copy-button";
-import { COLORS, STEPS } from "../../../../_docs/docs";
+import { COLORS, CodeBlock, STEPS } from "../../../../_docs/docs";
 
 // ── Данные ──────────────────────────────────────────────────────────────────
 
@@ -63,7 +66,7 @@ const PREFIXES = [
 type Prefix = (typeof PREFIXES)[number]["id"];
 
 // цвет: смысловой токен или цвет палитры с оттенком
-type Pick = { family: string; step: number };
+export type Pick = { family: string; step: number };
 const isToken = (family: string) => TOKENS.some((t) => t.name === family);
 const colorName = ({ family, step }: Pick) =>
   isToken(family) ? family : `${family}-${step}`;
@@ -94,7 +97,7 @@ function Theme({
 }
 
 // кнопка «скопировать класс» с общим откликом копирования
-function CopyClass({
+export function CopyClass({
   text,
   className = "",
 }: {
@@ -116,8 +119,14 @@ function CopyClass({
   );
 }
 
-// выбор цвета: смысловой токен или цвет палитры + оттенок ползунком
-function ColorSelect({
+// цвет палитры white/black — без оттенка
+export const nameOf = (p: Pick) =>
+  p.family === "white" || p.family === "black" ? p.family : colorName(p);
+
+// Выбор цвета — свой выпадающий список вместо <select>: у каждого варианта виден сам цвет. Две вкладки:
+// «Смысловые» — список токенов с образцом и пояснением, «Палитра» — сетка 14 × 11, оттенок выбирается сразу.
+// Панель выезжает на пружине; Esc или нажатие мимо закрывают; под кнопкой — ползунок оттенка палитры.
+export function ColorPicker({
   label,
   value,
   onChange,
@@ -127,44 +136,174 @@ function ColorSelect({
   onChange: (p: Pick) => void;
 }) {
   const id = useId();
+  const root = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<"tokens" | "palette">(
+    isToken(value.family) ? "tokens" : "palette",
+  );
+  const name = nameOf(value);
   const token = isToken(value.family);
+  const palette =
+    !token && value.family !== "white" && value.family !== "black";
   const index = STEPS.indexOf(value.step);
+
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: PointerEvent) => {
+      if (!root.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const esc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    addEventListener("pointerdown", away);
+    addEventListener("keydown", esc);
+    return () => {
+      removeEventListener("pointerdown", away);
+      removeEventListener("keydown", esc);
+    };
+  }, [open]);
+
+  const choose = (p: Pick) => {
+    onChange(p);
+    setOpen(false);
+  };
+
   return (
-    <div className="flex flex-col gap-8 min-w-0">
-      <label htmlFor={id} className={LABEL}>
+    <div ref={root} className="relative flex flex-col gap-8 min-w-0">
+      <span id={`${id}-label`} className={LABEL}>
         {label}
-      </label>
-      <div className="flex items-center gap-8">
+      </span>
+      <button
+        type="button"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-labelledby={`${id}-label ${id}-value`}
+        onClick={() => setOpen((o) => !o)}
+        className="group flex items-center gap-10 h-44 pl-6 pr-12 br-lg border bg-surface text-left transition-[border-color,box-shadow] hover:border-border-strong aria-expanded:border-secondary aria-expanded:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+      >
         <span
           aria-hidden="true"
-          className="size-36 shrink-0 br-md border"
-          style={{ background: `var(--${nameOf(value)})` }}
+          className="size-32 shrink-0 br-md border border-foreground/10 shadow-1"
+          style={{ background: `var(--${name})` }}
         />
-        <select
-          id={id}
-          value={value.family}
-          onChange={(e) => onChange({ ...value, family: e.target.value })}
-          className="flex-1 min-w-0 h-36 px-10 br-md border bg-surface font-14 touch:text-[16px]"
-        >
-          <optgroup label="Смысловые">
+        <span id={`${id}-value`} className="flex-1 min-w-0 flex flex-col">
+          <span className="truncate font-14 font-w-600 font-mono">{name}</span>
+          <span className="truncate font-11 text-foreground-muted">
+            {token
+              ? TOKENS.find((t) => t.name === value.family)?.note
+              : "цвет палитры"}
+          </span>
+        </span>
+        <ChevronDown
+          size="sm"
+          aria-hidden="true"
+          className="shrink-0 text-foreground-muted transition-[rotate] duration-400 ease-spring group-[[aria-expanded=true]]:rotate-180"
+        />
+      </button>
+
+      {/* панель: всегда в разметке, появляется и прячется переходом (пружина) */}
+      <div
+        role="dialog"
+        aria-label={`${label}: выбор цвета`}
+        data-open={open || undefined}
+        inert={!open}
+        className="absolute top-full left-0 z-20 mt-6 w-[min(360px,calc(100vw-40px))] flex flex-col gap-10 p-10 br-xl border bg-surface shadow-5 origin-top-left opacity-0 scale-95 -translate-y-6 invisible transition-[opacity,scale,translate,visibility] duration-300 ease-spring data-open:opacity-100 data-open:scale-100 data-open:translate-y-0 data-open:visible motion-reduce:transition-none"
+      >
+        <div className="grid grid-cols-2 gap-4 p-3 br-full bg-foreground/5">
+          {(
+            [
+              ["tokens", "Смысловые"],
+              ["palette", "Палитра"],
+            ] as const
+          ).map(([t, title]) => (
+            <button
+              key={t}
+              type="button"
+              aria-pressed={tab === t}
+              onClick={() => setTab(t)}
+              className="h-30 br-full font-12 font-w-600 text-foreground-muted transition aria-pressed:bg-surface aria-pressed:text-foreground aria-pressed:shadow-2"
+            >
+              {title}
+            </button>
+          ))}
+        </div>
+
+        {tab === "tokens" ? (
+          <ul className="flex flex-col max-h-300 overflow-y-auto overscroll-contain -mx-2 px-2">
             {TOKENS.map((t) => (
-              <option key={t.name} value={t.name}>
-                {t.name}
-              </option>
+              <li key={t.name}>
+                <button
+                  type="button"
+                  aria-current={value.family === t.name || undefined}
+                  onClick={() => choose({ ...value, family: t.name })}
+                  className="w-full flex items-center gap-10 px-8 py-6 br-md text-left transition-colors hover:bg-foreground/5 aria-[current]:bg-secondary/10"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="size-24 shrink-0 br-sm border border-foreground/10"
+                    style={{ background: `var(--${t.name})` }}
+                  />
+                  <span className="flex-1 min-w-0 flex flex-col">
+                    <span className="truncate font-13 font-mono font-w-500">
+                      {t.name}
+                    </span>
+                    <span className="truncate font-11 text-foreground-muted">
+                      {t.note}
+                    </span>
+                  </span>
+                </button>
+              </li>
             ))}
-          </optgroup>
-          <optgroup label="Палитра">
+          </ul>
+        ) : (
+          <div className="flex flex-col gap-3 max-h-300 overflow-y-auto overscroll-contain">
             {COLORS.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
+              <div
+                key={c}
+                className="grid grid-cols-[52px_repeat(11,minmax(0,1fr))] items-center gap-3"
+              >
+                <span className="font-11 text-foreground-muted truncate">
+                  {c}
+                </span>
+                {STEPS.map((s) => {
+                  const on = value.family === c && value.step === s;
+                  return (
+                    <button
+                      key={s}
+                      type="button"
+                      title={`${c}-${s}`}
+                      aria-label={`${c}-${s}`}
+                      aria-current={on || undefined}
+                      onClick={() => choose({ family: c, step: s })}
+                      className="h-22 br-xs transition-[scale,box-shadow] duration-200 hover:scale-125 hover:z-1 hover:shadow-3 aria-[current]:shadow-[0_0_0_2px_var(--surface),0_0_0_4px_var(--foreground)] aria-[current]:z-1"
+                      style={{ background: `var(--${c}-${s})` }}
+                    />
+                  );
+                })}
+              </div>
             ))}
-            <option value="white">white</option>
-            <option value="black">black</option>
-          </optgroup>
-        </select>
+            <div className="flex gap-6 pt-4">
+              {(["white", "black"] as const).map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => choose({ family: c, step: value.step })}
+                  className="flex items-center gap-6 h-26 px-8 br-full border font-11 font-mono transition-colors hover:bg-foreground/5"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="size-12 br-full border"
+                    style={{ background: `var(--${c})` }}
+                  />
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-      {!token && value.family !== "white" && value.family !== "black" && (
+
+      {palette && (
         <div className="flex items-center gap-10">
           <input
             type="range"
@@ -186,10 +325,6 @@ function ColorSelect({
   );
 }
 
-// цвет палитры white/black — без оттенка
-const nameOf = (p: Pick) =>
-  p.family === "white" || p.family === "black" ? p.family : colorName(p);
-
 // ── Смысловые цвета в двух темах ────────────────────────────────────────────
 
 export function TokenGrid() {
@@ -204,7 +339,7 @@ export function TokenGrid() {
                   className="absolute inset-0"
                   style={{ background: `var(--${t.name})` }}
                 />
-                <span className="absolute bottom-4 left-6 font-10 font-w-600 text-foreground-muted [text-shadow:0_0_6px_var(--background)]">
+                <span className="absolute bottom-4 left-4 px-4 br-xs bg-background/70 font-10 font-w-600 text-foreground-muted">
                   {theme === "light" ? "светлая" : "тёмная"}
                 </span>
               </Theme>
@@ -352,7 +487,7 @@ export function ColorBuilder() {
 
   return (
     <div
-      className={`${PANEL} grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] overflow-hidden`}
+      className={`${PANEL} grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]`}
     >
       <div className="flex flex-col gap-18 p-16 sm:p-20 border-b lg:border-b-0 lg:border-r">
         <div className="flex flex-col gap-8">
@@ -371,7 +506,7 @@ export function ColorBuilder() {
             ))}
           </div>
         </div>
-        <ColorSelect label="Цвет" value={color} onChange={setColor} />
+        <ColorPicker label="Цвет" value={color} onChange={setColor} />
         <div className="flex flex-col gap-8">
           <label className={LABEL} htmlFor="color-alpha">
             Непрозрачность — {alpha}%
@@ -405,7 +540,7 @@ export function ColorBuilder() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-14 p-16 sm:p-20 bg-surface-muted/40">
+      <div className="flex flex-col gap-14 p-16 sm:p-20">
         <div className="grid grid-cols-2 gap-10">
           {(["light", "dark"] as const).map((theme) => (
             <Theme
@@ -434,11 +569,13 @@ export function ColorBuilder() {
 
 // ── Контраст ────────────────────────────────────────────────────────────────
 
-// любой цвет CSS → [r, g, b] 0…255: браузер сам переводит oklch, color-mix и переменные
-function toRgb(cssColor: string, canvas: HTMLCanvasElement) {
+// любой цвет CSS → [r, g, b] 0…255: браузер сам переводит oklch, color-mix и переменные. Полупрозрачный
+// цвет (bg-violet-500/10) смешивается с подложкой backdrop — каким его и видит глаз
+function toRgb(cssColor: string, canvas: HTMLCanvasElement, backdrop = "#fff") {
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (!ctx) return [0, 0, 0];
-  ctx.clearRect(0, 0, 1, 1);
+  ctx.fillStyle = backdrop;
+  ctx.fillRect(0, 0, 1, 1);
   ctx.fillStyle = "#000";
   ctx.fillStyle = cssColor;
   ctx.fillRect(0, 0, 1, 1);
@@ -496,8 +633,8 @@ export function ContrastChecker() {
   return (
     <div className={`${PANEL} flex flex-col gap-16 p-16 sm:p-20`}>
       <div className="grid sm:grid-cols-2 gap-16">
-        <ColorSelect label="Текст" value={fg} onChange={setFg} />
-        <ColorSelect label="Фон" value={bg} onChange={setBg} />
+        <ColorPicker label="Текст" value={fg} onChange={setFg} />
+        <ColorPicker label="Фон" value={bg} onChange={setBg} />
       </div>
       <div className="grid sm:grid-cols-2 gap-10">
         {(["light", "dark"] as const).map((theme) => {
@@ -545,6 +682,314 @@ export function ContrastChecker() {
         AA — 4.5:1 для обычного текста, AAA — 7:1, крупный текст (от 24px или
         19px жирным) — 3:1. Так советует WCAG 2.
       </p>
+    </div>
+  );
+}
+
+// ── Конструктор стиля: цвет → готовые классы элемента ──────────────────────
+
+const VARIANTS = {
+  solid: "Залитый",
+  soft: "Мягкий",
+  outline: "Контур",
+  ghost: "Прозрачный",
+} as const;
+type Variant = keyof typeof VARIANTS;
+
+const ELEMENTS = {
+  button: {
+    title: "Кнопка",
+    tag: "button",
+    layout: "h-40 px-18 br-full font-14 font-w-600",
+  },
+  badge: {
+    title: "Метка",
+    tag: "span",
+    layout: "px-10 py-2 br-full font-12 font-w-600",
+  },
+  alert: {
+    title: "Сообщение",
+    tag: "div",
+    layout: "flex items-center gap-10 p-14 br-lg font-14",
+  },
+  card: {
+    title: "Карточка",
+    tag: "div",
+    layout: "flex flex-col gap-4 p-20 br-xl",
+  },
+} as const;
+type Element = keyof typeof ELEMENTS;
+
+const TEXT = {
+  button: "Кнопка",
+  badge: "Метка",
+  alert: "Изменения сохранены",
+  card: "Карточка",
+};
+
+// у этих токенов есть пара для текста на них
+const PAIRED = ["primary", "secondary", "accent"];
+
+// классы цвета по стилю; n — цвет, f — текст на залитом фоне
+function colorClasses(
+  v: Variant,
+  el: Element,
+  n: string,
+  f: string,
+  hover: boolean,
+) {
+  const framed = el === "alert" || el === "card";
+  const list: Record<Variant, string[]> = {
+    solid: [`bg-${n}`, `text-${f}`],
+    soft: [
+      `bg-${n}/10`,
+      `text-${n}`,
+      ...(framed ? ["border", `border-${n}/25`] : []),
+    ],
+    outline: ["border", `border-${n}`, `text-${n}`],
+    ghost: [`text-${n}`],
+  };
+  const hovers: Record<Variant, string> = {
+    solid: `hover:bg-${n}/90`,
+    soft: `hover:bg-${n}/15`,
+    outline: `hover:bg-${n}/10`,
+    ghost: `hover:bg-${n}/10`,
+  };
+  return [...list[v], ...(hover ? [hovers[v]] : [])];
+}
+
+// то же — для превью: фон через переменные (--b, --hb) и классы ниже, цвет и рамка — style
+const mix = (n: string, p: number) =>
+  `color-mix(in oklab, var(--${n}) ${p}%, transparent)`;
+function previewStyle(v: Variant, el: Element, n: string, f: string) {
+  const framed = el === "alert" || el === "card";
+  const s: Record<string, string> = {};
+  if (v === "solid")
+    Object.assign(s, {
+      "--b": `var(--${n})`,
+      "--hb": mix(n, 90),
+      color: `var(--${f})`,
+    });
+  if (v === "soft")
+    Object.assign(s, {
+      "--b": mix(n, 10),
+      "--hb": mix(n, 15),
+      color: `var(--${n})`,
+      ...(framed ? { border: `1px solid ${mix(n, 25)}` } : {}),
+    });
+  if (v === "outline")
+    Object.assign(s, {
+      "--b": "transparent",
+      "--hb": mix(n, 10),
+      color: `var(--${n})`,
+      border: `1px solid var(--${n})`,
+    });
+  if (v === "ghost")
+    Object.assign(s, {
+      "--b": "transparent",
+      "--hb": mix(n, 10),
+      color: `var(--${n})`,
+    });
+  return s as CSSProperties;
+}
+
+export function StyleBuilder() {
+  const [color, setColor] = useState<Pick>({ family: "violet", step: 500 });
+  const [variant, setVariant] = useState<Variant>("soft");
+  const [el, setEl] = useState<Element>("button");
+  const [hover, setHover] = useState(true);
+  const [jsx, setJsx] = useState(false);
+  // текст на залитом фоне: пара токена или белый / почти чёрный — что контрастнее
+  const [onFill, setOnFill] = useState("white");
+  const [ratios, setRatios] = useState<Record<string, number>>({});
+  const probes = useRef<Record<string, HTMLElement | null>>({});
+
+  const n = nameOf(color);
+  const f = PAIRED.includes(n) ? `${n}-foreground` : onFill;
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: пересчёт при смене набора
+  useEffect(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 1;
+    const light = probes.current.light;
+    // цвет на белом и на почти чёрном — что контрастнее, тем и пишем текст на залитом фоне
+    const probe = document.createElement("span");
+    probe.style.color = `var(--${n})`;
+    light?.appendChild(probe);
+    const rgb = toRgb(getComputedStyle(probe).color, canvas);
+    probe.remove();
+    setOnFill(
+      contrast(rgb, [255, 255, 255]) >= contrast(rgb, [11, 11, 13])
+        ? "white"
+        : "gray-950",
+    );
+    // контраст текста элемента к его фону — когда цвета доедут (у образца переход 200 мс)
+    const timer = setTimeout(() => {
+      const next: Record<string, number> = {};
+      for (const theme of ["light", "dark"]) {
+        const node = probes.current[theme];
+        if (!node) continue;
+        // фон элемента (может быть полупрозрачным) поверх фона под ним — как видит глаз
+        const s = getComputedStyle(node);
+        const under = getComputedStyle(
+          node.parentElement as HTMLElement,
+        ).backgroundColor;
+        const back = toRgb(s.backgroundColor, canvas, under);
+        const text = toRgb(s.color, canvas, `rgb(${back.join(",")})`);
+        next[theme] = contrast(text, back);
+      }
+      setRatios(next);
+    }, 260);
+    return () => clearTimeout(timer);
+  }, [n, variant, el, onFill]);
+
+  const { tag, layout } = ELEMENTS[el];
+  const classes = [layout, ...colorClasses(variant, el, n, f, hover)].join(" ");
+  const attr = jsx ? "className" : "class";
+  const inner =
+    el === "card"
+      ? `\n  <h3 class="font-16 font-w-600">Карточка</h3>\n  <p>Цвет — из токенов RenDit</p>\n`
+      : TEXT[el];
+  const code = `<${tag} ${attr}="${classes}">${el === "card" ? inner.replaceAll("class=", `${attr}=`) : inner}</${tag}>`;
+
+  const random = () => {
+    const c = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const s = [400, 500, 600][Math.floor(Math.random() * 3)];
+    const vs = Object.keys(VARIANTS) as Variant[];
+    setColor({ family: c, step: s });
+    setVariant(vs[Math.floor(Math.random() * vs.length)]);
+  };
+
+  const sample = (theme: "light" | "dark") => (
+    <div className="grid place-items-center min-h-120 p-16 br-lg bg-background">
+      <div
+        ref={(node) => {
+          probes.current[theme] = node;
+        }}
+        className={`${ELEMENTS[el].layout} [background-color:var(--b)] transition-colors duration-200 ${hover ? "hover:[background-color:var(--hb)]" : ""} ${el === "button" ? "cursor-pointer active:scale-97" : ""}`}
+        style={previewStyle(variant, el, n, f)}
+      >
+        {el === "alert" && <InfoCircle size="sm" aria-hidden="true" />}
+        {el === "card" ? (
+          <>
+            <span className="font-16 font-w-600">Карточка</span>
+            <span className="font-13 opacity-80">Цвет — из токенов RenDit</span>
+          </>
+        ) : (
+          TEXT[el]
+        )}
+      </div>
+    </div>
+  );
+
+  const SEG =
+    "h-32 px-12 br-full font-13 font-w-600 text-foreground-muted transition aria-pressed:bg-surface aria-pressed:text-foreground aria-pressed:shadow-2";
+
+  return (
+    <div
+      className={`${PANEL} grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]`}
+    >
+      <div className="flex flex-col gap-18 p-16 sm:p-20 border-b lg:border-b-0 lg:border-r">
+        <ColorPicker label="Цвет" value={color} onChange={setColor} />
+        <div className="flex flex-col gap-8">
+          <span className={LABEL}>Стиль</span>
+          <div className="grid grid-cols-2 gap-4 p-3 br-xl bg-foreground/5">
+            {(Object.keys(VARIANTS) as Variant[]).map((v) => (
+              <button
+                key={v}
+                type="button"
+                aria-pressed={variant === v}
+                onClick={() => setVariant(v)}
+                className={SEG}
+              >
+                {VARIANTS[v]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col gap-8">
+          <span className={LABEL}>Элемент</span>
+          <div className="grid grid-cols-2 gap-4 p-3 br-xl bg-foreground/5">
+            {(Object.keys(ELEMENTS) as Element[]).map((e) => (
+              <button
+                key={e}
+                type="button"
+                aria-pressed={el === e}
+                onClick={() => setEl(e)}
+                className={SEG}
+              >
+                {ELEMENTS[e].title}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-8">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={hover}
+            onClick={() => setHover((h) => !h)}
+            className="group flex items-center gap-8 font-13 font-w-500"
+          >
+            <span className="relative w-36 h-22 br-full bg-foreground/15 transition-colors group-[[aria-checked=true]]:bg-secondary before:absolute before:top-3 before:left-3 before:size-16 before:br-full before:bg-white before:shadow-2 before:transition-[translate] before:duration-300 before:ease-spring group-[[aria-checked=true]]:before:translate-x-14" />
+            Ярче при наведении
+          </button>
+          <button
+            type="button"
+            onClick={random}
+            className="ml-auto flex items-center gap-6 h-32 px-12 br-full border font-13 font-w-600 transition hover:bg-foreground/5 active:scale-95"
+          >
+            <Shuffle size="xs" aria-hidden="true" />
+            Случайный
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-14 p-16 sm:p-20 min-w-0">
+        <div className="grid grid-cols-2 gap-10">
+          {(["light", "dark"] as const).map((theme) => (
+            <Theme
+              key={theme}
+              theme={theme}
+              className="flex flex-col gap-8 p-10 br-lg border"
+            >
+              <div className="flex items-center justify-between gap-6 px-2">
+                <span className="font-11 font-w-600 text-foreground-muted">
+                  {theme === "light" ? "Светлая" : "Тёмная"}
+                </span>
+                {ratios[theme] ? (
+                  <span
+                    className={`font-11 font-w-700 tabular-nums ${ratios[theme] >= 4.5 ? "text-success" : ratios[theme] >= 3 ? "text-warning" : "text-danger"}`}
+                    title="Контраст текста к фону"
+                  >
+                    {ratios[theme].toFixed(1)}:1
+                  </span>
+                ) : null}
+              </div>
+              {sample(theme)}
+            </Theme>
+          ))}
+        </div>
+        <div className="flex flex-col gap-8 min-w-0">
+          <div className="flex items-center justify-between gap-8">
+            <span className={LABEL}>Классы</span>
+            <div className="flex gap-2 p-2 br-full bg-foreground/5">
+              {[false, true].map((j) => (
+                <button
+                  key={String(j)}
+                  type="button"
+                  aria-pressed={jsx === j}
+                  onClick={() => setJsx(j)}
+                  className="h-24 px-10 br-full font-11 font-w-600 text-foreground-muted transition aria-pressed:bg-surface aria-pressed:text-foreground aria-pressed:shadow-1"
+                >
+                  {j ? "JSX" : "HTML"}
+                </button>
+              ))}
+            </div>
+          </div>
+          <CodeBlock file={jsx ? "Page.tsx" : "index.html"} code={code} />
+        </div>
+      </div>
     </div>
   );
 }

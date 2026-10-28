@@ -1,7 +1,8 @@
 // Шапка «Две таблетки».
 // Наверху страницы шапка прозрачная: ни фона, ни размытия. Прокрутили вниз (data-scrolled на <html>, ставит
 // встроенный скрипт из scroll-state.ts) — логотип и кнопки справа остаются на своих местах, каждый блок в своей
-// стеклянной таблетке (blur 12, shadow-7); название, версия и кнопка темы уходят (тема есть в быстром меню NavBar).
+// стеклянной таблетке (blur 12, shadow-7); название, версия и кнопка темы уходят (тема есть в быстром меню NavBar);
+// вверху экрана проявляется градиент цвета фона — содержимое плавно уходит под шапку.
 // У самой шапки размытия нет никогда: элемент с backdrop-filter стал бы «корнем» размытия, и стекло таблеток
 // внутри него ничего бы не размывало. «Прожектор» (spotlight.tsx) — тусклый свет за курсором по таблеткам.
 // Открыли поиск (data-search на <html>, ставит Search) — шапка сворачивается так же, как после прокрутки:
@@ -35,8 +36,11 @@ const SPOT = "hidden [:is([data-scrolled],[data-search])_&]:block";
 export default async function HeaderComponent() {
   return (
     // под «чёлкой» и строкой состояния iPhone (приложение с экрана «Домой»): отступ safe-area сверху —
-    // margin в начале страницы и top, когда шапка прилипла
-    <header className="sticky top-[calc(5px+env(safe-area-inset-top))] mt-[env(safe-area-inset-top)] z-30">
+    // margin в начале страницы и top, когда шапка прилипла.
+    // ::before — градиент цвета фона вверху экрана (90px, от сплошного к прозрачному): после прокрутки текст
+    // плавно уходит под шапку, а не обрезается краем экрана. Под таблетками (z −2), клики проходят насквозь;
+    // наверху страницы его нет — там под шапкой свечение .aura
+    <header className="sticky top-[calc(5px+env(safe-area-inset-top))] mt-[env(safe-area-inset-top)] z-30 before:fixed before:inset-x-0 before:top-0 before:h-90 before:-z-2 before:pointer-events-none before:bg-[linear-gradient(to_bottom,var(--background)_0%,color-mix(in_oklab,var(--background)_60%,transparent)_50%,transparent_100%)] before:opacity-0 before:transition-opacity before:duration-450 [[data-scrolled]_&]:before:opacity-100 motion-reduce:before:transition-none">
       <nav className="container h-48 grid grid-cols-[1fr_auto_1fr] items-center gap-16">
         <div className="flex items-center gap-10 justify-self-start">
           {/* логотип с названием — одна таблетка, как кнопки справа; −8px — логотип там же, где был.

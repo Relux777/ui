@@ -39,8 +39,9 @@ test("«Блог» выбран во всём /blog", () => {
   assert.notEqual(activeIndex("/blogger"), at("Блог"));
 });
 
-test("пункт без страницы (Меню) никогда не выбирается адресом", () => {
-  for (const path of ["/", "/blog", "/menu", "/docs", "/x"])
+test("«Меню» — своя страница /menu", () => {
+  assert.equal(activeIndex("/menu"), at("Меню"));
+  for (const path of ["/", "/blog", "/docs", "/x"])
     assert.notEqual(activeIndex(path), at("Меню"), path);
 });
 

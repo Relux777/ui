@@ -1,12 +1,12 @@
 // Пункты нижнего меню и выбор пункта текущей страницы. Без React и иконок — проверяется тестом (routes.test.ts).
 
-// href: null — пункт без своей страницы; panel — открывает окно быстрого доступа.
-// match — раздел пункта, если он шире самой ссылки: «Справка» ведёт на установку, а выбрана во всём /docs
+// match — раздел пункта, если он шире самой ссылки: «Справка» ведёт на установку, а выбрана во всём /docs.
+// «Меню» — отдельная страница (окно быстрого доступа открывает кнопка в шапке)
 export const ROUTES = [
   { label: "Главная", href: "/" },
   { label: "Справка", href: "/docs/install", match: "/docs" },
   { label: "Блог", href: "/blog" },
-  { label: "Меню", href: null, panel: true },
+  { label: "Меню", href: "/menu" },
 ] as const;
 
 type Route = { readonly href: string | null; readonly match?: string };

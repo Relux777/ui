@@ -25,7 +25,6 @@ import { Newspaper } from "@boxicons/react/Newspaper";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { type CSSProperties, type MouseEvent, useRef, useState } from "react";
-import { openQuickNav } from "@/components/ui/QuickNav/open";
 import styles from "./navbar.module.scss";
 import { QuickMenu } from "./quick-menu";
 import { activeIndex, ROUTES } from "./routes";
@@ -110,7 +109,7 @@ export default function NavBarComponent() {
           <div className={`${styles.track} flex`}>
             {ITEMS.map((item, i) => {
               const { label, href, icon: Icon } = item;
-              return href ? (
+              return (
                 <Link
                   key={label}
                   href={href}
@@ -128,26 +127,6 @@ export default function NavBarComponent() {
                   />
                   <span>{label}</span>
                 </Link>
-              ) : (
-                <button
-                  key={label}
-                  type="button"
-                  data-nav-item
-                  aria-haspopup={"panel" in item ? "dialog" : undefined}
-                  // «Меню» открывает окно по click, а не при отпускании пальца: иначе click, который браузер
-                  // присылает следом, пришёлся бы уже по открытому окну
-                  onClick={() => {
-                    if (onItemClick(i) && "panel" in item) openQuickNav();
-                  }}
-                  className={LINK}
-                >
-                  <Icon
-                    width={ICON_SIZE}
-                    height={ICON_SIZE}
-                    aria-hidden="true"
-                  />
-                  <span>{label}</span>
-                </button>
               );
             })}
           </div>

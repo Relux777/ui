@@ -15,18 +15,10 @@ import { MenuRight } from "@boxicons/react/MenuRight";
 import { X } from "@boxicons/react/X";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  type PointerEvent,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
+import { type PointerEvent, useEffect, useId, useRef, useState } from "react";
 import { DOCS_NAV } from "@/app/docs/_nav";
 import { DocsTabs } from "@/components/DocsTabs";
 import { activeTab } from "@/components/DocsTabs/tabs";
-import { QUICK_NAV_EVENT } from "./open";
 
 type Part = {
   id: string;
@@ -56,7 +48,7 @@ function readParts() {
 }
 
 const ROW =
-  "flex items-center gap-12 p-8 br-16 transition-colors hover:bg-foreground/5 active:bg-foreground/8";
+  "flex items-center gap-12 min-h-48 px-8 py-6 br-16 transition-colors hover:bg-foreground/5 active:bg-foreground/8";
 const HEADING =
   "px-8 pb-6 font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle";
 
@@ -73,26 +65,25 @@ export function QuickNav() {
   const [activePart, setActivePart] = useState<string>();
   // где вы сейчас — название страницы из <title> («Цвета — Справка RenDit UI» → «Цвета»)
   const [here, setHere] = useState("");
+  // список прокручен — шапке листа тень (пункты уходят под неё)
+  const listRef = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
 
-  const open = useCallback(() => {
+  const open = () => {
     const dialog = dialogRef.current;
     if (!dialog || dialog.open) return;
     const read = readParts();
     setParts(read.parts);
     setActivePart(read.active);
     setHere(document.title.split(" — ")[0]);
+    listRef.current?.scrollTo({ top: 0 });
+    setScrolled(false);
     dialog.style.translate = "";
     dialog.style.removeProperty("--sheet-drag");
     dialog.showModal();
-  }, []);
+  };
 
   const close = () => dialogRef.current?.close();
-
-  // «Меню» в нижнем меню
-  useEffect(() => {
-    addEventListener(QUICK_NAV_EVENT, open);
-    return () => removeEventListener(QUICK_NAV_EVENT, open);
-  }, [open]);
 
   // сменилась страница (переход из листа, «назад») — лист закрыт
   // biome-ignore lint/correctness/useExhaustiveDependencies: закрываем именно при смене адреса
@@ -161,12 +152,14 @@ export function QuickNav() {
         }}
       >
         <div className="flex flex-col h-full max-h-[inherit]">
+          {/* список прокрутили — у шапки тень, под ней мягкий градиент: пункты плавно уходят под шапку */}
           <header
+            data-scrolled={scrolled || undefined}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
-            className="relative shrink-0 flex items-center gap-12 px-20 pt-20 pb-12 touch-none sm:touch-auto"
+            className="relative z-1 shrink-0 flex items-center gap-12 px-20 pt-24 pb-14 touch-none sm:touch-auto transition-shadow duration-300 data-scrolled:shadow-[0_10px_18px_-14px_rgb(0_0_0/0.4)] after:absolute after:inset-x-0 after:top-full after:h-20 after:pointer-events-none after:bg-[linear-gradient(var(--surface),transparent)] after:opacity-0 after:transition-opacity after:duration-300 data-scrolled:after:opacity-100"
           >
             {/* «ручка» листа на телефоне */}
             <span
@@ -179,7 +172,7 @@ export function QuickNav() {
               </h2>
               {here && (
                 <p className="truncate font-13 text-foreground-muted">
-                  Вы здесь: {here}
+                  Вкладка — <span className="text-foreground">{here}</span>
                 </p>
               )}
             </div>
@@ -193,7 +186,11 @@ export function QuickNav() {
             </button>
           </header>
 
-          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-12 pb-20 flex flex-col gap-24">
+          <div
+            ref={listRef}
+            onScroll={(e) => setScrolled(e.currentTarget.scrollTop > 4)}
+            className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-14 pt-4 pb-24 flex flex-col gap-22"
+          >
             {docs && <DocsTabs variant="sheet" onNavigate={close} />}
 
             {parts.length > 0 && (

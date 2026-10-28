@@ -21,21 +21,23 @@ import {
   ColorBuilder,
   ContrastChecker,
   PaletteTool,
+  StyleBuilder,
   TokenGrid,
 } from "./_tools";
 
 export const metadata: Metadata = { title: "Цвета" };
 
 const TOC: TocItem[] = [
+  { id: "style", title: "Конструктор стиля" },
+  { id: "builder", title: "Класс цвета" },
+  { id: "contrast", title: "Контраст" },
   { id: "how", title: "Как устроены" },
   { id: "semantic", title: "Смысловые цвета" },
   { id: "palette", title: "Палитра" },
-  { id: "builder", title: "Конструктор" },
   { id: "opacity", title: "Прозрачность" },
   { id: "status", title: "Статусы" },
   { id: "recipes", title: "Готовые сочетания" },
   { id: "gradients", title: "Градиенты" },
-  { id: "contrast", title: "Контраст" },
   { id: "custom", title: "Свои цвета" },
 ];
 
@@ -96,10 +98,39 @@ export default function ColorsPage() {
               В разметке пишут не «синий», а смысл: <Code>bg-surface</Code>,{" "}
               <Code>text-foreground-muted</Code>, <Code>bg-primary</Code>. Тема
               меняет значения в одном месте — светлая и тёмная переключаются
-              сами. Ниже — все цвета, конструктор класса и проверка контраста.
+              сами. Сверху — конструкторы и проверка контраста, ниже — все цвета
+              с примерами.
             </>
           }
         />
+
+        <section className="relative z-3 flex flex-col gap-16">
+          <Heading id="style">Конструктор стиля</Heading>
+          <Lead>
+            Выберите цвет, стиль и элемент — получите готовые классы: кнопка,
+            метка, сообщение или карточка в светлой и тёмной теме. Справа видно
+            контраст текста к фону; «Случайный» подскажет сочетание.
+          </Lead>
+          <StyleBuilder />
+        </section>
+        <section className="relative z-2 flex flex-col gap-16">
+          <Heading id="builder">Класс цвета</Heading>
+          <Lead>
+            Соберите класс цвета: что красим, каким цветом, насколько прозрачно
+            и когда. Справа — как это выглядит в обеих темах и какой CSS напишет
+            движок.
+          </Lead>
+          <ColorBuilder />
+        </section>
+
+        <section className="relative z-1 flex flex-col gap-16">
+          <Heading id="contrast">Контраст</Heading>
+          <Lead>
+            Выберите цвет текста и фона — контраст посчитается сразу для обеих
+            тем.
+          </Lead>
+          <ContrastChecker />
+        </section>
 
         <section className="reveal flex flex-col gap-16">
           <Heading id="how">Как устроены</Heading>
@@ -147,16 +178,6 @@ export default function ColorsPage() {
             нажмите на цвет.
           </Lead>
           <PaletteTool />
-        </section>
-
-        <section className="reveal flex flex-col gap-16">
-          <Heading id="builder">Конструктор</Heading>
-          <Lead>
-            Соберите класс цвета: что красим, каким цветом, насколько прозрачно
-            и когда. Справа — как это выглядит в обеих темах и какой CSS напишет
-            движок.
-          </Lead>
-          <ColorBuilder />
         </section>
 
         <section className="reveal flex flex-col gap-16">
@@ -356,15 +377,6 @@ export default function ColorsPage() {
               </span>
             </div>
           </Example>
-        </section>
-
-        <section className="reveal flex flex-col gap-16">
-          <Heading id="contrast">Контраст</Heading>
-          <Lead>
-            Выберите цвет текста и фона — контраст посчитается сразу для обеих
-            тем.
-          </Lead>
-          <ContrastChecker />
         </section>
 
         <section className="reveal flex flex-col gap-16">

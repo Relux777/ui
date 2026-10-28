@@ -1,5 +1,5 @@
-// npm run test:e2e — окно быстрого доступа: кнопка в шапке и «Меню» в нижнем меню, разделы страницы,
-// на компьютере панель справа, на телефоне лист снизу.
+// npm run test:e2e — окно быстрого доступа: кнопка в шапке, разделы страницы, на компьютере панель справа,
+// на телефоне лист снизу, страница под ним размыта. «Меню» нижнего меню — отдельная страница /menu.
 
 import assert from "node:assert/strict";
 import { after, before, describe, test } from "node:test";
@@ -69,13 +69,11 @@ describe("быстрый доступ", { skip: skip ?? false }, () => {
     await page.close();
   });
 
-  test("телефон: «Меню» открывает лист снизу, линза остаётся на «Справке», вкладка в листе переводит страницу", async () => {
+  test("телефон: кнопка в шапке открывает лист снизу с размытием, вкладка в листе переводит страницу", async () => {
     const page = await browser.page({ width: 375, height: 812, mobile: true });
     await page.goto("/docs/install");
     await sleep(1300);
-    await page.tap(
-      'nav[aria-label="Основное меню"] button[aria-haspopup="dialog"]',
-    );
+    await page.tap(BUTTON);
     await page.waitFor(opened);
     await sleep(800);
     const box = await page.eval(sheetBox);
@@ -83,10 +81,17 @@ describe("быстрый доступ", { skip: skip ?? false }, () => {
       Math.abs(box.bottom - box.vh) < 2 && box.left === 0,
       JSON.stringify(box),
     );
+    assert.match(
+      await page.eval(
+        `getComputedStyle(${SHEET}, '::backdrop').backdropFilter`,
+      ),
+      /blur\(8px\)/,
+      "страница под листом размыта",
+    );
     assert.equal(
       await page.eval(`${NAV_GLASS}.style.getPropertyValue('--nb-i')`),
       "1",
-      "линза вернулась на «Справку»",
+      "линза на «Справке»",
     );
     await page.tap(
       'dialog.sheet nav[aria-label="Разделы справки"] a[href="/docs/components"]',
@@ -94,6 +99,20 @@ describe("быстрый доступ", { skip: skip ?? false }, () => {
     await page.waitFor("location.pathname === '/docs/components'");
     await page.waitFor(closed);
     assert.deepEqual(page.errors, []);
+    await page.close();
+  });
+
+  test("«Меню» в нижнем меню ведёт на свою страницу", async () => {
+    const page = await browser.page({ width: 375, height: 812, mobile: true });
+    await page.goto("/");
+    await sleep(1000);
+    await page.tap('nav[aria-label="Основное меню"] a[href="/menu"]');
+    await page.waitFor("location.pathname === '/menu'");
+    assert.equal(await page.eval(opened), false, "окно не открывается");
+    assert.equal(
+      await page.eval(`${NAV_GLASS}.style.getPropertyValue('--nb-i')`),
+      "3",
+    );
     await page.close();
   });
 
