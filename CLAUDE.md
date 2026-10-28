@@ -48,7 +48,8 @@ npx tsc --noEmit     # после next build / next typegen
 
 Стиль — по мотивам boxicons.com: монохром + лаймовый акцент (`accent`) + фиолетовый второй (`secondary`).
 Фон светлой темы — `gray-50` (#fafafb), карточки — белые `bg-surface`; тёмная — `#070707` / `gray-900`.
-Цвет панели браузера — `config/theme.ts` (менять вместе с `--background`). Подсветка кода — `--code-*`
+Цвет панели браузера — `config/theme.ts` (менять вместе с `--background`); скрипт `THEME_COLOR_SCRIPT` в `<head>`
+ставит его по теме сайта до первого кадра (иначе браузер берёт тему системы — полоса сверху «перетекает»). Подсветка кода — `--code-*`
 (классы `text-code-keyword` …). Пружины — `ease-spring`, `ease-spring-bouncy`. Тени: `shadow-1…6` высота,
 `shadow-7` кромка стеклянной таблетки, `shadow-9` стекло маленьких элементов.
 
@@ -61,7 +62,8 @@ npx tsc --noEmit     # после next build / next typegen
 | `.aura` | фон страницы: мягкое свечение и сетка точек вверху (на `<body>`) |
 | `.reveal` | блок проявляется при прокрутке (scroll-driven, только opacity — якоря не сбиваются) |
 | `.spotlight` | тусклый свет за курсором по стеклу (только мышь) |
-| `.route-enter` | плавная смена страниц без View Transitions |
+| `.tilt` | 3D-наклон карточки за курсором + мягкий свет `.tilt-light` (компонент `components/Tilt`), как на boxicons.com |
+| `.route-enter` | плавная смена страниц без View Transitions; при первой загрузке не играет (`data-first-load`, `config/route-enter.ts`) |
 
 ### Стекло, анимации, производительность
 
@@ -84,8 +86,13 @@ src/components/DocsTabs    вкладки справки (tabs.ts — данны
 src/components/QuickNav    окно быстрого доступа (.sheet): вкладки, «На этой странице» (элементы с data-toc), справка
 src/app/docs/_nav.ts       оглавление справки (боковое меню, карточки), ready: false — «скоро»
 src/app/docs/(getting-started)  вкладка «Установка и настройка» (боковое меню); components/, releases/ — свои layout
+src/app/docs/(getting-started)/install  установка: choice.ts — платформы, вопросы, адрес (под тестом);
+                           steps.tsx — шаги под набор; _guide.tsx — выбор на странице
 src/app/_docs              блоки документации: DocHeader, Heading, CodeBlock (своя подсветка highlight.ts), Steps,
-                           Callout, Table, Files, LinkCards, InstallCommand (npm/pnpm/yarn/bun), Toc
+                           Callout, Table, Files, LinkCards, InstallCommand (npm/pnpm/yarn/bun), Toc,
+                           Accordion (вопрос-ответ, плавно на WAAPI), FileTree (дерево папок);
+                           copy-button.tsx — useCopy/CopyIcon/Copied: один отклик копирования для всех кнопок
+src/components/Tilt        3D-наклон карточки за курсором и свет по ней (.tilt, .tilt-light)
 rendit-code/               движок; README.md — справочник классов и вариантов
 ```
 

@@ -113,6 +113,59 @@ describe("смена страниц", { skip: skip ?? false }, () => {
     await page.close();
   });
 
+  test("загрузка и перезагрузка — без накладки: блоки не проявляются «из фона», переходы — с ней", async () => {
+    const page = await browser.page({ theme: "dark" });
+    await page.goto("/docs/install");
+    // с первого кадра документа: самая плотная накладка за всю загрузку
+    await page.onNewDocument(`window.__overlay = 0;
+      (function tick() {
+        for (const el of document.querySelectorAll('.route-enter > *'))
+          window.__overlay = Math.max(window.__overlay, +getComputedStyle(el, '::before').opacity);
+        if (performance.now() < 5000) requestAnimationFrame(tick);
+      })();`);
+    await page.reload();
+    await sleep(500);
+    assert.equal(
+      await page.eval("window.__overlay"),
+      0,
+      "при загрузке накладки нет",
+    );
+    assert.equal(
+      await page.eval(
+        "document.documentElement.hasAttribute('data-first-load')",
+      ),
+      true,
+    );
+
+    // первое действие снимает data-first-load — показанная страница при этом не мигает
+    const OVERLAY = `Math.max(...${VISIBLE_PAGES}.map((el) => +getComputedStyle(el, '::before').opacity))`;
+    let rec = await page.sample(OVERLAY, 500);
+    await page.click("main h1");
+    assert.deepEqual([...new Set((await rec.done()).map((r) => r.v))], [0]);
+    assert.equal(
+      await page.eval(
+        "document.documentElement.hasAttribute('data-first-load')",
+      ),
+      false,
+    );
+
+    // а переход по ссылке — уже с проявлением
+    rec = await page.sample(
+      `location.pathname === '/' ? ${OVERLAY} : null`,
+      900,
+    );
+    await page.click(NAV_LINK("/"));
+    const overlay = (await rec.done())
+      .map((r) => r.v)
+      .filter((v) => v !== null);
+    assert.ok(
+      Math.max(...overlay) > 0.5,
+      `переход проявляется: ${overlay.slice(0, 4)}`,
+    );
+    assert.equal(overlay.at(-1), 0);
+    await page.close();
+  });
+
   test("ссылки страниц работают по клику, без ошибок в консоли", async () => {
     const page = await browser.page();
     await page.goto("/docs");

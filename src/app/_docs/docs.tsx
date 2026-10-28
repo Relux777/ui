@@ -7,14 +7,17 @@ import { AlertTriangle } from "@boxicons/react/AlertTriangle";
 import { ArrowRight } from "@boxicons/react/ArrowRight";
 import { Check } from "@boxicons/react/Check";
 import { ChevronRight } from "@boxicons/react/ChevronRight";
+import { Eye } from "@boxicons/react/Eye";
 import { File } from "@boxicons/react/File";
 import { FileCode } from "@boxicons/react/FileCode";
 import { Folder } from "@boxicons/react/Folder";
+import { FolderOpen } from "@boxicons/react/FolderOpen";
 import { InfoCircle } from "@boxicons/react/InfoCircle";
 import { LightBulb } from "@boxicons/react/LightBulb";
+import { Star } from "@boxicons/react/Star";
 import { Terminal } from "@boxicons/react/Terminal";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { CopyButton } from "./copy-button";
 import { highlight, type Kind, type Lang, langOf } from "./highlight";
 
@@ -318,16 +321,45 @@ export type Step = {
   text?: ReactNode;
   /** блок под текстом: CodeBlock, InstallCommand… */
   block?: ReactNode;
+  /** шаг можно пропустить — у заголовка метка «по желанию» */
+  optional?: boolean;
+  /** необязательный, но советуем — метка «рекомендуем» */
+  recommended?: boolean;
+  /** живой результат кода из block — «так это выглядит» */
+  result?: ReactNode;
 };
 
 function StepBody({ step }: { step: Step }) {
   return (
     <div className="min-w-0 flex flex-col gap-10 pt-3">
-      <h3 className="font-16 font-w-600">{step.title}</h3>
+      <h3 className="flex flex-wrap items-center gap-8 font-16 font-w-600">
+        {step.title}
+        {step.recommended ? (
+          <span className="flex items-center gap-4 px-8 py-2 br-full bg-secondary/12 font-11 font-w-600 text-secondary">
+            <Star pack="filled" size="xs" aria-hidden="true" />
+            рекомендуем
+          </span>
+        ) : (
+          step.optional && (
+            <span className="px-8 py-2 br-full bg-foreground/5 font-11 font-w-600 text-foreground-muted">
+              по желанию
+            </span>
+          )
+        )}
+      </h3>
       {step.text && (
         <p className="font-14 text-foreground-muted">{step.text}</p>
       )}
       {step.block}
+      {step.result && (
+        <figure className="relative grid place-items-center min-h-120 m-0 px-20 pt-36 pb-24 br-lg border bg-surface shadow-1 bg-[radial-gradient(circle_at_1px_1px,color-mix(in_oklab,var(--foreground)_9%,transparent)_1px,transparent_0)] [background-size:16px_16px]">
+          <figcaption className="absolute top-10 left-12 flex items-center gap-6 font-12 font-w-500 text-foreground-subtle">
+            <Eye size="xs" aria-hidden="true" />
+            Так это выглядит
+          </figcaption>
+          {step.result}
+        </figure>
+      )}
     </div>
   );
 }
@@ -410,7 +442,7 @@ export function Table({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
         <tbody>
           {rows.map((cells, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: строки статичны
-            <tr key={i} className="border-t align-top">
+            <tr key={i} className="border-t [vertical-align:top]">
               {cells.map((cell, j) => (
                 <td
                   // biome-ignore lint/suspicious/noArrayIndexKey: ячейки статичны
@@ -455,6 +487,98 @@ export function Files({
         );
       })}
     </ul>
+  );
+}
+
+// ── Дерево папок ────────────────────────────────────────────────────────────
+
+export type TreeItem = {
+  /** папка — с «/» на конце */
+  name: string;
+  note?: string;
+  /** метка у имени: точка входа, не редактировать, необязательно */
+  tag?: { text: string; tone: "accent" | "warning" | "muted" };
+  children?: TreeItem[];
+};
+
+const TAG = {
+  accent: "bg-accent/30 text-foreground",
+  warning: "bg-warning/12 text-warning",
+  muted: "bg-foreground/5 text-foreground-muted",
+};
+
+// цвет значка файла — по расширению, как в редакторе
+const FILE_COLOR: Record<string, string> = {
+  scss: "text-pink-500",
+  css: "text-blue-500",
+  mjs: "text-amber-500",
+  js: "text-amber-500",
+  ts: "text-blue-600",
+  tsx: "text-blue-600",
+  json: "text-lime-600",
+};
+
+type TreeRow = TreeItem & { depth: number };
+const flatten = (items: TreeItem[], depth = 0): TreeRow[] =>
+  items.flatMap((item) => [
+    { ...item, depth },
+    ...flatten(item.children ?? [], depth + 1),
+  ]);
+
+// Дерево папок проекта: строки с отступом по глубине, линии к родительской папке, имя моноширинным,
+// пояснения ровной колонкой (на телефоне — под именем), метки. Шапка — корень проекта.
+// Отступ и линии считаются от --depth строки: линия на каждый уровень — полоса повторяющегося градиента.
+export function FileTree({ root, items }: { root: string; items: TreeItem[] }) {
+  return (
+    <div className="min-w-0 br-xl border bg-surface shadow-1 overflow-hidden">
+      <div className="flex items-center gap-8 h-42 px-14 border-b bg-surface-muted/50 font-13 font-mono font-w-500">
+        <FolderOpen
+          size="xs"
+          pack="filled"
+          className="shrink-0 text-amber-500"
+          aria-hidden="true"
+        />
+        {root}
+      </div>
+      <ul className="py-6">
+        {flatten(items).map((row) => {
+          const folder = row.name.endsWith("/");
+          const ext = row.name.split(".").pop() ?? "";
+          const Icon = folder ? Folder : FileCode;
+          return (
+            <li
+              key={`${row.depth}-${row.name}`}
+              style={{ "--depth": row.depth } as CSSProperties}
+              className="grid sm:grid-cols-[minmax(0,300px)_minmax(0,1fr)] sm:items-center gap-x-16 gap-y-2 min-h-36 py-7 px-14 transition-colors hover:bg-foreground/4 bg-[repeating-linear-gradient(to_right,transparent_0_7px,var(--border)_7px_8px,transparent_8px_22px)] bg-no-repeat [background-position:14px_0] [background-size:calc(var(--depth)*22px)_100%]"
+            >
+              <span className="flex items-center gap-8 min-w-0 pl-[calc(var(--depth)*22px)]">
+                <Icon
+                  size="xs"
+                  pack={folder ? "filled" : "basic"}
+                  className={`shrink-0 ${folder ? "text-amber-500" : (FILE_COLOR[ext] ?? "text-foreground-muted")}`}
+                  aria-hidden="true"
+                />
+                <code className="truncate font-13 font-mono font-w-500">
+                  {row.name}
+                </code>
+                {row.tag && (
+                  <span
+                    className={`shrink-0 px-6 py-1 br-full font-11 font-w-600 whitespace-nowrap ${TAG[row.tag.tone]}`}
+                  >
+                    {row.tag.text}
+                  </span>
+                )}
+              </span>
+              {row.note && (
+                <span className="font-13 text-foreground-muted max-sm:pl-[calc(var(--depth)*22px_+_24px)]">
+                  {row.note}
+                </span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 

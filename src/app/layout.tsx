@@ -3,8 +3,9 @@ import localFont from "next/font/local";
 import HeaderComponent from "@/components/Header";
 import { SCROLL_SCRIPT } from "@/components/Header/scroll-state";
 import NavBarComponent from "@/components/NavBar";
+import { ROUTE_ENTER_SCRIPT } from "@/config/route-enter";
 import { TEXT_SIZE_SCRIPT } from "@/config/text-size";
-import { THEME_COLORS } from "@/config/theme";
+import { THEME_COLOR_SCRIPT, THEME_COLORS, THEME_KEY } from "@/config/theme";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 import "@/assets/scss/RenDit_UI.scss";
@@ -63,16 +64,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
+      <head>
+        {/* цвет панели браузера по теме сайта, а не системы — ещё в <head>, до первого кадра: иначе панель
+            была цвета системы и перетекала в цвет сайта (config/theme.ts) */}
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: свой постоянный скрипт без пользовательских данных
+          dangerouslySetInnerHTML={{ __html: THEME_COLOR_SCRIPT }}
+        />
+      </head>
       {/* .aura — мягкое свечение и сетка точек вверху страницы (RenDit SCSS components/_aura.scss) */}
       <body className="aura">
-        {/* сохранённый размер текста — до первой отрисовки, чтобы текст не «прыгал» (config/text-size.ts) */}
+        {/* до первой отрисовки: сохранённый размер текста — чтобы текст не «прыгал» (config/text-size.ts);
+            состояние прокрутки (Header/scroll-state.ts); без проявления страницы при загрузке (config/route-enter.ts) */}
         <script
           // biome-ignore lint/security/noDangerouslySetInnerHtml: свой постоянный скрипт без пользовательских данных
           dangerouslySetInnerHTML={{
-            __html: `${TEXT_SIZE_SCRIPT};${SCROLL_SCRIPT}`,
+            __html: `${TEXT_SIZE_SCRIPT};${SCROLL_SCRIPT};${ROUTE_ENTER_SCRIPT}`,
           }}
         />
-        <ThemeProvider storageKey="theme">
+        <ThemeProvider storageKey={THEME_KEY}>
           <HeaderComponent />
           {/* смена страниц: новая страница проявляется (components/_route-enter.scss), шапка и нижнее меню
               не участвуют. Обёртка без своей коробки (display: contents) — раскладку не меняет */}

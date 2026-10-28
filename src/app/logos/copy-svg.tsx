@@ -1,9 +1,7 @@
 "use client";
 
 import { ArrowDown } from "@boxicons/react/ArrowDown";
-import { Check } from "@boxicons/react/Check";
-import { Copy } from "@boxicons/react/Copy";
-import { useState } from "react";
+import { COPIED_RING, Copied, CopyIcon, useCopy } from "../_docs/copy-button";
 
 // Берёт SVG из блока-превью (data-logo="N") — копирует разметку или скачивает файл.
 function readSvg(target: string) {
@@ -18,13 +16,7 @@ export function CopySvg({
   target: string;
   fileName: string;
 }) {
-  const [copied, setCopied] = useState(false);
-
-  const copy = async () => {
-    await navigator.clipboard.writeText(readSvg(target));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
+  const [copied, copy] = useCopy();
 
   const download = () => {
     const url = URL.createObjectURL(
@@ -41,11 +33,13 @@ export function CopySvg({
     <div className="flex gap-6">
       <button
         type="button"
-        onClick={copy}
-        className="flex items-center gap-6 px-12 py-6 br-full border font-12 transition hover:bg-surface-muted"
+        onClick={() => copy(readSvg(target))}
+        aria-label={copied ? "SVG скопирован" : "Скопировать SVG"}
+        className={`relative flex items-center gap-6 px-12 py-6 br-full border font-12 hover:bg-surface-muted ${COPIED_RING(copied)}`}
       >
-        {copied ? <Check size="xs" /> : <Copy size="xs" />}
-        {copied ? "Скопировано" : "SVG"}
+        <CopyIcon copied={copied} />
+        SVG
+        <Copied copied={copied} side="top" />
       </button>
       <button
         type="button"
