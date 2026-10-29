@@ -1,0 +1,13 @@
+// components/_theme-switch.scss
+// Смена темы без перетекания: пока на <html> стоит data-switching (его ставит скрипт смены темы на один-два
+// кадра), переходы выключены — иначе каждый элемент перетекает в новые цвета со своей скоростью.
+// В Next.js то же делает next-themes (disableTransitionOnChange); для HTML без сборки правило уже в основе
+// готового CSS — скрипту из справки достаточно поставить и снять атрибут.
+
+@layer components {
+    [data-switching] *,
+    [data-switching] *::before,
+    [data-switching] *::after {
+        transition: none !important;
+    }
+}

@@ -1,26 +1,26 @@
 "use client";
 
-// Вкладки «Справки»: Установка и настройка · Компоненты · Обновления (как у HeroUI). Видны только в /docs.
+// Вкладки раздела: Справка · Компоненты · Обновления (как у HeroUI). Видны только в /docs.
 // Стиль — как у раскрытой таблетки поиска в шапке: тонкая капсула, внутри — вкладки, у выбранной стеклянная
 // подложка (как у крестика поиска: bg-surface/40 + shadow-9) и залитая иконка Boxicons.
 //   • header — по центру шапки (от 620px): иконки, подписи — от 1200px (уже — не помещаются рядом с поиском).
 //     Наверху страницы — светлая капсула, после прокрутки — стеклянная таблетка, как логотип и кнопки:
 //     классы таблетки и место в сетке шапки передаёт шапка;
 //   • inline — на телефоне (до 620px) в начале страницы справки: уезжает вместе с текстом и не закрывает
-//     контент (раньше вкладки висели над нижним меню). Ещё они есть в окне быстрого доступа (QuickNav);
-//   • sheet — в окне быстрого доступа, на всю ширину.
+//     контент (раньше вкладки висели над нижним меню). Ещё они есть во «всём меню» шапки (MenuSheet);
+//   • sheet — во «всём меню», на всю ширину.
 // Подложка выбранной вкладки — ::before: вырастает из середины на пружине. Как и нижнее меню, вкладка
 // выделяется сразу по нажатию, не дожидаясь загрузки страницы.
 
+import { BookOpen } from "@boxicons/react/BookOpen";
 import { History } from "@boxicons/react/History";
-import { Rocket } from "@boxicons/react/Rocket";
 import { Shapes } from "@boxicons/react/Shapes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type MouseEvent, type ReactNode, useState } from "react";
 import { activeTab, DOCS_TABS } from "./tabs";
 
-const ICONS = { install: Rocket, components: Shapes, releases: History };
+const ICONS = { guide: BookOpen, components: Shapes, releases: History };
 const ICON_SIZE = 18;
 
 // капсула-дорожка: как поле раскрытого поиска

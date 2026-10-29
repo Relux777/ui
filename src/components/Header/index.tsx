@@ -1,21 +1,21 @@
 // Шапка «Две таблетки».
 // Наверху страницы шапка прозрачная: ни фона, ни размытия. Прокрутили вниз (data-scrolled на <html>, ставит
 // встроенный скрипт из scroll-state.ts) — логотип и кнопки справа остаются на своих местах, каждый блок в своей
-// стеклянной таблетке (blur 12, shadow-7); название, версия и кнопка темы уходят (тема есть в быстром меню NavBar);
+// стеклянной таблетке (blur 12, shadow-7); название и версия уходят;
 // вверху экрана проявляется градиент цвета фона — содержимое плавно уходит под шапку.
 // У самой шапки размытия нет никогда: элемент с backdrop-filter стал бы «корнем» размытия, и стекло таблеток
 // внутри него ничего бы не размывало. «Прожектор» (spotlight.tsx) — тусклый свет за курсором по таблеткам.
 // Открыли поиск (data-search на <html>, ставит Search) — шапка сворачивается так же, как после прокрутки:
-// полю нужно место; на телефоне уходят «Начать» и быстрый переход. В справке по центру — вкладки раздела
+// полю нужно место; на телефоне уходят «Начать» и кружок меню. В справке по центру — вкладки раздела
 // (DocsTabs), третья таблетка; сетка 1fr · auto · 1fr держит их ровно посередине, а с открытым поиском
-// сдвигает, но не накрывает. Справа от «Начать» — быстрый переход (QuickNav). Стили — только классы RenDit Code.
+// сдвигает, но не накрывает. Справа, отдельным кружком, как логотип слева, — «всё меню» (MenuSheet).
+// Тема — в быстром меню NavBar, быстрый переход по странице — там же. Стили — только классы RenDit Code.
 
 import Link from "next/link";
 import RenDitLogos from "@/assets/svg/Rendit_UI_logo.svg";
 import { DocsTabs } from "@/components/DocsTabs";
-import { QuickNav } from "@/components/ui/QuickNav";
+import { MenuSheet } from "@/components/ui/MenuSheet";
 import { SearchComponent } from "@/components/ui/Search";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { version } from "../../../package.json";
 import { HomeLink } from "./home-link";
 import { Spotlight } from "./spotlight";
@@ -26,10 +26,7 @@ const PILL =
 // что уходит после прокрутки: ширина от реальной (auto, interpolate-size) до 0; где interpolate-size нет — max-width
 const FOLD =
   "[interpolate-size:allow-keywords] max-w-160 overflow-hidden whitespace-nowrap transition-[width,max-width,opacity,filter] duration-500 ease-spring [:is([data-scrolled],[data-search])_&]:w-0 [:is([data-scrolled],[data-search])_&]:max-w-0 [:is([data-scrolled],[data-search])_&]:opacity-0 [:is([data-scrolled],[data-search])_&]:blur-6 motion-reduce:transition-none";
-// кнопка темы после прокрутки сжимается до 0 и гаснет; −5px съедает зазор gap-5. Обрезка (overflow) —
-// только в свёрнутом виде, иначе обрезалась бы тень кнопки при наведении
-const THEME =
-  "flex w-36 transition-[width,margin,opacity,scale,visibility] duration-450 ease-spring [:is([data-scrolled],[data-search])_&]:w-0 [:is([data-scrolled],[data-search])_&]:-ml-5 [:is([data-scrolled],[data-search])_&]:overflow-hidden [:is([data-scrolled],[data-search])_&]:opacity-0 [:is([data-scrolled],[data-search])_&]:scale-50 [:is([data-scrolled],[data-search])_&]:invisible motion-reduce:transition-none";
+
 // свет только на стеклянных таблетках
 const SPOT = "hidden [:is([data-scrolled],[data-search])_&]:block";
 
@@ -57,29 +54,28 @@ export default async function HeaderComponent() {
           </HomeLink>
           <span className={`${FOLD} max-sm:hidden`}>v{version}</span>
         </div>
-        {/* только в справке; на телефоне вкладки — в начале страницы и в быстром переходе */}
+        {/* только в справке; на телефоне вкладки — в начале страницы и во «всём меню» */}
         <DocsTabs
           variant="header"
           className={`${PILL} col-start-2 [:is([data-scrolled],[data-search])_&]:border-transparent`}
         >
           <Spotlight className={SPOT} />
         </DocsTabs>
-        <div
-          className={`${PILL} col-start-3 justify-self-end flex items-center gap-5 p-4 -mr-4`}
-        >
-          <Spotlight className={SPOT} />
-          <SearchComponent />
-          {/* тема после прокрутки уходит: она есть в быстром меню у NavBar */}
-          <span className={THEME}>
-            <ThemeToggle />
-          </span>
-          <Link
-            href="/docs/install"
-            className="h-36 px-16 br-full flex items-center bg-primary text-primary-foreground font-14 font-w-500 whitespace-nowrap transition hover:bg-primary-hover active:scale-95 max-sm:[[data-search]_&]:hidden"
-          >
-            Начать
-          </Link>
-          <QuickNav />
+        {/* −8px — кружок меню у края так же, как логотип слева */}
+        <div className="col-start-3 justify-self-end flex items-center gap-8 -mr-8">
+          <div className={`${PILL} flex items-center gap-5 p-4`}>
+            <Spotlight className={SPOT} />
+            <SearchComponent />
+            <Link
+              href="/docs/install"
+              className="h-36 px-16 br-full flex items-center bg-primary text-primary-foreground font-14 font-w-500 whitespace-nowrap transition hover:bg-primary-hover active:scale-95 max-sm:[[data-search]_&]:hidden"
+            >
+              Начать
+            </Link>
+          </div>
+          <MenuSheet className={PILL}>
+            <Spotlight className={SPOT} />
+          </MenuSheet>
         </div>
       </nav>
     </header>

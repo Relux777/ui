@@ -1,10 +1,12 @@
 "use client";
 
-// Установка тёмной темы так, как она сделана на этом сайте, — под Next.js 16, React на Vite, чистый JS и jQuery.
+// Установка тёмной темы так, как она сделана на этом сайте, — под Next.js 16, React на Vite, HTML с чистым JS и jQuery.
+// Для HTML — без модулей и сборки: готовый CSS, скрипт в <head> и кнопка из конструктора (код рабочий целиком).
 // Вкладка — по платформе справки (переключатель вверху меню). Везде одни правила: атрибут data-theme ставится до первой отрисовки (без вспышки),
 // по умолчанию — тема системы, выбор хранится в localStorage, цвет панели браузера — в тон.
 
 import { useEffect, useState } from "react";
+import { cdnCss } from "@/config/release";
 import { Code, CodeBlock, type Step, Steps } from "../../../../_docs/docs";
 import { InstallCommand } from "../../../../_docs/install-command";
 import { type DocsPlatform, useDocsPlatform } from "../../../_platform";
@@ -48,6 +50,23 @@ export function applyTheme(mode) {
     m.content = dark ? "#070707" : "#fafafb";
   requestAnimationFrame(() => requestAnimationFrame(() => delete root.dataset.switching));
 }`;
+
+// то же для HTML без сборки: обычный скрипт (без type="module" — работает и из файла с диска), функция — в window
+const APPLY_GLOBAL = `// <script src="js/theme.js"></script> — в конце <body>
+window.applyTheme = function (mode) {
+  var dark = mode === "dark" ||
+    (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+  var root = document.documentElement;
+  root.setAttribute("data-switching", ""); // смена — без перетекания (правило в готовом CSS)
+  root.setAttribute("data-theme", dark ? "dark" : "light");
+  localStorage.setItem("theme", mode);
+  document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+    m.content = dark ? "#070707" : "#fafafb";
+  });
+  setTimeout(function () { root.removeAttribute("data-switching"); }, 50);
+};
+
+// где угодно: applyTheme("dark"), applyTheme("light"), applyTheme("system")`;
 
 const NO_TRANSITIONS = `/* смена темы — мгновенно, без перетекания каждого элемента */
 [data-switching] *, [data-switching] *::before, [data-switching] *::after {
@@ -199,7 +218,7 @@ export function useTheme() {
       title: "Кнопка",
       text: (
         <>
-          Готовые кнопки — в конструкторе ниже, вкладка{" "}
+          Готовые кнопки — в конструкторе выше, вкладка{" "}
           <Code>Next.js · React</Code>: вместо <Code>useTheme</Code> из
           next-themes — свой хук.
         </>
@@ -208,50 +227,74 @@ export function useTheme() {
   ],
   js: [
     {
-      title: "Скрипт в <head>",
-      text: "Первым — до стилей и разметки:",
-      block: <CodeBlock file="index.html" code={HEAD_SCRIPT} />,
-    },
-    {
-      title: "Смена темы",
-      block: <CodeBlock file="js/theme.js" code={APPLY} />,
-    },
-    {
-      title: "Кнопка",
+      title: "Готовый CSS и скрипт в <head>",
+      text: (
+        <>
+          Скрипт — первым, до стилей и разметки: тема ставится до первой
+          отрисовки, без вспышки. Правило «без перетекания при смене» уже в
+          готовом CSS:
+        </>
+      ),
       block: (
         <CodeBlock
           file="index.html"
-          code={`<button type="button" class="theme-toggle" aria-label="Сменить тему">…</button>
-
-<script type="module">
-  import { applyTheme } from "./js/theme.js";
-  document.querySelector(".theme-toggle").addEventListener("click", () => {
-    applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
-  });
-</script>`}
+          code={`<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${HEAD_SCRIPT.replaceAll("\n", "\n  ")}
+  <link rel="stylesheet" href="${cdnCss()}">
+</head>`}
         />
       ),
     },
     {
-      title: "Без перетекания при смене",
-      block: <CodeBlock file="css/style.css" code={NO_TRANSITIONS} />,
+      title: "Кнопка",
+      text: (
+        <>
+          Возьмите из конструктора выше, вкладка <Code>HTML · JS</Code>: вид на
+          выбор, код рабочий целиком — разметка с иконками и скрипт. Вставьте
+          его в <Code>&lt;body&gt;</Code>, где нужна кнопка.
+        </>
+      ),
+    },
+    {
+      title: "Сменить тему из своего кода",
+      optional: true,
+      text: "Если тему переключает ваш скрипт (меню, настройки), — та же функция, что внутри кнопки:",
+      block: <CodeBlock file="js/theme.js" code={APPLY_GLOBAL} />,
     },
   ],
   jquery: [
     {
-      title: "Скрипт в <head>",
+      title: "Готовый CSS и скрипт в <head>",
       text: "Тот же, что и без jQuery: он должен сработать до загрузки библиотеки.",
-      block: <CodeBlock file="index.html" code={HEAD_SCRIPT} />,
+      block: (
+        <CodeBlock
+          file="index.html"
+          code={`<head>
+  ${HEAD_SCRIPT.replaceAll("\n", "\n  ")}
+  <link rel="stylesheet" href="${cdnCss()}">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>`}
+        />
+      ),
     },
     {
-      title: "Смена темы на jQuery 3.6+",
+      title: "Кнопка",
+      text: (
+        <>
+          Разметка — из конструктора выше (вкладка <Code>HTML · JS</Code>, вид
+          «Иконка»), а скрипт кнопки замените на этот, на jQuery 3.6+:
+        </>
+      ),
       block: (
         <CodeBlock
           file="js/theme.jquery.js"
           code={`$(function () {
+  var media = matchMedia("(prefers-color-scheme: dark)");
+
   function applyTheme(mode) {
-    var dark = mode === "dark" ||
-      (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+    var dark = mode === "dark" || (mode === "system" && media.matches);
     var $root = $(document.documentElement).attr("data-switching", "");
     $root.attr("data-theme", dark ? "dark" : "light");
     localStorage.setItem("theme", mode);
@@ -259,16 +302,17 @@ export function useTheme() {
     setTimeout(function () { $root.removeAttr("data-switching"); }, 50);
   }
 
-  $(".theme-toggle").on("click", function () {
+  $("#theme-toggle").on("click", function () {
     applyTheme($("html").attr("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  // «как в системе», пока человек сам не выбрал
+  media.addEventListener("change", function () {
+    if ((localStorage.getItem("theme") || "system") === "system") applyTheme("system");
   });
 });`}
         />
       ),
-    },
-    {
-      title: "Без перетекания при смене",
-      block: <CodeBlock file="css/style.css" code={NO_TRANSITIONS} />,
     },
   ],
 };

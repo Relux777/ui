@@ -515,14 +515,27 @@ export function createUtilities(theme) {
   add("italic", { "font-style": "italic" });
   add("not-italic", { "font-style": "normal" });
   add("underline", { "text-decoration-line": "underline" });
+  add("overline", { "text-decoration-line": "overline" });
   add("line-through", { "text-decoration-line": "line-through" });
   add("no-underline", { "text-decoration-line": "none" });
   add("tabular-nums", { "font-variant-numeric": "tabular-nums" });
 
+  // линия подчёркивания: цвет decoration-secondary, стиль decoration-wavy, толщина decoration-2 (px)
   colorUtil("decoration", "text-decoration-color");
+  for (const s of ["solid", "double", "dotted", "dashed", "wavy"])
+    add(`decoration-${s}`, { "text-decoration-style": s });
+  fn("decoration", (ctx) => {
+    const v = spacing(ctx, {});
+    return v === null ? null : { "text-decoration-thickness": v };
+  });
   fn("underline-offset", (ctx) => {
     const v = spacing(ctx, {});
     return v === null ? null : { "text-underline-offset": v };
+  });
+  // отступ первой строки абзаца
+  fn("indent", (ctx) => {
+    const v = spacing(ctx, {});
+    return v === null ? null : { "text-indent": v };
   });
 
   // leading-1.4 → 1.4, leading-20 → 20px
@@ -583,14 +596,27 @@ export function createUtilities(theme) {
     "white-space": "nowrap",
   });
   add("text-ellipsis", { "text-overflow": "ellipsis" });
-  for (const w of ["normal", "nowrap", "pre", "pre-line", "pre-wrap"])
+  for (const w of [
+    "normal",
+    "nowrap",
+    "pre",
+    "pre-line",
+    "pre-wrap",
+    "break-spaces",
+  ])
     add(`whitespace-${w}`, { "white-space": w });
+  add("break-normal", { "overflow-wrap": "normal", "word-break": "normal" });
   add("break-words", { "overflow-wrap": "break-word" });
   add("break-all", { "word-break": "break-all" });
   add("hyphens-auto", { hyphens: "auto" });
+  add("hyphens-manual", { hyphens: "manual" });
+  add("hyphens-none", { hyphens: "none" });
 
   add("list-disc", { "list-style-type": "disc" });
   add("list-decimal", { "list-style-type": "decimal" });
+  add("list-none", { "list-style-type": "none" });
+  add("list-inside", { "list-style-position": "inside" });
+  add("list-outside", { "list-style-position": "outside" });
 
   // ── Фон ───────────────────────────────────────────────────────────────────
   colorUtil("bg", "background-color");

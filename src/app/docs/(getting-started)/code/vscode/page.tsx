@@ -16,7 +16,7 @@ export default function VscodePage() {
   return (
     <>
       <DocHeader
-        path={["RenDit Code", "VS Code"]}
+        path={["Движок RenDit Code", "VS Code"]}
         title="Подсказки в VS Code"
         lead={
           <>

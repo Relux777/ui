@@ -4,12 +4,16 @@
 // Нажали — таблетка пружинисто вытягивается вверх (строки сетки 0fr → 1fr: высота без замеров в JS),
 // пункты проявляются по очереди снизу вверх, стрелка поворачивается вниз; закрывается быстрее, без задержек.
 // Пункты: язык — пока заглушка; размер текста (под иконкой — текущий размер, нажатие открывает слева
-// панель «Размер шрифта на сайте, px» с цифрами 13…18 — каждая своим настоящим размером); тема (ThemeToggle); сколько страницы прочитано, 0…100 % (считается, только пока меню открыто).
+// панель «Размер шрифта на сайте, px» с цифрами 13…18 — каждая своим настоящим размером); тема (ThemeToggle);
+// «Быстрый переход» по разделам страницы (QuickNav) — только там, где разделы есть; сколько страницы прочитано,
+// 0…100 % (считается, только пока меню открыто).
 // Закрывается стрелкой, Esc и нажатием мимо меню.
 
 import { ChevronUp } from "@boxicons/react/ChevronUp";
 import { FontFamily } from "@boxicons/react/FontFamily";
 import { Globe } from "@boxicons/react/Globe";
+import { ListUl } from "@boxicons/react/ListUl";
+import { usePathname } from "next/navigation";
 import {
   type CSSProperties,
   useEffect,
@@ -18,6 +22,8 @@ import {
   useRef,
   useState,
 } from "react";
+import { QuickNav } from "@/components/ui/QuickNav";
+import { hasParts, openQuickNav } from "@/components/ui/QuickNav/parts";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import {
   DEFAULT_TEXT_SIZE,
@@ -50,7 +56,10 @@ function applyTextSize(size: number) {
 }
 
 export function QuickMenu() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // есть ли на странице разделы — тогда в меню «Быстрый переход»; проверяется при открытии и смене страницы
+  const [toc, setToc] = useState(false);
   const [sizesOpen, setSizesOpen] = useState(false);
   const [size, setSize] = useState(DEFAULT_TEXT_SIZE);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -106,6 +115,14 @@ export function QuickMenu() {
     };
   }, [open]);
 
+  // перешли на другую страницу с открытым меню — разделы другие; страница дорисовывается — проверить в следующем кадре
+  // biome-ignore lint/correctness/useExhaustiveDependencies: проверяем заново именно при смене адреса
+  useEffect(() => {
+    if (!open) return;
+    const frame = requestAnimationFrame(() => setToc(hasParts()));
+    return () => cancelAnimationFrame(frame);
+  }, [open, pathname]);
+
   // ряд цифр — на высоте кнопки шрифта, подпись над ним. Меряем от низа таблетки: содержимое прижато к стрелке,
   // поэтому расстояние не меняется, пока таблетка вытягивается; новый размер текста — меряем заново
   // biome-ignore lint/correctness/useExhaustiveDependencies: size меняет высоту пунктов — нужен новый замер
@@ -151,7 +168,7 @@ export function QuickMenu() {
           <button
             type="button"
             aria-label="Язык"
-            style={at(5)}
+            style={at(6)}
             className={`${BUTTON} ${REVEAL} size-40 mt-5`}
           >
             <Globe width={ICON_SIZE} height={ICON_SIZE} aria-hidden="true" />
@@ -162,7 +179,7 @@ export function QuickMenu() {
             aria-label={`Размер текста: ${size}`}
             aria-expanded={sizesOpen}
             onClick={() => setSizesOpen((v) => !v)}
-            style={at(4)}
+            style={at(5)}
             className={`${BUTTON} ${REVEAL} w-40 h-48 content-center gap-2 aria-expanded:text-secondary`}
           >
             <FontFamily
@@ -174,10 +191,27 @@ export function QuickMenu() {
               {size}
             </span>
           </button>
-          <hr style={at(3)} className={`${LINE} ${REVEAL}`} />
-          <span style={at(2)} className={REVEAL}>
+          <hr style={at(4)} className={`${LINE} ${REVEAL}`} />
+          <span style={at(3)} className={REVEAL}>
             <ThemeToggle />
           </span>
+          {/* разделы этой страницы — только если они есть (на «Меню», например, их нет) */}
+          {toc && (
+            <button
+              type="button"
+              aria-label="Быстрый переход"
+              aria-haspopup="dialog"
+              onClick={() => {
+                setOpen(false);
+                setSizesOpen(false);
+                openQuickNav();
+              }}
+              style={at(2)}
+              className={`${BUTTON} ${REVEAL} size-40`}
+            >
+              <ListUl width={ICON_SIZE} height={ICON_SIZE} aria-hidden="true" />
+            </button>
+          )}
           <hr style={at(1)} className={`${LINE} ${REVEAL}`} />
           <span
             ref={readRef}
@@ -194,6 +228,7 @@ export function QuickMenu() {
           aria-controls={listId}
           aria-label={open ? "Свернуть меню" : "Ещё"}
           onClick={() => {
+            if (!open) setToc(hasParts());
             setOpen((v) => !v);
             setSizesOpen(false);
           }}
@@ -236,6 +271,9 @@ export function QuickMenu() {
           ))}
         </div>
       </fieldset>
+
+      {/* окно «Быстрого перехода» — в верхнем слое (<dialog>), стекло и анимации меню на него не действуют */}
+      <QuickNav />
     </div>
   );
 }

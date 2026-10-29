@@ -4,10 +4,12 @@
 // next.config.ts ↔ next.config.mjs, button.module.scss ↔ button.module.css.
 
 import { ArrowDown } from "@boxicons/react/ArrowDown";
+import Link from "next/link";
 import { cdnCss, VERSION, zipUrl } from "@/config/release";
 import { Code, CodeBlock, Files, type Step } from "../../../_docs/docs";
 import { InstallCommand } from "../../../_docs/install-command";
 import type { Choice } from "./choice";
+import { htmlPage } from "./html-page";
 
 export type Guide = { lead: string; steps: Step[]; done: Step };
 
@@ -638,55 +640,89 @@ node rendit-code/cli.mjs watch`}
 
 function html(c: Choice): Guide {
   return {
-    lead: "Обычные HTML-страницы без Node.js и сборки: готовый CSS, а у компонентов — готовый код.",
+    lead: "Обычные HTML-страницы без Node.js и сборки: готовый CSS с CDN, классы прямо в разметке.",
     steps: [
       {
-        title: "Подключите стили",
+        title: "Страница и стили",
         text: (
           <>
-            Одной строкой с CDN — ничего не скачивая. Там всё: стили RenDit SCSS
-            и 3 000+ готовых классов (<Code>p-20</Code>, <Code>md:flex</Code>,{" "}
-            <Code>bg-primary</Code>). Свои стили — после:
+            Готовый CSS — одной строкой с CDN, ничего не скачивая. В нём стили
+            RenDit SCSS и 3 000+ классов: шкала отступов и размеров, все цвета,
+            брейкпоинты (<Code>p-20</Code>, <Code>md:flex</Code>,{" "}
+            <Code>bg-primary</Code>). Скрипт в <Code>&lt;head&gt;</Code> ставит
+            тему до первой отрисовки — без вспышки. Образец работает как есть:
           </>
         ),
-        block: (
-          <CodeBlock
-            file="index.html"
-            code={`<link rel="stylesheet" href="${cdnCss()}">
-<link rel="stylesheet" href="css/style.css">`}
-          />
+        block: <CodeBlock file="index.html" code={htmlPage(cdnCss())} />,
+        result: (
+          <div className="flex flex-col items-start gap-10">
+            <p className="font-24 font-w-700 -letter-s-2">Привет, RenDit UI</p>
+            <button
+              type="button"
+              className="h-40 px-16 br-full bg-primary text-primary-foreground font-w-600 transition-colors hover:bg-primary-hover"
+            >
+              Кнопка
+            </button>
+          </div>
         ),
       },
-      c.script === "jquery"
-        ? {
-            title: "Подключите jQuery",
-            text: "Компоненты отдадут код на jQuery 3.6+ — подключите её перед их скриптами:",
-            block: (
-              <CodeBlock
-                file="index.html"
-                code={`<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/component.jquery.js"></script>`}
-              />
-            ),
-          }
-        : {
-            title: "Скрипты компонентов",
-            text: "Обычный JavaScript без библиотек — перед </body>, с defer:",
-            block: (
-              <CodeBlock
-                file="index.html"
-                code={`<script src="js/component.js" defer></script>`}
-              />
-            ),
-          },
+      ...(c.script === "jquery"
+        ? [
+            {
+              title: "Подключите jQuery",
+              text: "Код компонентов и кнопки темы на jQuery 3.6+ — подключите её перед своими скриптами, в конце <body>:",
+              block: (
+                <CodeBlock
+                  file="index.html"
+                  code={`<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="js/main.js"></script>`}
+                />
+              ),
+            },
+          ]
+        : []),
+      {
+        title: "Только нужные части и свои значения",
+        optional: true,
+        text: (
+          <>
+            Готовый CSS можно подключить по частям — только раскладку, отступы,
+            текст. Нужно значение, которого нет в шкале (<Code>w-100</Code>,{" "}
+            <Code>bg-[#ffcc00]</Code>)? Впишите его в{" "}
+            <Link
+              href="/docs/css"
+              className="font-w-600 text-secondary hover:underline"
+            >
+              CSS-конструктор
+            </Link>{" "}
+            — он соберёт свой маленький файл.
+          </>
+        ),
+      },
+      {
+        title: "Тёмная тема и переключатель",
+        optional: true,
+        text: (
+          <>
+            Кнопка темы с иконками и скриптом, рабочая целиком, — в{" "}
+            <Link
+              href="/docs/scss/dark"
+              className="font-w-600 text-secondary hover:underline"
+            >
+              «Тёмной теме»
+            </Link>
+            , вкладка <Code>HTML · JS</Code>
+            {c.script === "jquery" ? " (и вариант на jQuery)" : ""}.
+          </>
+        ),
+      },
     ],
     done: {
       title: "Готово",
       text: (
         <>
-          Цвета, тени и скругления — CSS-переменными, тема переключится сама.
-          Классы вроде <Code>p-20</Code> и <Code>md:flex</Code> собирает движок
-          на Node.js — для них выберите «Node.js».
+          Свои стили — в <Code>css/style.css</Code> на токенах: цвета, тени и
+          скругления — CSS-переменными, тёмная тема переключится сама.
         </>
       ),
       block: <CodeBlock file="css/style.css" code={CARD_CSS} />,

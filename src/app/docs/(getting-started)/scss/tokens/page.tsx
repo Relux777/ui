@@ -73,7 +73,7 @@ export default function TokensPage() {
     <div className="grid xl:grid-cols-[minmax(0,1fr)_200px] gap-48">
       <div className="min-w-0 flex flex-col gap-56">
         <DocHeader
-          path={["RenDit SCSS", "Токены"]}
+          path={["Основы", "Токены"]}
           title="Токены"
           lead={
             <>

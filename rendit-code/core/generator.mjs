@@ -26,8 +26,9 @@ const PROPERTIES = {
 // [color:red;}*{…], [&{}*]:p-1. Запрещено всё, что закрывает или открывает блок ({ } ;), комментарии,
 // управляющие символы, «</» и «<!--» (</style> при встраивании CSS в HTML) и незакрытые кавычки.
 // Одиночный «<» разрешён — он нужен в @media (width < 620px).
+// «…» — заглушка из текста справки (bg-[url(…)], w-[…]), а не CSS: url(…) ломал сборку, остальное — мусор в файле.
 // biome-ignore lint/suspicious/noControlCharactersInRegex: управляющие символы и ищем
-const UNSAFE = /[{};\u0000-\u001f\u007f]|\/\*|\*\/|<\/|<!--/;
+const UNSAFE = /[{};\u0000-\u001f\u007f…]|\/\*|\*\/|<\/|<!--/;
 
 export function isSafeCss(text) {
   if (UNSAFE.test(text)) return false;

@@ -1,0 +1,3728 @@
+@charset "UTF-8";
+/*! RenDit UI v0.2.0 | MIT | Цвета и фон: 1240 классов RenDit Code */
+@layer utilities {
+  .border-accent {
+    border-color: var(--accent);
+  }
+  .border-accent-foreground {
+    border-color: var(--accent-foreground);
+  }
+  .border-accent-foreground\/10 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 10%, transparent);
+  }
+  .border-accent-foreground\/15 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 15%, transparent);
+  }
+  .border-accent-foreground\/20 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 20%, transparent);
+  }
+  .border-accent-foreground\/30 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 30%, transparent);
+  }
+  .border-accent-foreground\/40 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 40%, transparent);
+  }
+  .border-accent-foreground\/5 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 5%, transparent);
+  }
+  .border-accent-foreground\/50 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 50%, transparent);
+  }
+  .border-accent-foreground\/60 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 60%, transparent);
+  }
+  .border-accent-foreground\/70 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 70%, transparent);
+  }
+  .border-accent-foreground\/80 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 80%, transparent);
+  }
+  .border-accent-foreground\/90 {
+    border-color: color-mix(in oklab, var(--accent-foreground) 90%, transparent);
+  }
+  .border-accent\/10 {
+    border-color: color-mix(in oklab, var(--accent) 10%, transparent);
+  }
+  .border-accent\/15 {
+    border-color: color-mix(in oklab, var(--accent) 15%, transparent);
+  }
+  .border-accent\/20 {
+    border-color: color-mix(in oklab, var(--accent) 20%, transparent);
+  }
+  .border-accent\/30 {
+    border-color: color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .border-accent\/40 {
+    border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  }
+  .border-accent\/5 {
+    border-color: color-mix(in oklab, var(--accent) 5%, transparent);
+  }
+  .border-accent\/50 {
+    border-color: color-mix(in oklab, var(--accent) 50%, transparent);
+  }
+  .border-accent\/60 {
+    border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+  }
+  .border-accent\/70 {
+    border-color: color-mix(in oklab, var(--accent) 70%, transparent);
+  }
+  .border-accent\/80 {
+    border-color: color-mix(in oklab, var(--accent) 80%, transparent);
+  }
+  .border-accent\/90 {
+    border-color: color-mix(in oklab, var(--accent) 90%, transparent);
+  }
+  .border-background {
+    border-color: var(--background);
+  }
+  .border-background\/10 {
+    border-color: color-mix(in oklab, var(--background) 10%, transparent);
+  }
+  .border-background\/15 {
+    border-color: color-mix(in oklab, var(--background) 15%, transparent);
+  }
+  .border-background\/20 {
+    border-color: color-mix(in oklab, var(--background) 20%, transparent);
+  }
+  .border-background\/30 {
+    border-color: color-mix(in oklab, var(--background) 30%, transparent);
+  }
+  .border-background\/40 {
+    border-color: color-mix(in oklab, var(--background) 40%, transparent);
+  }
+  .border-background\/5 {
+    border-color: color-mix(in oklab, var(--background) 5%, transparent);
+  }
+  .border-background\/50 {
+    border-color: color-mix(in oklab, var(--background) 50%, transparent);
+  }
+  .border-background\/60 {
+    border-color: color-mix(in oklab, var(--background) 60%, transparent);
+  }
+  .border-background\/70 {
+    border-color: color-mix(in oklab, var(--background) 70%, transparent);
+  }
+  .border-background\/80 {
+    border-color: color-mix(in oklab, var(--background) 80%, transparent);
+  }
+  .border-background\/90 {
+    border-color: color-mix(in oklab, var(--background) 90%, transparent);
+  }
+  .border-black {
+    border-color: var(--black);
+  }
+  .border-black\/10 {
+    border-color: color-mix(in oklab, var(--black) 10%, transparent);
+  }
+  .border-black\/15 {
+    border-color: color-mix(in oklab, var(--black) 15%, transparent);
+  }
+  .border-black\/20 {
+    border-color: color-mix(in oklab, var(--black) 20%, transparent);
+  }
+  .border-black\/30 {
+    border-color: color-mix(in oklab, var(--black) 30%, transparent);
+  }
+  .border-black\/40 {
+    border-color: color-mix(in oklab, var(--black) 40%, transparent);
+  }
+  .border-black\/5 {
+    border-color: color-mix(in oklab, var(--black) 5%, transparent);
+  }
+  .border-black\/50 {
+    border-color: color-mix(in oklab, var(--black) 50%, transparent);
+  }
+  .border-black\/60 {
+    border-color: color-mix(in oklab, var(--black) 60%, transparent);
+  }
+  .border-black\/70 {
+    border-color: color-mix(in oklab, var(--black) 70%, transparent);
+  }
+  .border-black\/80 {
+    border-color: color-mix(in oklab, var(--black) 80%, transparent);
+  }
+  .border-black\/90 {
+    border-color: color-mix(in oklab, var(--black) 90%, transparent);
+  }
+  .border-border {
+    border-color: var(--border);
+  }
+  .border-border-strong {
+    border-color: var(--border-strong);
+  }
+  .border-border-strong\/10 {
+    border-color: color-mix(in oklab, var(--border-strong) 10%, transparent);
+  }
+  .border-border-strong\/15 {
+    border-color: color-mix(in oklab, var(--border-strong) 15%, transparent);
+  }
+  .border-border-strong\/20 {
+    border-color: color-mix(in oklab, var(--border-strong) 20%, transparent);
+  }
+  .border-border-strong\/30 {
+    border-color: color-mix(in oklab, var(--border-strong) 30%, transparent);
+  }
+  .border-border-strong\/40 {
+    border-color: color-mix(in oklab, var(--border-strong) 40%, transparent);
+  }
+  .border-border-strong\/5 {
+    border-color: color-mix(in oklab, var(--border-strong) 5%, transparent);
+  }
+  .border-border-strong\/50 {
+    border-color: color-mix(in oklab, var(--border-strong) 50%, transparent);
+  }
+  .border-border-strong\/60 {
+    border-color: color-mix(in oklab, var(--border-strong) 60%, transparent);
+  }
+  .border-border-strong\/70 {
+    border-color: color-mix(in oklab, var(--border-strong) 70%, transparent);
+  }
+  .border-border-strong\/80 {
+    border-color: color-mix(in oklab, var(--border-strong) 80%, transparent);
+  }
+  .border-border-strong\/90 {
+    border-color: color-mix(in oklab, var(--border-strong) 90%, transparent);
+  }
+  .border-border\/10 {
+    border-color: color-mix(in oklab, var(--border) 10%, transparent);
+  }
+  .border-border\/15 {
+    border-color: color-mix(in oklab, var(--border) 15%, transparent);
+  }
+  .border-border\/20 {
+    border-color: color-mix(in oklab, var(--border) 20%, transparent);
+  }
+  .border-border\/30 {
+    border-color: color-mix(in oklab, var(--border) 30%, transparent);
+  }
+  .border-border\/40 {
+    border-color: color-mix(in oklab, var(--border) 40%, transparent);
+  }
+  .border-border\/5 {
+    border-color: color-mix(in oklab, var(--border) 5%, transparent);
+  }
+  .border-border\/50 {
+    border-color: color-mix(in oklab, var(--border) 50%, transparent);
+  }
+  .border-border\/60 {
+    border-color: color-mix(in oklab, var(--border) 60%, transparent);
+  }
+  .border-border\/70 {
+    border-color: color-mix(in oklab, var(--border) 70%, transparent);
+  }
+  .border-border\/80 {
+    border-color: color-mix(in oklab, var(--border) 80%, transparent);
+  }
+  .border-border\/90 {
+    border-color: color-mix(in oklab, var(--border) 90%, transparent);
+  }
+  .border-code-attr {
+    border-color: var(--code-attr);
+  }
+  .border-code-attr\/10 {
+    border-color: color-mix(in oklab, var(--code-attr) 10%, transparent);
+  }
+  .border-code-attr\/15 {
+    border-color: color-mix(in oklab, var(--code-attr) 15%, transparent);
+  }
+  .border-code-attr\/20 {
+    border-color: color-mix(in oklab, var(--code-attr) 20%, transparent);
+  }
+  .border-code-attr\/30 {
+    border-color: color-mix(in oklab, var(--code-attr) 30%, transparent);
+  }
+  .border-code-attr\/40 {
+    border-color: color-mix(in oklab, var(--code-attr) 40%, transparent);
+  }
+  .border-code-attr\/5 {
+    border-color: color-mix(in oklab, var(--code-attr) 5%, transparent);
+  }
+  .border-code-attr\/50 {
+    border-color: color-mix(in oklab, var(--code-attr) 50%, transparent);
+  }
+  .border-code-attr\/60 {
+    border-color: color-mix(in oklab, var(--code-attr) 60%, transparent);
+  }
+  .border-code-attr\/70 {
+    border-color: color-mix(in oklab, var(--code-attr) 70%, transparent);
+  }
+  .border-code-attr\/80 {
+    border-color: color-mix(in oklab, var(--code-attr) 80%, transparent);
+  }
+  .border-code-attr\/90 {
+    border-color: color-mix(in oklab, var(--code-attr) 90%, transparent);
+  }
+  .border-code-comment {
+    border-color: var(--code-comment);
+  }
+  .border-code-comment\/10 {
+    border-color: color-mix(in oklab, var(--code-comment) 10%, transparent);
+  }
+  .border-code-comment\/15 {
+    border-color: color-mix(in oklab, var(--code-comment) 15%, transparent);
+  }
+  .border-code-comment\/20 {
+    border-color: color-mix(in oklab, var(--code-comment) 20%, transparent);
+  }
+  .border-code-comment\/30 {
+    border-color: color-mix(in oklab, var(--code-comment) 30%, transparent);
+  }
+  .border-code-comment\/40 {
+    border-color: color-mix(in oklab, var(--code-comment) 40%, transparent);
+  }
+  .border-code-comment\/5 {
+    border-color: color-mix(in oklab, var(--code-comment) 5%, transparent);
+  }
+  .border-code-comment\/50 {
+    border-color: color-mix(in oklab, var(--code-comment) 50%, transparent);
+  }
+  .border-code-comment\/60 {
+    border-color: color-mix(in oklab, var(--code-comment) 60%, transparent);
+  }
+  .border-code-comment\/70 {
+    border-color: color-mix(in oklab, var(--code-comment) 70%, transparent);
+  }
+  .border-code-comment\/80 {
+    border-color: color-mix(in oklab, var(--code-comment) 80%, transparent);
+  }
+  .border-code-comment\/90 {
+    border-color: color-mix(in oklab, var(--code-comment) 90%, transparent);
+  }
+  .border-code-fn {
+    border-color: var(--code-fn);
+  }
+  .border-code-fn\/10 {
+    border-color: color-mix(in oklab, var(--code-fn) 10%, transparent);
+  }
+  .border-code-fn\/15 {
+    border-color: color-mix(in oklab, var(--code-fn) 15%, transparent);
+  }
+  .border-code-fn\/20 {
+    border-color: color-mix(in oklab, var(--code-fn) 20%, transparent);
+  }
+  .border-code-fn\/30 {
+    border-color: color-mix(in oklab, var(--code-fn) 30%, transparent);
+  }
+  .border-code-fn\/40 {
+    border-color: color-mix(in oklab, var(--code-fn) 40%, transparent);
+  }
+  .border-code-fn\/5 {
+    border-color: color-mix(in oklab, var(--code-fn) 5%, transparent);
+  }
+  .border-code-fn\/50 {
+    border-color: color-mix(in oklab, var(--code-fn) 50%, transparent);
+  }
+  .border-code-fn\/60 {
+    border-color: color-mix(in oklab, var(--code-fn) 60%, transparent);
+  }
+  .border-code-fn\/70 {
+    border-color: color-mix(in oklab, var(--code-fn) 70%, transparent);
+  }
+  .border-code-fn\/80 {
+    border-color: color-mix(in oklab, var(--code-fn) 80%, transparent);
+  }
+  .border-code-fn\/90 {
+    border-color: color-mix(in oklab, var(--code-fn) 90%, transparent);
+  }
+  .border-code-keyword {
+    border-color: var(--code-keyword);
+  }
+  .border-code-keyword\/10 {
+    border-color: color-mix(in oklab, var(--code-keyword) 10%, transparent);
+  }
+  .border-code-keyword\/15 {
+    border-color: color-mix(in oklab, var(--code-keyword) 15%, transparent);
+  }
+  .border-code-keyword\/20 {
+    border-color: color-mix(in oklab, var(--code-keyword) 20%, transparent);
+  }
+  .border-code-keyword\/30 {
+    border-color: color-mix(in oklab, var(--code-keyword) 30%, transparent);
+  }
+  .border-code-keyword\/40 {
+    border-color: color-mix(in oklab, var(--code-keyword) 40%, transparent);
+  }
+  .border-code-keyword\/5 {
+    border-color: color-mix(in oklab, var(--code-keyword) 5%, transparent);
+  }
+  .border-code-keyword\/50 {
+    border-color: color-mix(in oklab, var(--code-keyword) 50%, transparent);
+  }
+  .border-code-keyword\/60 {
+    border-color: color-mix(in oklab, var(--code-keyword) 60%, transparent);
+  }
+  .border-code-keyword\/70 {
+    border-color: color-mix(in oklab, var(--code-keyword) 70%, transparent);
+  }
+  .border-code-keyword\/80 {
+    border-color: color-mix(in oklab, var(--code-keyword) 80%, transparent);
+  }
+  .border-code-keyword\/90 {
+    border-color: color-mix(in oklab, var(--code-keyword) 90%, transparent);
+  }
+  .border-code-number {
+    border-color: var(--code-number);
+  }
+  .border-code-number\/10 {
+    border-color: color-mix(in oklab, var(--code-number) 10%, transparent);
+  }
+  .border-code-number\/15 {
+    border-color: color-mix(in oklab, var(--code-number) 15%, transparent);
+  }
+  .border-code-number\/20 {
+    border-color: color-mix(in oklab, var(--code-number) 20%, transparent);
+  }
+  .border-code-number\/30 {
+    border-color: color-mix(in oklab, var(--code-number) 30%, transparent);
+  }
+  .border-code-number\/40 {
+    border-color: color-mix(in oklab, var(--code-number) 40%, transparent);
+  }
+  .border-code-number\/5 {
+    border-color: color-mix(in oklab, var(--code-number) 5%, transparent);
+  }
+  .border-code-number\/50 {
+    border-color: color-mix(in oklab, var(--code-number) 50%, transparent);
+  }
+  .border-code-number\/60 {
+    border-color: color-mix(in oklab, var(--code-number) 60%, transparent);
+  }
+  .border-code-number\/70 {
+    border-color: color-mix(in oklab, var(--code-number) 70%, transparent);
+  }
+  .border-code-number\/80 {
+    border-color: color-mix(in oklab, var(--code-number) 80%, transparent);
+  }
+  .border-code-number\/90 {
+    border-color: color-mix(in oklab, var(--code-number) 90%, transparent);
+  }
+  .border-code-punct {
+    border-color: var(--code-punct);
+  }
+  .border-code-punct\/10 {
+    border-color: color-mix(in oklab, var(--code-punct) 10%, transparent);
+  }
+  .border-code-punct\/15 {
+    border-color: color-mix(in oklab, var(--code-punct) 15%, transparent);
+  }
+  .border-code-punct\/20 {
+    border-color: color-mix(in oklab, var(--code-punct) 20%, transparent);
+  }
+  .border-code-punct\/30 {
+    border-color: color-mix(in oklab, var(--code-punct) 30%, transparent);
+  }
+  .border-code-punct\/40 {
+    border-color: color-mix(in oklab, var(--code-punct) 40%, transparent);
+  }
+  .border-code-punct\/5 {
+    border-color: color-mix(in oklab, var(--code-punct) 5%, transparent);
+  }
+  .border-code-punct\/50 {
+    border-color: color-mix(in oklab, var(--code-punct) 50%, transparent);
+  }
+  .border-code-punct\/60 {
+    border-color: color-mix(in oklab, var(--code-punct) 60%, transparent);
+  }
+  .border-code-punct\/70 {
+    border-color: color-mix(in oklab, var(--code-punct) 70%, transparent);
+  }
+  .border-code-punct\/80 {
+    border-color: color-mix(in oklab, var(--code-punct) 80%, transparent);
+  }
+  .border-code-punct\/90 {
+    border-color: color-mix(in oklab, var(--code-punct) 90%, transparent);
+  }
+  .border-code-string {
+    border-color: var(--code-string);
+  }
+  .border-code-string\/10 {
+    border-color: color-mix(in oklab, var(--code-string) 10%, transparent);
+  }
+  .border-code-string\/15 {
+    border-color: color-mix(in oklab, var(--code-string) 15%, transparent);
+  }
+  .border-code-string\/20 {
+    border-color: color-mix(in oklab, var(--code-string) 20%, transparent);
+  }
+  .border-code-string\/30 {
+    border-color: color-mix(in oklab, var(--code-string) 30%, transparent);
+  }
+  .border-code-string\/40 {
+    border-color: color-mix(in oklab, var(--code-string) 40%, transparent);
+  }
+  .border-code-string\/5 {
+    border-color: color-mix(in oklab, var(--code-string) 5%, transparent);
+  }
+  .border-code-string\/50 {
+    border-color: color-mix(in oklab, var(--code-string) 50%, transparent);
+  }
+  .border-code-string\/60 {
+    border-color: color-mix(in oklab, var(--code-string) 60%, transparent);
+  }
+  .border-code-string\/70 {
+    border-color: color-mix(in oklab, var(--code-string) 70%, transparent);
+  }
+  .border-code-string\/80 {
+    border-color: color-mix(in oklab, var(--code-string) 80%, transparent);
+  }
+  .border-code-string\/90 {
+    border-color: color-mix(in oklab, var(--code-string) 90%, transparent);
+  }
+  .border-code-tag {
+    border-color: var(--code-tag);
+  }
+  .border-code-tag\/10 {
+    border-color: color-mix(in oklab, var(--code-tag) 10%, transparent);
+  }
+  .border-code-tag\/15 {
+    border-color: color-mix(in oklab, var(--code-tag) 15%, transparent);
+  }
+  .border-code-tag\/20 {
+    border-color: color-mix(in oklab, var(--code-tag) 20%, transparent);
+  }
+  .border-code-tag\/30 {
+    border-color: color-mix(in oklab, var(--code-tag) 30%, transparent);
+  }
+  .border-code-tag\/40 {
+    border-color: color-mix(in oklab, var(--code-tag) 40%, transparent);
+  }
+  .border-code-tag\/5 {
+    border-color: color-mix(in oklab, var(--code-tag) 5%, transparent);
+  }
+  .border-code-tag\/50 {
+    border-color: color-mix(in oklab, var(--code-tag) 50%, transparent);
+  }
+  .border-code-tag\/60 {
+    border-color: color-mix(in oklab, var(--code-tag) 60%, transparent);
+  }
+  .border-code-tag\/70 {
+    border-color: color-mix(in oklab, var(--code-tag) 70%, transparent);
+  }
+  .border-code-tag\/80 {
+    border-color: color-mix(in oklab, var(--code-tag) 80%, transparent);
+  }
+  .border-code-tag\/90 {
+    border-color: color-mix(in oklab, var(--code-tag) 90%, transparent);
+  }
+  .border-danger {
+    border-color: var(--danger);
+  }
+  .border-danger\/10 {
+    border-color: color-mix(in oklab, var(--danger) 10%, transparent);
+  }
+  .border-danger\/15 {
+    border-color: color-mix(in oklab, var(--danger) 15%, transparent);
+  }
+  .border-danger\/20 {
+    border-color: color-mix(in oklab, var(--danger) 20%, transparent);
+  }
+  .border-danger\/30 {
+    border-color: color-mix(in oklab, var(--danger) 30%, transparent);
+  }
+  .border-danger\/40 {
+    border-color: color-mix(in oklab, var(--danger) 40%, transparent);
+  }
+  .border-danger\/5 {
+    border-color: color-mix(in oklab, var(--danger) 5%, transparent);
+  }
+  .border-danger\/50 {
+    border-color: color-mix(in oklab, var(--danger) 50%, transparent);
+  }
+  .border-danger\/60 {
+    border-color: color-mix(in oklab, var(--danger) 60%, transparent);
+  }
+  .border-danger\/70 {
+    border-color: color-mix(in oklab, var(--danger) 70%, transparent);
+  }
+  .border-danger\/80 {
+    border-color: color-mix(in oklab, var(--danger) 80%, transparent);
+  }
+  .border-danger\/90 {
+    border-color: color-mix(in oklab, var(--danger) 90%, transparent);
+  }
+  .border-foreground {
+    border-color: var(--foreground);
+  }
+  .border-foreground-inverse {
+    border-color: var(--foreground-inverse);
+  }
+  .border-foreground-inverse\/10 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 10%, transparent);
+  }
+  .border-foreground-inverse\/15 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 15%, transparent);
+  }
+  .border-foreground-inverse\/20 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 20%, transparent);
+  }
+  .border-foreground-inverse\/30 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 30%, transparent);
+  }
+  .border-foreground-inverse\/40 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 40%, transparent);
+  }
+  .border-foreground-inverse\/5 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 5%, transparent);
+  }
+  .border-foreground-inverse\/50 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 50%, transparent);
+  }
+  .border-foreground-inverse\/60 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 60%, transparent);
+  }
+  .border-foreground-inverse\/70 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 70%, transparent);
+  }
+  .border-foreground-inverse\/80 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 80%, transparent);
+  }
+  .border-foreground-inverse\/90 {
+    border-color: color-mix(in oklab, var(--foreground-inverse) 90%, transparent);
+  }
+  .border-foreground-muted {
+    border-color: var(--foreground-muted);
+  }
+  .border-foreground-muted\/10 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 10%, transparent);
+  }
+  .border-foreground-muted\/15 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 15%, transparent);
+  }
+  .border-foreground-muted\/20 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 20%, transparent);
+  }
+  .border-foreground-muted\/30 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 30%, transparent);
+  }
+  .border-foreground-muted\/40 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 40%, transparent);
+  }
+  .border-foreground-muted\/5 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 5%, transparent);
+  }
+  .border-foreground-muted\/50 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 50%, transparent);
+  }
+  .border-foreground-muted\/60 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 60%, transparent);
+  }
+  .border-foreground-muted\/70 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 70%, transparent);
+  }
+  .border-foreground-muted\/80 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 80%, transparent);
+  }
+  .border-foreground-muted\/90 {
+    border-color: color-mix(in oklab, var(--foreground-muted) 90%, transparent);
+  }
+  .border-foreground-subtle {
+    border-color: var(--foreground-subtle);
+  }
+  .border-foreground-subtle\/10 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 10%, transparent);
+  }
+  .border-foreground-subtle\/15 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 15%, transparent);
+  }
+  .border-foreground-subtle\/20 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 20%, transparent);
+  }
+  .border-foreground-subtle\/30 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 30%, transparent);
+  }
+  .border-foreground-subtle\/40 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 40%, transparent);
+  }
+  .border-foreground-subtle\/5 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 5%, transparent);
+  }
+  .border-foreground-subtle\/50 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 50%, transparent);
+  }
+  .border-foreground-subtle\/60 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 60%, transparent);
+  }
+  .border-foreground-subtle\/70 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 70%, transparent);
+  }
+  .border-foreground-subtle\/80 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 80%, transparent);
+  }
+  .border-foreground-subtle\/90 {
+    border-color: color-mix(in oklab, var(--foreground-subtle) 90%, transparent);
+  }
+  .border-foreground\/10 {
+    border-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+  }
+  .border-foreground\/15 {
+    border-color: color-mix(in oklab, var(--foreground) 15%, transparent);
+  }
+  .border-foreground\/20 {
+    border-color: color-mix(in oklab, var(--foreground) 20%, transparent);
+  }
+  .border-foreground\/30 {
+    border-color: color-mix(in oklab, var(--foreground) 30%, transparent);
+  }
+  .border-foreground\/40 {
+    border-color: color-mix(in oklab, var(--foreground) 40%, transparent);
+  }
+  .border-foreground\/5 {
+    border-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+  }
+  .border-foreground\/50 {
+    border-color: color-mix(in oklab, var(--foreground) 50%, transparent);
+  }
+  .border-foreground\/60 {
+    border-color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  }
+  .border-foreground\/70 {
+    border-color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+  .border-foreground\/80 {
+    border-color: color-mix(in oklab, var(--foreground) 80%, transparent);
+  }
+  .border-foreground\/90 {
+    border-color: color-mix(in oklab, var(--foreground) 90%, transparent);
+  }
+  .border-glass-border {
+    border-color: var(--glass-border);
+  }
+  .border-glass-border\/10 {
+    border-color: color-mix(in oklab, var(--glass-border) 10%, transparent);
+  }
+  .border-glass-border\/15 {
+    border-color: color-mix(in oklab, var(--glass-border) 15%, transparent);
+  }
+  .border-glass-border\/20 {
+    border-color: color-mix(in oklab, var(--glass-border) 20%, transparent);
+  }
+  .border-glass-border\/30 {
+    border-color: color-mix(in oklab, var(--glass-border) 30%, transparent);
+  }
+  .border-glass-border\/40 {
+    border-color: color-mix(in oklab, var(--glass-border) 40%, transparent);
+  }
+  .border-glass-border\/5 {
+    border-color: color-mix(in oklab, var(--glass-border) 5%, transparent);
+  }
+  .border-glass-border\/50 {
+    border-color: color-mix(in oklab, var(--glass-border) 50%, transparent);
+  }
+  .border-glass-border\/60 {
+    border-color: color-mix(in oklab, var(--glass-border) 60%, transparent);
+  }
+  .border-glass-border\/70 {
+    border-color: color-mix(in oklab, var(--glass-border) 70%, transparent);
+  }
+  .border-glass-border\/80 {
+    border-color: color-mix(in oklab, var(--glass-border) 80%, transparent);
+  }
+  .border-glass-border\/90 {
+    border-color: color-mix(in oklab, var(--glass-border) 90%, transparent);
+  }
+  .border-glass-caustic {
+    border-color: var(--glass-caustic);
+  }
+  .border-glass-caustic\/10 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 10%, transparent);
+  }
+  .border-glass-caustic\/15 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 15%, transparent);
+  }
+  .border-glass-caustic\/20 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 20%, transparent);
+  }
+  .border-glass-caustic\/30 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 30%, transparent);
+  }
+  .border-glass-caustic\/40 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 40%, transparent);
+  }
+  .border-glass-caustic\/5 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 5%, transparent);
+  }
+  .border-glass-caustic\/50 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 50%, transparent);
+  }
+  .border-glass-caustic\/60 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 60%, transparent);
+  }
+  .border-glass-caustic\/70 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 70%, transparent);
+  }
+  .border-glass-caustic\/80 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 80%, transparent);
+  }
+  .border-glass-caustic\/90 {
+    border-color: color-mix(in oklab, var(--glass-caustic) 90%, transparent);
+  }
+  .border-glass-highlight {
+    border-color: var(--glass-highlight);
+  }
+  .border-glass-highlight\/10 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 10%, transparent);
+  }
+  .border-glass-highlight\/15 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 15%, transparent);
+  }
+  .border-glass-highlight\/20 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 20%, transparent);
+  }
+  .border-glass-highlight\/30 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 30%, transparent);
+  }
+  .border-glass-highlight\/40 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 40%, transparent);
+  }
+  .border-glass-highlight\/5 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 5%, transparent);
+  }
+  .border-glass-highlight\/50 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 50%, transparent);
+  }
+  .border-glass-highlight\/60 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 60%, transparent);
+  }
+  .border-glass-highlight\/70 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 70%, transparent);
+  }
+  .border-glass-highlight\/80 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 80%, transparent);
+  }
+  .border-glass-highlight\/90 {
+    border-color: color-mix(in oklab, var(--glass-highlight) 90%, transparent);
+  }
+  .border-glass-line {
+    border-color: var(--glass-line);
+  }
+  .border-glass-line\/10 {
+    border-color: color-mix(in oklab, var(--glass-line) 10%, transparent);
+  }
+  .border-glass-line\/15 {
+    border-color: color-mix(in oklab, var(--glass-line) 15%, transparent);
+  }
+  .border-glass-line\/20 {
+    border-color: color-mix(in oklab, var(--glass-line) 20%, transparent);
+  }
+  .border-glass-line\/30 {
+    border-color: color-mix(in oklab, var(--glass-line) 30%, transparent);
+  }
+  .border-glass-line\/40 {
+    border-color: color-mix(in oklab, var(--glass-line) 40%, transparent);
+  }
+  .border-glass-line\/5 {
+    border-color: color-mix(in oklab, var(--glass-line) 5%, transparent);
+  }
+  .border-glass-line\/50 {
+    border-color: color-mix(in oklab, var(--glass-line) 50%, transparent);
+  }
+  .border-glass-line\/60 {
+    border-color: color-mix(in oklab, var(--glass-line) 60%, transparent);
+  }
+  .border-glass-line\/70 {
+    border-color: color-mix(in oklab, var(--glass-line) 70%, transparent);
+  }
+  .border-glass-line\/80 {
+    border-color: color-mix(in oklab, var(--glass-line) 80%, transparent);
+  }
+  .border-glass-line\/90 {
+    border-color: color-mix(in oklab, var(--glass-line) 90%, transparent);
+  }
+  .border-glass-shadow {
+    border-color: var(--glass-shadow);
+  }
+  .border-glass-shadow\/10 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 10%, transparent);
+  }
+  .border-glass-shadow\/15 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 15%, transparent);
+  }
+  .border-glass-shadow\/20 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 20%, transparent);
+  }
+  .border-glass-shadow\/30 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 30%, transparent);
+  }
+  .border-glass-shadow\/40 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 40%, transparent);
+  }
+  .border-glass-shadow\/5 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 5%, transparent);
+  }
+  .border-glass-shadow\/50 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 50%, transparent);
+  }
+  .border-glass-shadow\/60 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 60%, transparent);
+  }
+  .border-glass-shadow\/70 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 70%, transparent);
+  }
+  .border-glass-shadow\/80 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 80%, transparent);
+  }
+  .border-glass-shadow\/90 {
+    border-color: color-mix(in oklab, var(--glass-shadow) 90%, transparent);
+  }
+  .border-info {
+    border-color: var(--info);
+  }
+  .border-info\/10 {
+    border-color: color-mix(in oklab, var(--info) 10%, transparent);
+  }
+  .border-info\/15 {
+    border-color: color-mix(in oklab, var(--info) 15%, transparent);
+  }
+  .border-info\/20 {
+    border-color: color-mix(in oklab, var(--info) 20%, transparent);
+  }
+  .border-info\/30 {
+    border-color: color-mix(in oklab, var(--info) 30%, transparent);
+  }
+  .border-info\/40 {
+    border-color: color-mix(in oklab, var(--info) 40%, transparent);
+  }
+  .border-info\/5 {
+    border-color: color-mix(in oklab, var(--info) 5%, transparent);
+  }
+  .border-info\/50 {
+    border-color: color-mix(in oklab, var(--info) 50%, transparent);
+  }
+  .border-info\/60 {
+    border-color: color-mix(in oklab, var(--info) 60%, transparent);
+  }
+  .border-info\/70 {
+    border-color: color-mix(in oklab, var(--info) 70%, transparent);
+  }
+  .border-info\/80 {
+    border-color: color-mix(in oklab, var(--info) 80%, transparent);
+  }
+  .border-info\/90 {
+    border-color: color-mix(in oklab, var(--info) 90%, transparent);
+  }
+  .border-overlay {
+    border-color: var(--overlay);
+  }
+  .border-overlay\/10 {
+    border-color: color-mix(in oklab, var(--overlay) 10%, transparent);
+  }
+  .border-overlay\/15 {
+    border-color: color-mix(in oklab, var(--overlay) 15%, transparent);
+  }
+  .border-overlay\/20 {
+    border-color: color-mix(in oklab, var(--overlay) 20%, transparent);
+  }
+  .border-overlay\/30 {
+    border-color: color-mix(in oklab, var(--overlay) 30%, transparent);
+  }
+  .border-overlay\/40 {
+    border-color: color-mix(in oklab, var(--overlay) 40%, transparent);
+  }
+  .border-overlay\/5 {
+    border-color: color-mix(in oklab, var(--overlay) 5%, transparent);
+  }
+  .border-overlay\/50 {
+    border-color: color-mix(in oklab, var(--overlay) 50%, transparent);
+  }
+  .border-overlay\/60 {
+    border-color: color-mix(in oklab, var(--overlay) 60%, transparent);
+  }
+  .border-overlay\/70 {
+    border-color: color-mix(in oklab, var(--overlay) 70%, transparent);
+  }
+  .border-overlay\/80 {
+    border-color: color-mix(in oklab, var(--overlay) 80%, transparent);
+  }
+  .border-overlay\/90 {
+    border-color: color-mix(in oklab, var(--overlay) 90%, transparent);
+  }
+  .border-primary {
+    border-color: var(--primary);
+  }
+  .border-primary-foreground {
+    border-color: var(--primary-foreground);
+  }
+  .border-primary-foreground\/10 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 10%, transparent);
+  }
+  .border-primary-foreground\/15 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 15%, transparent);
+  }
+  .border-primary-foreground\/20 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 20%, transparent);
+  }
+  .border-primary-foreground\/30 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 30%, transparent);
+  }
+  .border-primary-foreground\/40 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 40%, transparent);
+  }
+  .border-primary-foreground\/5 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 5%, transparent);
+  }
+  .border-primary-foreground\/50 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 50%, transparent);
+  }
+  .border-primary-foreground\/60 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 60%, transparent);
+  }
+  .border-primary-foreground\/70 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 70%, transparent);
+  }
+  .border-primary-foreground\/80 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 80%, transparent);
+  }
+  .border-primary-foreground\/90 {
+    border-color: color-mix(in oklab, var(--primary-foreground) 90%, transparent);
+  }
+  .border-primary-hover {
+    border-color: var(--primary-hover);
+  }
+  .border-primary-hover\/10 {
+    border-color: color-mix(in oklab, var(--primary-hover) 10%, transparent);
+  }
+  .border-primary-hover\/15 {
+    border-color: color-mix(in oklab, var(--primary-hover) 15%, transparent);
+  }
+  .border-primary-hover\/20 {
+    border-color: color-mix(in oklab, var(--primary-hover) 20%, transparent);
+  }
+  .border-primary-hover\/30 {
+    border-color: color-mix(in oklab, var(--primary-hover) 30%, transparent);
+  }
+  .border-primary-hover\/40 {
+    border-color: color-mix(in oklab, var(--primary-hover) 40%, transparent);
+  }
+  .border-primary-hover\/5 {
+    border-color: color-mix(in oklab, var(--primary-hover) 5%, transparent);
+  }
+  .border-primary-hover\/50 {
+    border-color: color-mix(in oklab, var(--primary-hover) 50%, transparent);
+  }
+  .border-primary-hover\/60 {
+    border-color: color-mix(in oklab, var(--primary-hover) 60%, transparent);
+  }
+  .border-primary-hover\/70 {
+    border-color: color-mix(in oklab, var(--primary-hover) 70%, transparent);
+  }
+  .border-primary-hover\/80 {
+    border-color: color-mix(in oklab, var(--primary-hover) 80%, transparent);
+  }
+  .border-primary-hover\/90 {
+    border-color: color-mix(in oklab, var(--primary-hover) 90%, transparent);
+  }
+  .border-primary\/10 {
+    border-color: color-mix(in oklab, var(--primary) 10%, transparent);
+  }
+  .border-primary\/15 {
+    border-color: color-mix(in oklab, var(--primary) 15%, transparent);
+  }
+  .border-primary\/20 {
+    border-color: color-mix(in oklab, var(--primary) 20%, transparent);
+  }
+  .border-primary\/30 {
+    border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  .border-primary\/40 {
+    border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+  }
+  .border-primary\/5 {
+    border-color: color-mix(in oklab, var(--primary) 5%, transparent);
+  }
+  .border-primary\/50 {
+    border-color: color-mix(in oklab, var(--primary) 50%, transparent);
+  }
+  .border-primary\/60 {
+    border-color: color-mix(in oklab, var(--primary) 60%, transparent);
+  }
+  .border-primary\/70 {
+    border-color: color-mix(in oklab, var(--primary) 70%, transparent);
+  }
+  .border-primary\/80 {
+    border-color: color-mix(in oklab, var(--primary) 80%, transparent);
+  }
+  .border-primary\/90 {
+    border-color: color-mix(in oklab, var(--primary) 90%, transparent);
+  }
+  .border-ring {
+    border-color: var(--ring);
+  }
+  .border-ring\/10 {
+    border-color: color-mix(in oklab, var(--ring) 10%, transparent);
+  }
+  .border-ring\/15 {
+    border-color: color-mix(in oklab, var(--ring) 15%, transparent);
+  }
+  .border-ring\/20 {
+    border-color: color-mix(in oklab, var(--ring) 20%, transparent);
+  }
+  .border-ring\/30 {
+    border-color: color-mix(in oklab, var(--ring) 30%, transparent);
+  }
+  .border-ring\/40 {
+    border-color: color-mix(in oklab, var(--ring) 40%, transparent);
+  }
+  .border-ring\/5 {
+    border-color: color-mix(in oklab, var(--ring) 5%, transparent);
+  }
+  .border-ring\/50 {
+    border-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+  .border-ring\/60 {
+    border-color: color-mix(in oklab, var(--ring) 60%, transparent);
+  }
+  .border-ring\/70 {
+    border-color: color-mix(in oklab, var(--ring) 70%, transparent);
+  }
+  .border-ring\/80 {
+    border-color: color-mix(in oklab, var(--ring) 80%, transparent);
+  }
+  .border-ring\/90 {
+    border-color: color-mix(in oklab, var(--ring) 90%, transparent);
+  }
+  .border-scrollbar-thumb {
+    border-color: var(--scrollbar-thumb);
+  }
+  .border-scrollbar-thumb-hover {
+    border-color: var(--scrollbar-thumb-hover);
+  }
+  .border-scrollbar-thumb-hover\/10 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 10%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/15 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 15%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/20 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 20%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/30 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 30%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/40 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 40%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/5 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 5%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/50 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 50%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/60 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 60%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/70 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 70%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/80 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 80%, transparent);
+  }
+  .border-scrollbar-thumb-hover\/90 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 90%, transparent);
+  }
+  .border-scrollbar-thumb\/10 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 10%, transparent);
+  }
+  .border-scrollbar-thumb\/15 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 15%, transparent);
+  }
+  .border-scrollbar-thumb\/20 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 20%, transparent);
+  }
+  .border-scrollbar-thumb\/30 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 30%, transparent);
+  }
+  .border-scrollbar-thumb\/40 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 40%, transparent);
+  }
+  .border-scrollbar-thumb\/5 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 5%, transparent);
+  }
+  .border-scrollbar-thumb\/50 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 50%, transparent);
+  }
+  .border-scrollbar-thumb\/60 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 60%, transparent);
+  }
+  .border-scrollbar-thumb\/70 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 70%, transparent);
+  }
+  .border-scrollbar-thumb\/80 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 80%, transparent);
+  }
+  .border-scrollbar-thumb\/90 {
+    border-color: color-mix(in oklab, var(--scrollbar-thumb) 90%, transparent);
+  }
+  .border-scrollbar-track {
+    border-color: var(--scrollbar-track);
+  }
+  .border-scrollbar-track\/10 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 10%, transparent);
+  }
+  .border-scrollbar-track\/15 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 15%, transparent);
+  }
+  .border-scrollbar-track\/20 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 20%, transparent);
+  }
+  .border-scrollbar-track\/30 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 30%, transparent);
+  }
+  .border-scrollbar-track\/40 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 40%, transparent);
+  }
+  .border-scrollbar-track\/5 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 5%, transparent);
+  }
+  .border-scrollbar-track\/50 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 50%, transparent);
+  }
+  .border-scrollbar-track\/60 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 60%, transparent);
+  }
+  .border-scrollbar-track\/70 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 70%, transparent);
+  }
+  .border-scrollbar-track\/80 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 80%, transparent);
+  }
+  .border-scrollbar-track\/90 {
+    border-color: color-mix(in oklab, var(--scrollbar-track) 90%, transparent);
+  }
+  .border-secondary {
+    border-color: var(--secondary);
+  }
+  .border-secondary-foreground {
+    border-color: var(--secondary-foreground);
+  }
+  .border-secondary-foreground\/10 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 10%, transparent);
+  }
+  .border-secondary-foreground\/15 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 15%, transparent);
+  }
+  .border-secondary-foreground\/20 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 20%, transparent);
+  }
+  .border-secondary-foreground\/30 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 30%, transparent);
+  }
+  .border-secondary-foreground\/40 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 40%, transparent);
+  }
+  .border-secondary-foreground\/5 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 5%, transparent);
+  }
+  .border-secondary-foreground\/50 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 50%, transparent);
+  }
+  .border-secondary-foreground\/60 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 60%, transparent);
+  }
+  .border-secondary-foreground\/70 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 70%, transparent);
+  }
+  .border-secondary-foreground\/80 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 80%, transparent);
+  }
+  .border-secondary-foreground\/90 {
+    border-color: color-mix(in oklab, var(--secondary-foreground) 90%, transparent);
+  }
+  .border-secondary\/10 {
+    border-color: color-mix(in oklab, var(--secondary) 10%, transparent);
+  }
+  .border-secondary\/15 {
+    border-color: color-mix(in oklab, var(--secondary) 15%, transparent);
+  }
+  .border-secondary\/20 {
+    border-color: color-mix(in oklab, var(--secondary) 20%, transparent);
+  }
+  .border-secondary\/30 {
+    border-color: color-mix(in oklab, var(--secondary) 30%, transparent);
+  }
+  .border-secondary\/40 {
+    border-color: color-mix(in oklab, var(--secondary) 40%, transparent);
+  }
+  .border-secondary\/5 {
+    border-color: color-mix(in oklab, var(--secondary) 5%, transparent);
+  }
+  .border-secondary\/50 {
+    border-color: color-mix(in oklab, var(--secondary) 50%, transparent);
+  }
+  .border-secondary\/60 {
+    border-color: color-mix(in oklab, var(--secondary) 60%, transparent);
+  }
+  .border-secondary\/70 {
+    border-color: color-mix(in oklab, var(--secondary) 70%, transparent);
+  }
+  .border-secondary\/80 {
+    border-color: color-mix(in oklab, var(--secondary) 80%, transparent);
+  }
+  .border-secondary\/90 {
+    border-color: color-mix(in oklab, var(--secondary) 90%, transparent);
+  }
+  .border-success {
+    border-color: var(--success);
+  }
+  .border-success\/10 {
+    border-color: color-mix(in oklab, var(--success) 10%, transparent);
+  }
+  .border-success\/15 {
+    border-color: color-mix(in oklab, var(--success) 15%, transparent);
+  }
+  .border-success\/20 {
+    border-color: color-mix(in oklab, var(--success) 20%, transparent);
+  }
+  .border-success\/30 {
+    border-color: color-mix(in oklab, var(--success) 30%, transparent);
+  }
+  .border-success\/40 {
+    border-color: color-mix(in oklab, var(--success) 40%, transparent);
+  }
+  .border-success\/5 {
+    border-color: color-mix(in oklab, var(--success) 5%, transparent);
+  }
+  .border-success\/50 {
+    border-color: color-mix(in oklab, var(--success) 50%, transparent);
+  }
+  .border-success\/60 {
+    border-color: color-mix(in oklab, var(--success) 60%, transparent);
+  }
+  .border-success\/70 {
+    border-color: color-mix(in oklab, var(--success) 70%, transparent);
+  }
+  .border-success\/80 {
+    border-color: color-mix(in oklab, var(--success) 80%, transparent);
+  }
+  .border-success\/90 {
+    border-color: color-mix(in oklab, var(--success) 90%, transparent);
+  }
+  .border-surface {
+    border-color: var(--surface);
+  }
+  .border-surface-inverse {
+    border-color: var(--surface-inverse);
+  }
+  .border-surface-inverse\/10 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 10%, transparent);
+  }
+  .border-surface-inverse\/15 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 15%, transparent);
+  }
+  .border-surface-inverse\/20 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 20%, transparent);
+  }
+  .border-surface-inverse\/30 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 30%, transparent);
+  }
+  .border-surface-inverse\/40 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 40%, transparent);
+  }
+  .border-surface-inverse\/5 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 5%, transparent);
+  }
+  .border-surface-inverse\/50 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 50%, transparent);
+  }
+  .border-surface-inverse\/60 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 60%, transparent);
+  }
+  .border-surface-inverse\/70 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 70%, transparent);
+  }
+  .border-surface-inverse\/80 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 80%, transparent);
+  }
+  .border-surface-inverse\/90 {
+    border-color: color-mix(in oklab, var(--surface-inverse) 90%, transparent);
+  }
+  .border-surface-muted {
+    border-color: var(--surface-muted);
+  }
+  .border-surface-muted\/10 {
+    border-color: color-mix(in oklab, var(--surface-muted) 10%, transparent);
+  }
+  .border-surface-muted\/15 {
+    border-color: color-mix(in oklab, var(--surface-muted) 15%, transparent);
+  }
+  .border-surface-muted\/20 {
+    border-color: color-mix(in oklab, var(--surface-muted) 20%, transparent);
+  }
+  .border-surface-muted\/30 {
+    border-color: color-mix(in oklab, var(--surface-muted) 30%, transparent);
+  }
+  .border-surface-muted\/40 {
+    border-color: color-mix(in oklab, var(--surface-muted) 40%, transparent);
+  }
+  .border-surface-muted\/5 {
+    border-color: color-mix(in oklab, var(--surface-muted) 5%, transparent);
+  }
+  .border-surface-muted\/50 {
+    border-color: color-mix(in oklab, var(--surface-muted) 50%, transparent);
+  }
+  .border-surface-muted\/60 {
+    border-color: color-mix(in oklab, var(--surface-muted) 60%, transparent);
+  }
+  .border-surface-muted\/70 {
+    border-color: color-mix(in oklab, var(--surface-muted) 70%, transparent);
+  }
+  .border-surface-muted\/80 {
+    border-color: color-mix(in oklab, var(--surface-muted) 80%, transparent);
+  }
+  .border-surface-muted\/90 {
+    border-color: color-mix(in oklab, var(--surface-muted) 90%, transparent);
+  }
+  .border-surface\/10 {
+    border-color: color-mix(in oklab, var(--surface) 10%, transparent);
+  }
+  .border-surface\/15 {
+    border-color: color-mix(in oklab, var(--surface) 15%, transparent);
+  }
+  .border-surface\/20 {
+    border-color: color-mix(in oklab, var(--surface) 20%, transparent);
+  }
+  .border-surface\/30 {
+    border-color: color-mix(in oklab, var(--surface) 30%, transparent);
+  }
+  .border-surface\/40 {
+    border-color: color-mix(in oklab, var(--surface) 40%, transparent);
+  }
+  .border-surface\/5 {
+    border-color: color-mix(in oklab, var(--surface) 5%, transparent);
+  }
+  .border-surface\/50 {
+    border-color: color-mix(in oklab, var(--surface) 50%, transparent);
+  }
+  .border-surface\/60 {
+    border-color: color-mix(in oklab, var(--surface) 60%, transparent);
+  }
+  .border-surface\/70 {
+    border-color: color-mix(in oklab, var(--surface) 70%, transparent);
+  }
+  .border-surface\/80 {
+    border-color: color-mix(in oklab, var(--surface) 80%, transparent);
+  }
+  .border-surface\/90 {
+    border-color: color-mix(in oklab, var(--surface) 90%, transparent);
+  }
+  .border-transparent {
+    border-color: transparent;
+  }
+  .border-warning {
+    border-color: var(--warning);
+  }
+  .border-warning\/10 {
+    border-color: color-mix(in oklab, var(--warning) 10%, transparent);
+  }
+  .border-warning\/15 {
+    border-color: color-mix(in oklab, var(--warning) 15%, transparent);
+  }
+  .border-warning\/20 {
+    border-color: color-mix(in oklab, var(--warning) 20%, transparent);
+  }
+  .border-warning\/30 {
+    border-color: color-mix(in oklab, var(--warning) 30%, transparent);
+  }
+  .border-warning\/40 {
+    border-color: color-mix(in oklab, var(--warning) 40%, transparent);
+  }
+  .border-warning\/5 {
+    border-color: color-mix(in oklab, var(--warning) 5%, transparent);
+  }
+  .border-warning\/50 {
+    border-color: color-mix(in oklab, var(--warning) 50%, transparent);
+  }
+  .border-warning\/60 {
+    border-color: color-mix(in oklab, var(--warning) 60%, transparent);
+  }
+  .border-warning\/70 {
+    border-color: color-mix(in oklab, var(--warning) 70%, transparent);
+  }
+  .border-warning\/80 {
+    border-color: color-mix(in oklab, var(--warning) 80%, transparent);
+  }
+  .border-warning\/90 {
+    border-color: color-mix(in oklab, var(--warning) 90%, transparent);
+  }
+  .border-white {
+    border-color: var(--white);
+  }
+  .border-white\/10 {
+    border-color: color-mix(in oklab, var(--white) 10%, transparent);
+  }
+  .border-white\/15 {
+    border-color: color-mix(in oklab, var(--white) 15%, transparent);
+  }
+  .border-white\/20 {
+    border-color: color-mix(in oklab, var(--white) 20%, transparent);
+  }
+  .border-white\/30 {
+    border-color: color-mix(in oklab, var(--white) 30%, transparent);
+  }
+  .border-white\/40 {
+    border-color: color-mix(in oklab, var(--white) 40%, transparent);
+  }
+  .border-white\/5 {
+    border-color: color-mix(in oklab, var(--white) 5%, transparent);
+  }
+  .border-white\/50 {
+    border-color: color-mix(in oklab, var(--white) 50%, transparent);
+  }
+  .border-white\/60 {
+    border-color: color-mix(in oklab, var(--white) 60%, transparent);
+  }
+  .border-white\/70 {
+    border-color: color-mix(in oklab, var(--white) 70%, transparent);
+  }
+  .border-white\/80 {
+    border-color: color-mix(in oklab, var(--white) 80%, transparent);
+  }
+  .border-white\/90 {
+    border-color: color-mix(in oklab, var(--white) 90%, transparent);
+  }
+  .bg-accent {
+    background-color: var(--accent);
+  }
+  .bg-accent-foreground {
+    background-color: var(--accent-foreground);
+  }
+  .bg-accent-foreground\/10 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 10%, transparent);
+  }
+  .bg-accent-foreground\/15 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 15%, transparent);
+  }
+  .bg-accent-foreground\/20 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 20%, transparent);
+  }
+  .bg-accent-foreground\/30 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 30%, transparent);
+  }
+  .bg-accent-foreground\/40 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 40%, transparent);
+  }
+  .bg-accent-foreground\/5 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 5%, transparent);
+  }
+  .bg-accent-foreground\/50 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 50%, transparent);
+  }
+  .bg-accent-foreground\/60 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 60%, transparent);
+  }
+  .bg-accent-foreground\/70 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 70%, transparent);
+  }
+  .bg-accent-foreground\/80 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 80%, transparent);
+  }
+  .bg-accent-foreground\/90 {
+    background-color: color-mix(in oklab, var(--accent-foreground) 90%, transparent);
+  }
+  .bg-accent\/10 {
+    background-color: color-mix(in oklab, var(--accent) 10%, transparent);
+  }
+  .bg-accent\/15 {
+    background-color: color-mix(in oklab, var(--accent) 15%, transparent);
+  }
+  .bg-accent\/20 {
+    background-color: color-mix(in oklab, var(--accent) 20%, transparent);
+  }
+  .bg-accent\/30 {
+    background-color: color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .bg-accent\/40 {
+    background-color: color-mix(in oklab, var(--accent) 40%, transparent);
+  }
+  .bg-accent\/5 {
+    background-color: color-mix(in oklab, var(--accent) 5%, transparent);
+  }
+  .bg-accent\/50 {
+    background-color: color-mix(in oklab, var(--accent) 50%, transparent);
+  }
+  .bg-accent\/60 {
+    background-color: color-mix(in oklab, var(--accent) 60%, transparent);
+  }
+  .bg-accent\/70 {
+    background-color: color-mix(in oklab, var(--accent) 70%, transparent);
+  }
+  .bg-accent\/80 {
+    background-color: color-mix(in oklab, var(--accent) 80%, transparent);
+  }
+  .bg-accent\/90 {
+    background-color: color-mix(in oklab, var(--accent) 90%, transparent);
+  }
+  .bg-background {
+    background-color: var(--background);
+  }
+  .bg-background\/10 {
+    background-color: color-mix(in oklab, var(--background) 10%, transparent);
+  }
+  .bg-background\/15 {
+    background-color: color-mix(in oklab, var(--background) 15%, transparent);
+  }
+  .bg-background\/20 {
+    background-color: color-mix(in oklab, var(--background) 20%, transparent);
+  }
+  .bg-background\/30 {
+    background-color: color-mix(in oklab, var(--background) 30%, transparent);
+  }
+  .bg-background\/40 {
+    background-color: color-mix(in oklab, var(--background) 40%, transparent);
+  }
+  .bg-background\/5 {
+    background-color: color-mix(in oklab, var(--background) 5%, transparent);
+  }
+  .bg-background\/50 {
+    background-color: color-mix(in oklab, var(--background) 50%, transparent);
+  }
+  .bg-background\/60 {
+    background-color: color-mix(in oklab, var(--background) 60%, transparent);
+  }
+  .bg-background\/70 {
+    background-color: color-mix(in oklab, var(--background) 70%, transparent);
+  }
+  .bg-background\/80 {
+    background-color: color-mix(in oklab, var(--background) 80%, transparent);
+  }
+  .bg-background\/90 {
+    background-color: color-mix(in oklab, var(--background) 90%, transparent);
+  }
+  .bg-black {
+    background-color: var(--black);
+  }
+  .bg-black\/10 {
+    background-color: color-mix(in oklab, var(--black) 10%, transparent);
+  }
+  .bg-black\/15 {
+    background-color: color-mix(in oklab, var(--black) 15%, transparent);
+  }
+  .bg-black\/20 {
+    background-color: color-mix(in oklab, var(--black) 20%, transparent);
+  }
+  .bg-black\/30 {
+    background-color: color-mix(in oklab, var(--black) 30%, transparent);
+  }
+  .bg-black\/40 {
+    background-color: color-mix(in oklab, var(--black) 40%, transparent);
+  }
+  .bg-black\/5 {
+    background-color: color-mix(in oklab, var(--black) 5%, transparent);
+  }
+  .bg-black\/50 {
+    background-color: color-mix(in oklab, var(--black) 50%, transparent);
+  }
+  .bg-black\/60 {
+    background-color: color-mix(in oklab, var(--black) 60%, transparent);
+  }
+  .bg-black\/70 {
+    background-color: color-mix(in oklab, var(--black) 70%, transparent);
+  }
+  .bg-black\/80 {
+    background-color: color-mix(in oklab, var(--black) 80%, transparent);
+  }
+  .bg-black\/90 {
+    background-color: color-mix(in oklab, var(--black) 90%, transparent);
+  }
+  .bg-border {
+    background-color: var(--border);
+  }
+  .bg-border-strong {
+    background-color: var(--border-strong);
+  }
+  .bg-border-strong\/10 {
+    background-color: color-mix(in oklab, var(--border-strong) 10%, transparent);
+  }
+  .bg-border-strong\/15 {
+    background-color: color-mix(in oklab, var(--border-strong) 15%, transparent);
+  }
+  .bg-border-strong\/20 {
+    background-color: color-mix(in oklab, var(--border-strong) 20%, transparent);
+  }
+  .bg-border-strong\/30 {
+    background-color: color-mix(in oklab, var(--border-strong) 30%, transparent);
+  }
+  .bg-border-strong\/40 {
+    background-color: color-mix(in oklab, var(--border-strong) 40%, transparent);
+  }
+  .bg-border-strong\/5 {
+    background-color: color-mix(in oklab, var(--border-strong) 5%, transparent);
+  }
+  .bg-border-strong\/50 {
+    background-color: color-mix(in oklab, var(--border-strong) 50%, transparent);
+  }
+  .bg-border-strong\/60 {
+    background-color: color-mix(in oklab, var(--border-strong) 60%, transparent);
+  }
+  .bg-border-strong\/70 {
+    background-color: color-mix(in oklab, var(--border-strong) 70%, transparent);
+  }
+  .bg-border-strong\/80 {
+    background-color: color-mix(in oklab, var(--border-strong) 80%, transparent);
+  }
+  .bg-border-strong\/90 {
+    background-color: color-mix(in oklab, var(--border-strong) 90%, transparent);
+  }
+  .bg-border\/10 {
+    background-color: color-mix(in oklab, var(--border) 10%, transparent);
+  }
+  .bg-border\/15 {
+    background-color: color-mix(in oklab, var(--border) 15%, transparent);
+  }
+  .bg-border\/20 {
+    background-color: color-mix(in oklab, var(--border) 20%, transparent);
+  }
+  .bg-border\/30 {
+    background-color: color-mix(in oklab, var(--border) 30%, transparent);
+  }
+  .bg-border\/40 {
+    background-color: color-mix(in oklab, var(--border) 40%, transparent);
+  }
+  .bg-border\/5 {
+    background-color: color-mix(in oklab, var(--border) 5%, transparent);
+  }
+  .bg-border\/50 {
+    background-color: color-mix(in oklab, var(--border) 50%, transparent);
+  }
+  .bg-border\/60 {
+    background-color: color-mix(in oklab, var(--border) 60%, transparent);
+  }
+  .bg-border\/70 {
+    background-color: color-mix(in oklab, var(--border) 70%, transparent);
+  }
+  .bg-border\/80 {
+    background-color: color-mix(in oklab, var(--border) 80%, transparent);
+  }
+  .bg-border\/90 {
+    background-color: color-mix(in oklab, var(--border) 90%, transparent);
+  }
+  .bg-code-attr {
+    background-color: var(--code-attr);
+  }
+  .bg-code-attr\/10 {
+    background-color: color-mix(in oklab, var(--code-attr) 10%, transparent);
+  }
+  .bg-code-attr\/15 {
+    background-color: color-mix(in oklab, var(--code-attr) 15%, transparent);
+  }
+  .bg-code-attr\/20 {
+    background-color: color-mix(in oklab, var(--code-attr) 20%, transparent);
+  }
+  .bg-code-attr\/30 {
+    background-color: color-mix(in oklab, var(--code-attr) 30%, transparent);
+  }
+  .bg-code-attr\/40 {
+    background-color: color-mix(in oklab, var(--code-attr) 40%, transparent);
+  }
+  .bg-code-attr\/5 {
+    background-color: color-mix(in oklab, var(--code-attr) 5%, transparent);
+  }
+  .bg-code-attr\/50 {
+    background-color: color-mix(in oklab, var(--code-attr) 50%, transparent);
+  }
+  .bg-code-attr\/60 {
+    background-color: color-mix(in oklab, var(--code-attr) 60%, transparent);
+  }
+  .bg-code-attr\/70 {
+    background-color: color-mix(in oklab, var(--code-attr) 70%, transparent);
+  }
+  .bg-code-attr\/80 {
+    background-color: color-mix(in oklab, var(--code-attr) 80%, transparent);
+  }
+  .bg-code-attr\/90 {
+    background-color: color-mix(in oklab, var(--code-attr) 90%, transparent);
+  }
+  .bg-code-comment {
+    background-color: var(--code-comment);
+  }
+  .bg-code-comment\/10 {
+    background-color: color-mix(in oklab, var(--code-comment) 10%, transparent);
+  }
+  .bg-code-comment\/15 {
+    background-color: color-mix(in oklab, var(--code-comment) 15%, transparent);
+  }
+  .bg-code-comment\/20 {
+    background-color: color-mix(in oklab, var(--code-comment) 20%, transparent);
+  }
+  .bg-code-comment\/30 {
+    background-color: color-mix(in oklab, var(--code-comment) 30%, transparent);
+  }
+  .bg-code-comment\/40 {
+    background-color: color-mix(in oklab, var(--code-comment) 40%, transparent);
+  }
+  .bg-code-comment\/5 {
+    background-color: color-mix(in oklab, var(--code-comment) 5%, transparent);
+  }
+  .bg-code-comment\/50 {
+    background-color: color-mix(in oklab, var(--code-comment) 50%, transparent);
+  }
+  .bg-code-comment\/60 {
+    background-color: color-mix(in oklab, var(--code-comment) 60%, transparent);
+  }
+  .bg-code-comment\/70 {
+    background-color: color-mix(in oklab, var(--code-comment) 70%, transparent);
+  }
+  .bg-code-comment\/80 {
+    background-color: color-mix(in oklab, var(--code-comment) 80%, transparent);
+  }
+  .bg-code-comment\/90 {
+    background-color: color-mix(in oklab, var(--code-comment) 90%, transparent);
+  }
+  .bg-code-fn {
+    background-color: var(--code-fn);
+  }
+  .bg-code-fn\/10 {
+    background-color: color-mix(in oklab, var(--code-fn) 10%, transparent);
+  }
+  .bg-code-fn\/15 {
+    background-color: color-mix(in oklab, var(--code-fn) 15%, transparent);
+  }
+  .bg-code-fn\/20 {
+    background-color: color-mix(in oklab, var(--code-fn) 20%, transparent);
+  }
+  .bg-code-fn\/30 {
+    background-color: color-mix(in oklab, var(--code-fn) 30%, transparent);
+  }
+  .bg-code-fn\/40 {
+    background-color: color-mix(in oklab, var(--code-fn) 40%, transparent);
+  }
+  .bg-code-fn\/5 {
+    background-color: color-mix(in oklab, var(--code-fn) 5%, transparent);
+  }
+  .bg-code-fn\/50 {
+    background-color: color-mix(in oklab, var(--code-fn) 50%, transparent);
+  }
+  .bg-code-fn\/60 {
+    background-color: color-mix(in oklab, var(--code-fn) 60%, transparent);
+  }
+  .bg-code-fn\/70 {
+    background-color: color-mix(in oklab, var(--code-fn) 70%, transparent);
+  }
+  .bg-code-fn\/80 {
+    background-color: color-mix(in oklab, var(--code-fn) 80%, transparent);
+  }
+  .bg-code-fn\/90 {
+    background-color: color-mix(in oklab, var(--code-fn) 90%, transparent);
+  }
+  .bg-code-keyword {
+    background-color: var(--code-keyword);
+  }
+  .bg-code-keyword\/10 {
+    background-color: color-mix(in oklab, var(--code-keyword) 10%, transparent);
+  }
+  .bg-code-keyword\/15 {
+    background-color: color-mix(in oklab, var(--code-keyword) 15%, transparent);
+  }
+  .bg-code-keyword\/20 {
+    background-color: color-mix(in oklab, var(--code-keyword) 20%, transparent);
+  }
+  .bg-code-keyword\/30 {
+    background-color: color-mix(in oklab, var(--code-keyword) 30%, transparent);
+  }
+  .bg-code-keyword\/40 {
+    background-color: color-mix(in oklab, var(--code-keyword) 40%, transparent);
+  }
+  .bg-code-keyword\/5 {
+    background-color: color-mix(in oklab, var(--code-keyword) 5%, transparent);
+  }
+  .bg-code-keyword\/50 {
+    background-color: color-mix(in oklab, var(--code-keyword) 50%, transparent);
+  }
+  .bg-code-keyword\/60 {
+    background-color: color-mix(in oklab, var(--code-keyword) 60%, transparent);
+  }
+  .bg-code-keyword\/70 {
+    background-color: color-mix(in oklab, var(--code-keyword) 70%, transparent);
+  }
+  .bg-code-keyword\/80 {
+    background-color: color-mix(in oklab, var(--code-keyword) 80%, transparent);
+  }
+  .bg-code-keyword\/90 {
+    background-color: color-mix(in oklab, var(--code-keyword) 90%, transparent);
+  }
+  .bg-code-number {
+    background-color: var(--code-number);
+  }
+  .bg-code-number\/10 {
+    background-color: color-mix(in oklab, var(--code-number) 10%, transparent);
+  }
+  .bg-code-number\/15 {
+    background-color: color-mix(in oklab, var(--code-number) 15%, transparent);
+  }
+  .bg-code-number\/20 {
+    background-color: color-mix(in oklab, var(--code-number) 20%, transparent);
+  }
+  .bg-code-number\/30 {
+    background-color: color-mix(in oklab, var(--code-number) 30%, transparent);
+  }
+  .bg-code-number\/40 {
+    background-color: color-mix(in oklab, var(--code-number) 40%, transparent);
+  }
+  .bg-code-number\/5 {
+    background-color: color-mix(in oklab, var(--code-number) 5%, transparent);
+  }
+  .bg-code-number\/50 {
+    background-color: color-mix(in oklab, var(--code-number) 50%, transparent);
+  }
+  .bg-code-number\/60 {
+    background-color: color-mix(in oklab, var(--code-number) 60%, transparent);
+  }
+  .bg-code-number\/70 {
+    background-color: color-mix(in oklab, var(--code-number) 70%, transparent);
+  }
+  .bg-code-number\/80 {
+    background-color: color-mix(in oklab, var(--code-number) 80%, transparent);
+  }
+  .bg-code-number\/90 {
+    background-color: color-mix(in oklab, var(--code-number) 90%, transparent);
+  }
+  .bg-code-punct {
+    background-color: var(--code-punct);
+  }
+  .bg-code-punct\/10 {
+    background-color: color-mix(in oklab, var(--code-punct) 10%, transparent);
+  }
+  .bg-code-punct\/15 {
+    background-color: color-mix(in oklab, var(--code-punct) 15%, transparent);
+  }
+  .bg-code-punct\/20 {
+    background-color: color-mix(in oklab, var(--code-punct) 20%, transparent);
+  }
+  .bg-code-punct\/30 {
+    background-color: color-mix(in oklab, var(--code-punct) 30%, transparent);
+  }
+  .bg-code-punct\/40 {
+    background-color: color-mix(in oklab, var(--code-punct) 40%, transparent);
+  }
+  .bg-code-punct\/5 {
+    background-color: color-mix(in oklab, var(--code-punct) 5%, transparent);
+  }
+  .bg-code-punct\/50 {
+    background-color: color-mix(in oklab, var(--code-punct) 50%, transparent);
+  }
+  .bg-code-punct\/60 {
+    background-color: color-mix(in oklab, var(--code-punct) 60%, transparent);
+  }
+  .bg-code-punct\/70 {
+    background-color: color-mix(in oklab, var(--code-punct) 70%, transparent);
+  }
+  .bg-code-punct\/80 {
+    background-color: color-mix(in oklab, var(--code-punct) 80%, transparent);
+  }
+  .bg-code-punct\/90 {
+    background-color: color-mix(in oklab, var(--code-punct) 90%, transparent);
+  }
+  .bg-code-string {
+    background-color: var(--code-string);
+  }
+  .bg-code-string\/10 {
+    background-color: color-mix(in oklab, var(--code-string) 10%, transparent);
+  }
+  .bg-code-string\/15 {
+    background-color: color-mix(in oklab, var(--code-string) 15%, transparent);
+  }
+  .bg-code-string\/20 {
+    background-color: color-mix(in oklab, var(--code-string) 20%, transparent);
+  }
+  .bg-code-string\/30 {
+    background-color: color-mix(in oklab, var(--code-string) 30%, transparent);
+  }
+  .bg-code-string\/40 {
+    background-color: color-mix(in oklab, var(--code-string) 40%, transparent);
+  }
+  .bg-code-string\/5 {
+    background-color: color-mix(in oklab, var(--code-string) 5%, transparent);
+  }
+  .bg-code-string\/50 {
+    background-color: color-mix(in oklab, var(--code-string) 50%, transparent);
+  }
+  .bg-code-string\/60 {
+    background-color: color-mix(in oklab, var(--code-string) 60%, transparent);
+  }
+  .bg-code-string\/70 {
+    background-color: color-mix(in oklab, var(--code-string) 70%, transparent);
+  }
+  .bg-code-string\/80 {
+    background-color: color-mix(in oklab, var(--code-string) 80%, transparent);
+  }
+  .bg-code-string\/90 {
+    background-color: color-mix(in oklab, var(--code-string) 90%, transparent);
+  }
+  .bg-code-tag {
+    background-color: var(--code-tag);
+  }
+  .bg-code-tag\/10 {
+    background-color: color-mix(in oklab, var(--code-tag) 10%, transparent);
+  }
+  .bg-code-tag\/15 {
+    background-color: color-mix(in oklab, var(--code-tag) 15%, transparent);
+  }
+  .bg-code-tag\/20 {
+    background-color: color-mix(in oklab, var(--code-tag) 20%, transparent);
+  }
+  .bg-code-tag\/30 {
+    background-color: color-mix(in oklab, var(--code-tag) 30%, transparent);
+  }
+  .bg-code-tag\/40 {
+    background-color: color-mix(in oklab, var(--code-tag) 40%, transparent);
+  }
+  .bg-code-tag\/5 {
+    background-color: color-mix(in oklab, var(--code-tag) 5%, transparent);
+  }
+  .bg-code-tag\/50 {
+    background-color: color-mix(in oklab, var(--code-tag) 50%, transparent);
+  }
+  .bg-code-tag\/60 {
+    background-color: color-mix(in oklab, var(--code-tag) 60%, transparent);
+  }
+  .bg-code-tag\/70 {
+    background-color: color-mix(in oklab, var(--code-tag) 70%, transparent);
+  }
+  .bg-code-tag\/80 {
+    background-color: color-mix(in oklab, var(--code-tag) 80%, transparent);
+  }
+  .bg-code-tag\/90 {
+    background-color: color-mix(in oklab, var(--code-tag) 90%, transparent);
+  }
+  .bg-danger {
+    background-color: var(--danger);
+  }
+  .bg-danger\/10 {
+    background-color: color-mix(in oklab, var(--danger) 10%, transparent);
+  }
+  .bg-danger\/15 {
+    background-color: color-mix(in oklab, var(--danger) 15%, transparent);
+  }
+  .bg-danger\/20 {
+    background-color: color-mix(in oklab, var(--danger) 20%, transparent);
+  }
+  .bg-danger\/30 {
+    background-color: color-mix(in oklab, var(--danger) 30%, transparent);
+  }
+  .bg-danger\/40 {
+    background-color: color-mix(in oklab, var(--danger) 40%, transparent);
+  }
+  .bg-danger\/5 {
+    background-color: color-mix(in oklab, var(--danger) 5%, transparent);
+  }
+  .bg-danger\/50 {
+    background-color: color-mix(in oklab, var(--danger) 50%, transparent);
+  }
+  .bg-danger\/60 {
+    background-color: color-mix(in oklab, var(--danger) 60%, transparent);
+  }
+  .bg-danger\/70 {
+    background-color: color-mix(in oklab, var(--danger) 70%, transparent);
+  }
+  .bg-danger\/80 {
+    background-color: color-mix(in oklab, var(--danger) 80%, transparent);
+  }
+  .bg-danger\/90 {
+    background-color: color-mix(in oklab, var(--danger) 90%, transparent);
+  }
+  .bg-foreground {
+    background-color: var(--foreground);
+  }
+  .bg-foreground-inverse {
+    background-color: var(--foreground-inverse);
+  }
+  .bg-foreground-inverse\/10 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 10%, transparent);
+  }
+  .bg-foreground-inverse\/15 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 15%, transparent);
+  }
+  .bg-foreground-inverse\/20 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 20%, transparent);
+  }
+  .bg-foreground-inverse\/30 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 30%, transparent);
+  }
+  .bg-foreground-inverse\/40 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 40%, transparent);
+  }
+  .bg-foreground-inverse\/5 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 5%, transparent);
+  }
+  .bg-foreground-inverse\/50 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 50%, transparent);
+  }
+  .bg-foreground-inverse\/60 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 60%, transparent);
+  }
+  .bg-foreground-inverse\/70 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 70%, transparent);
+  }
+  .bg-foreground-inverse\/80 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 80%, transparent);
+  }
+  .bg-foreground-inverse\/90 {
+    background-color: color-mix(in oklab, var(--foreground-inverse) 90%, transparent);
+  }
+  .bg-foreground-muted {
+    background-color: var(--foreground-muted);
+  }
+  .bg-foreground-muted\/10 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 10%, transparent);
+  }
+  .bg-foreground-muted\/15 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 15%, transparent);
+  }
+  .bg-foreground-muted\/20 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 20%, transparent);
+  }
+  .bg-foreground-muted\/30 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 30%, transparent);
+  }
+  .bg-foreground-muted\/40 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 40%, transparent);
+  }
+  .bg-foreground-muted\/5 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 5%, transparent);
+  }
+  .bg-foreground-muted\/50 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 50%, transparent);
+  }
+  .bg-foreground-muted\/60 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 60%, transparent);
+  }
+  .bg-foreground-muted\/70 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 70%, transparent);
+  }
+  .bg-foreground-muted\/80 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 80%, transparent);
+  }
+  .bg-foreground-muted\/90 {
+    background-color: color-mix(in oklab, var(--foreground-muted) 90%, transparent);
+  }
+  .bg-foreground-subtle {
+    background-color: var(--foreground-subtle);
+  }
+  .bg-foreground-subtle\/10 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 10%, transparent);
+  }
+  .bg-foreground-subtle\/15 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 15%, transparent);
+  }
+  .bg-foreground-subtle\/20 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 20%, transparent);
+  }
+  .bg-foreground-subtle\/30 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 30%, transparent);
+  }
+  .bg-foreground-subtle\/40 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 40%, transparent);
+  }
+  .bg-foreground-subtle\/5 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 5%, transparent);
+  }
+  .bg-foreground-subtle\/50 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 50%, transparent);
+  }
+  .bg-foreground-subtle\/60 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 60%, transparent);
+  }
+  .bg-foreground-subtle\/70 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 70%, transparent);
+  }
+  .bg-foreground-subtle\/80 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 80%, transparent);
+  }
+  .bg-foreground-subtle\/90 {
+    background-color: color-mix(in oklab, var(--foreground-subtle) 90%, transparent);
+  }
+  .bg-foreground\/10 {
+    background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+  }
+  .bg-foreground\/15 {
+    background-color: color-mix(in oklab, var(--foreground) 15%, transparent);
+  }
+  .bg-foreground\/20 {
+    background-color: color-mix(in oklab, var(--foreground) 20%, transparent);
+  }
+  .bg-foreground\/30 {
+    background-color: color-mix(in oklab, var(--foreground) 30%, transparent);
+  }
+  .bg-foreground\/40 {
+    background-color: color-mix(in oklab, var(--foreground) 40%, transparent);
+  }
+  .bg-foreground\/5 {
+    background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+  }
+  .bg-foreground\/50 {
+    background-color: color-mix(in oklab, var(--foreground) 50%, transparent);
+  }
+  .bg-foreground\/60 {
+    background-color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  }
+  .bg-foreground\/70 {
+    background-color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+  .bg-foreground\/80 {
+    background-color: color-mix(in oklab, var(--foreground) 80%, transparent);
+  }
+  .bg-foreground\/90 {
+    background-color: color-mix(in oklab, var(--foreground) 90%, transparent);
+  }
+  .bg-glass-border {
+    background-color: var(--glass-border);
+  }
+  .bg-glass-border\/10 {
+    background-color: color-mix(in oklab, var(--glass-border) 10%, transparent);
+  }
+  .bg-glass-border\/15 {
+    background-color: color-mix(in oklab, var(--glass-border) 15%, transparent);
+  }
+  .bg-glass-border\/20 {
+    background-color: color-mix(in oklab, var(--glass-border) 20%, transparent);
+  }
+  .bg-glass-border\/30 {
+    background-color: color-mix(in oklab, var(--glass-border) 30%, transparent);
+  }
+  .bg-glass-border\/40 {
+    background-color: color-mix(in oklab, var(--glass-border) 40%, transparent);
+  }
+  .bg-glass-border\/5 {
+    background-color: color-mix(in oklab, var(--glass-border) 5%, transparent);
+  }
+  .bg-glass-border\/50 {
+    background-color: color-mix(in oklab, var(--glass-border) 50%, transparent);
+  }
+  .bg-glass-border\/60 {
+    background-color: color-mix(in oklab, var(--glass-border) 60%, transparent);
+  }
+  .bg-glass-border\/70 {
+    background-color: color-mix(in oklab, var(--glass-border) 70%, transparent);
+  }
+  .bg-glass-border\/80 {
+    background-color: color-mix(in oklab, var(--glass-border) 80%, transparent);
+  }
+  .bg-glass-border\/90 {
+    background-color: color-mix(in oklab, var(--glass-border) 90%, transparent);
+  }
+  .bg-glass-caustic {
+    background-color: var(--glass-caustic);
+  }
+  .bg-glass-caustic\/10 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 10%, transparent);
+  }
+  .bg-glass-caustic\/15 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 15%, transparent);
+  }
+  .bg-glass-caustic\/20 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 20%, transparent);
+  }
+  .bg-glass-caustic\/30 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 30%, transparent);
+  }
+  .bg-glass-caustic\/40 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 40%, transparent);
+  }
+  .bg-glass-caustic\/5 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 5%, transparent);
+  }
+  .bg-glass-caustic\/50 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 50%, transparent);
+  }
+  .bg-glass-caustic\/60 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 60%, transparent);
+  }
+  .bg-glass-caustic\/70 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 70%, transparent);
+  }
+  .bg-glass-caustic\/80 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 80%, transparent);
+  }
+  .bg-glass-caustic\/90 {
+    background-color: color-mix(in oklab, var(--glass-caustic) 90%, transparent);
+  }
+  .bg-glass-highlight {
+    background-color: var(--glass-highlight);
+  }
+  .bg-glass-highlight\/10 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 10%, transparent);
+  }
+  .bg-glass-highlight\/15 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 15%, transparent);
+  }
+  .bg-glass-highlight\/20 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 20%, transparent);
+  }
+  .bg-glass-highlight\/30 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 30%, transparent);
+  }
+  .bg-glass-highlight\/40 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 40%, transparent);
+  }
+  .bg-glass-highlight\/5 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 5%, transparent);
+  }
+  .bg-glass-highlight\/50 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 50%, transparent);
+  }
+  .bg-glass-highlight\/60 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 60%, transparent);
+  }
+  .bg-glass-highlight\/70 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 70%, transparent);
+  }
+  .bg-glass-highlight\/80 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 80%, transparent);
+  }
+  .bg-glass-highlight\/90 {
+    background-color: color-mix(in oklab, var(--glass-highlight) 90%, transparent);
+  }
+  .bg-glass-line {
+    background-color: var(--glass-line);
+  }
+  .bg-glass-line\/10 {
+    background-color: color-mix(in oklab, var(--glass-line) 10%, transparent);
+  }
+  .bg-glass-line\/15 {
+    background-color: color-mix(in oklab, var(--glass-line) 15%, transparent);
+  }
+  .bg-glass-line\/20 {
+    background-color: color-mix(in oklab, var(--glass-line) 20%, transparent);
+  }
+  .bg-glass-line\/30 {
+    background-color: color-mix(in oklab, var(--glass-line) 30%, transparent);
+  }
+  .bg-glass-line\/40 {
+    background-color: color-mix(in oklab, var(--glass-line) 40%, transparent);
+  }
+  .bg-glass-line\/5 {
+    background-color: color-mix(in oklab, var(--glass-line) 5%, transparent);
+  }
+  .bg-glass-line\/50 {
+    background-color: color-mix(in oklab, var(--glass-line) 50%, transparent);
+  }
+  .bg-glass-line\/60 {
+    background-color: color-mix(in oklab, var(--glass-line) 60%, transparent);
+  }
+  .bg-glass-line\/70 {
+    background-color: color-mix(in oklab, var(--glass-line) 70%, transparent);
+  }
+  .bg-glass-line\/80 {
+    background-color: color-mix(in oklab, var(--glass-line) 80%, transparent);
+  }
+  .bg-glass-line\/90 {
+    background-color: color-mix(in oklab, var(--glass-line) 90%, transparent);
+  }
+  .bg-glass-shadow {
+    background-color: var(--glass-shadow);
+  }
+  .bg-glass-shadow\/10 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 10%, transparent);
+  }
+  .bg-glass-shadow\/15 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 15%, transparent);
+  }
+  .bg-glass-shadow\/20 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 20%, transparent);
+  }
+  .bg-glass-shadow\/30 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 30%, transparent);
+  }
+  .bg-glass-shadow\/40 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 40%, transparent);
+  }
+  .bg-glass-shadow\/5 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 5%, transparent);
+  }
+  .bg-glass-shadow\/50 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 50%, transparent);
+  }
+  .bg-glass-shadow\/60 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 60%, transparent);
+  }
+  .bg-glass-shadow\/70 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 70%, transparent);
+  }
+  .bg-glass-shadow\/80 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 80%, transparent);
+  }
+  .bg-glass-shadow\/90 {
+    background-color: color-mix(in oklab, var(--glass-shadow) 90%, transparent);
+  }
+  .bg-info {
+    background-color: var(--info);
+  }
+  .bg-info\/10 {
+    background-color: color-mix(in oklab, var(--info) 10%, transparent);
+  }
+  .bg-info\/15 {
+    background-color: color-mix(in oklab, var(--info) 15%, transparent);
+  }
+  .bg-info\/20 {
+    background-color: color-mix(in oklab, var(--info) 20%, transparent);
+  }
+  .bg-info\/30 {
+    background-color: color-mix(in oklab, var(--info) 30%, transparent);
+  }
+  .bg-info\/40 {
+    background-color: color-mix(in oklab, var(--info) 40%, transparent);
+  }
+  .bg-info\/5 {
+    background-color: color-mix(in oklab, var(--info) 5%, transparent);
+  }
+  .bg-info\/50 {
+    background-color: color-mix(in oklab, var(--info) 50%, transparent);
+  }
+  .bg-info\/60 {
+    background-color: color-mix(in oklab, var(--info) 60%, transparent);
+  }
+  .bg-info\/70 {
+    background-color: color-mix(in oklab, var(--info) 70%, transparent);
+  }
+  .bg-info\/80 {
+    background-color: color-mix(in oklab, var(--info) 80%, transparent);
+  }
+  .bg-info\/90 {
+    background-color: color-mix(in oklab, var(--info) 90%, transparent);
+  }
+  .bg-overlay {
+    background-color: var(--overlay);
+  }
+  .bg-overlay\/10 {
+    background-color: color-mix(in oklab, var(--overlay) 10%, transparent);
+  }
+  .bg-overlay\/15 {
+    background-color: color-mix(in oklab, var(--overlay) 15%, transparent);
+  }
+  .bg-overlay\/20 {
+    background-color: color-mix(in oklab, var(--overlay) 20%, transparent);
+  }
+  .bg-overlay\/30 {
+    background-color: color-mix(in oklab, var(--overlay) 30%, transparent);
+  }
+  .bg-overlay\/40 {
+    background-color: color-mix(in oklab, var(--overlay) 40%, transparent);
+  }
+  .bg-overlay\/5 {
+    background-color: color-mix(in oklab, var(--overlay) 5%, transparent);
+  }
+  .bg-overlay\/50 {
+    background-color: color-mix(in oklab, var(--overlay) 50%, transparent);
+  }
+  .bg-overlay\/60 {
+    background-color: color-mix(in oklab, var(--overlay) 60%, transparent);
+  }
+  .bg-overlay\/70 {
+    background-color: color-mix(in oklab, var(--overlay) 70%, transparent);
+  }
+  .bg-overlay\/80 {
+    background-color: color-mix(in oklab, var(--overlay) 80%, transparent);
+  }
+  .bg-overlay\/90 {
+    background-color: color-mix(in oklab, var(--overlay) 90%, transparent);
+  }
+  .bg-primary {
+    background-color: var(--primary);
+  }
+  .bg-primary-foreground {
+    background-color: var(--primary-foreground);
+  }
+  .bg-primary-foreground\/10 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 10%, transparent);
+  }
+  .bg-primary-foreground\/15 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 15%, transparent);
+  }
+  .bg-primary-foreground\/20 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 20%, transparent);
+  }
+  .bg-primary-foreground\/30 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 30%, transparent);
+  }
+  .bg-primary-foreground\/40 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 40%, transparent);
+  }
+  .bg-primary-foreground\/5 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 5%, transparent);
+  }
+  .bg-primary-foreground\/50 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 50%, transparent);
+  }
+  .bg-primary-foreground\/60 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 60%, transparent);
+  }
+  .bg-primary-foreground\/70 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 70%, transparent);
+  }
+  .bg-primary-foreground\/80 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 80%, transparent);
+  }
+  .bg-primary-foreground\/90 {
+    background-color: color-mix(in oklab, var(--primary-foreground) 90%, transparent);
+  }
+  .bg-primary-hover {
+    background-color: var(--primary-hover);
+  }
+  .bg-primary-hover\/10 {
+    background-color: color-mix(in oklab, var(--primary-hover) 10%, transparent);
+  }
+  .bg-primary-hover\/15 {
+    background-color: color-mix(in oklab, var(--primary-hover) 15%, transparent);
+  }
+  .bg-primary-hover\/20 {
+    background-color: color-mix(in oklab, var(--primary-hover) 20%, transparent);
+  }
+  .bg-primary-hover\/30 {
+    background-color: color-mix(in oklab, var(--primary-hover) 30%, transparent);
+  }
+  .bg-primary-hover\/40 {
+    background-color: color-mix(in oklab, var(--primary-hover) 40%, transparent);
+  }
+  .bg-primary-hover\/5 {
+    background-color: color-mix(in oklab, var(--primary-hover) 5%, transparent);
+  }
+  .bg-primary-hover\/50 {
+    background-color: color-mix(in oklab, var(--primary-hover) 50%, transparent);
+  }
+  .bg-primary-hover\/60 {
+    background-color: color-mix(in oklab, var(--primary-hover) 60%, transparent);
+  }
+  .bg-primary-hover\/70 {
+    background-color: color-mix(in oklab, var(--primary-hover) 70%, transparent);
+  }
+  .bg-primary-hover\/80 {
+    background-color: color-mix(in oklab, var(--primary-hover) 80%, transparent);
+  }
+  .bg-primary-hover\/90 {
+    background-color: color-mix(in oklab, var(--primary-hover) 90%, transparent);
+  }
+  .bg-primary\/10 {
+    background-color: color-mix(in oklab, var(--primary) 10%, transparent);
+  }
+  .bg-primary\/15 {
+    background-color: color-mix(in oklab, var(--primary) 15%, transparent);
+  }
+  .bg-primary\/20 {
+    background-color: color-mix(in oklab, var(--primary) 20%, transparent);
+  }
+  .bg-primary\/30 {
+    background-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+  .bg-primary\/40 {
+    background-color: color-mix(in oklab, var(--primary) 40%, transparent);
+  }
+  .bg-primary\/5 {
+    background-color: color-mix(in oklab, var(--primary) 5%, transparent);
+  }
+  .bg-primary\/50 {
+    background-color: color-mix(in oklab, var(--primary) 50%, transparent);
+  }
+  .bg-primary\/60 {
+    background-color: color-mix(in oklab, var(--primary) 60%, transparent);
+  }
+  .bg-primary\/70 {
+    background-color: color-mix(in oklab, var(--primary) 70%, transparent);
+  }
+  .bg-primary\/80 {
+    background-color: color-mix(in oklab, var(--primary) 80%, transparent);
+  }
+  .bg-primary\/90 {
+    background-color: color-mix(in oklab, var(--primary) 90%, transparent);
+  }
+  .bg-ring {
+    background-color: var(--ring);
+  }
+  .bg-ring\/10 {
+    background-color: color-mix(in oklab, var(--ring) 10%, transparent);
+  }
+  .bg-ring\/15 {
+    background-color: color-mix(in oklab, var(--ring) 15%, transparent);
+  }
+  .bg-ring\/20 {
+    background-color: color-mix(in oklab, var(--ring) 20%, transparent);
+  }
+  .bg-ring\/30 {
+    background-color: color-mix(in oklab, var(--ring) 30%, transparent);
+  }
+  .bg-ring\/40 {
+    background-color: color-mix(in oklab, var(--ring) 40%, transparent);
+  }
+  .bg-ring\/5 {
+    background-color: color-mix(in oklab, var(--ring) 5%, transparent);
+  }
+  .bg-ring\/50 {
+    background-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+  .bg-ring\/60 {
+    background-color: color-mix(in oklab, var(--ring) 60%, transparent);
+  }
+  .bg-ring\/70 {
+    background-color: color-mix(in oklab, var(--ring) 70%, transparent);
+  }
+  .bg-ring\/80 {
+    background-color: color-mix(in oklab, var(--ring) 80%, transparent);
+  }
+  .bg-ring\/90 {
+    background-color: color-mix(in oklab, var(--ring) 90%, transparent);
+  }
+  .bg-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+  }
+  .bg-scrollbar-thumb-hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+  .bg-scrollbar-thumb-hover\/10 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 10%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/15 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 15%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/20 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 20%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/30 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 30%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/40 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 40%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/5 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 5%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/50 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 50%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/60 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 60%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/70 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 70%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/80 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 80%, transparent);
+  }
+  .bg-scrollbar-thumb-hover\/90 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 90%, transparent);
+  }
+  .bg-scrollbar-thumb\/10 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 10%, transparent);
+  }
+  .bg-scrollbar-thumb\/15 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 15%, transparent);
+  }
+  .bg-scrollbar-thumb\/20 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 20%, transparent);
+  }
+  .bg-scrollbar-thumb\/30 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 30%, transparent);
+  }
+  .bg-scrollbar-thumb\/40 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 40%, transparent);
+  }
+  .bg-scrollbar-thumb\/5 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 5%, transparent);
+  }
+  .bg-scrollbar-thumb\/50 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 50%, transparent);
+  }
+  .bg-scrollbar-thumb\/60 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 60%, transparent);
+  }
+  .bg-scrollbar-thumb\/70 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 70%, transparent);
+  }
+  .bg-scrollbar-thumb\/80 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 80%, transparent);
+  }
+  .bg-scrollbar-thumb\/90 {
+    background-color: color-mix(in oklab, var(--scrollbar-thumb) 90%, transparent);
+  }
+  .bg-scrollbar-track {
+    background-color: var(--scrollbar-track);
+  }
+  .bg-scrollbar-track\/10 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 10%, transparent);
+  }
+  .bg-scrollbar-track\/15 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 15%, transparent);
+  }
+  .bg-scrollbar-track\/20 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 20%, transparent);
+  }
+  .bg-scrollbar-track\/30 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 30%, transparent);
+  }
+  .bg-scrollbar-track\/40 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 40%, transparent);
+  }
+  .bg-scrollbar-track\/5 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 5%, transparent);
+  }
+  .bg-scrollbar-track\/50 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 50%, transparent);
+  }
+  .bg-scrollbar-track\/60 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 60%, transparent);
+  }
+  .bg-scrollbar-track\/70 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 70%, transparent);
+  }
+  .bg-scrollbar-track\/80 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 80%, transparent);
+  }
+  .bg-scrollbar-track\/90 {
+    background-color: color-mix(in oklab, var(--scrollbar-track) 90%, transparent);
+  }
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+  .bg-secondary-foreground {
+    background-color: var(--secondary-foreground);
+  }
+  .bg-secondary-foreground\/10 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 10%, transparent);
+  }
+  .bg-secondary-foreground\/15 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 15%, transparent);
+  }
+  .bg-secondary-foreground\/20 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 20%, transparent);
+  }
+  .bg-secondary-foreground\/30 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 30%, transparent);
+  }
+  .bg-secondary-foreground\/40 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 40%, transparent);
+  }
+  .bg-secondary-foreground\/5 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 5%, transparent);
+  }
+  .bg-secondary-foreground\/50 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 50%, transparent);
+  }
+  .bg-secondary-foreground\/60 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 60%, transparent);
+  }
+  .bg-secondary-foreground\/70 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 70%, transparent);
+  }
+  .bg-secondary-foreground\/80 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 80%, transparent);
+  }
+  .bg-secondary-foreground\/90 {
+    background-color: color-mix(in oklab, var(--secondary-foreground) 90%, transparent);
+  }
+  .bg-secondary\/10 {
+    background-color: color-mix(in oklab, var(--secondary) 10%, transparent);
+  }
+  .bg-secondary\/15 {
+    background-color: color-mix(in oklab, var(--secondary) 15%, transparent);
+  }
+  .bg-secondary\/20 {
+    background-color: color-mix(in oklab, var(--secondary) 20%, transparent);
+  }
+  .bg-secondary\/30 {
+    background-color: color-mix(in oklab, var(--secondary) 30%, transparent);
+  }
+  .bg-secondary\/40 {
+    background-color: color-mix(in oklab, var(--secondary) 40%, transparent);
+  }
+  .bg-secondary\/5 {
+    background-color: color-mix(in oklab, var(--secondary) 5%, transparent);
+  }
+  .bg-secondary\/50 {
+    background-color: color-mix(in oklab, var(--secondary) 50%, transparent);
+  }
+  .bg-secondary\/60 {
+    background-color: color-mix(in oklab, var(--secondary) 60%, transparent);
+  }
+  .bg-secondary\/70 {
+    background-color: color-mix(in oklab, var(--secondary) 70%, transparent);
+  }
+  .bg-secondary\/80 {
+    background-color: color-mix(in oklab, var(--secondary) 80%, transparent);
+  }
+  .bg-secondary\/90 {
+    background-color: color-mix(in oklab, var(--secondary) 90%, transparent);
+  }
+  .bg-success {
+    background-color: var(--success);
+  }
+  .bg-success\/10 {
+    background-color: color-mix(in oklab, var(--success) 10%, transparent);
+  }
+  .bg-success\/15 {
+    background-color: color-mix(in oklab, var(--success) 15%, transparent);
+  }
+  .bg-success\/20 {
+    background-color: color-mix(in oklab, var(--success) 20%, transparent);
+  }
+  .bg-success\/30 {
+    background-color: color-mix(in oklab, var(--success) 30%, transparent);
+  }
+  .bg-success\/40 {
+    background-color: color-mix(in oklab, var(--success) 40%, transparent);
+  }
+  .bg-success\/5 {
+    background-color: color-mix(in oklab, var(--success) 5%, transparent);
+  }
+  .bg-success\/50 {
+    background-color: color-mix(in oklab, var(--success) 50%, transparent);
+  }
+  .bg-success\/60 {
+    background-color: color-mix(in oklab, var(--success) 60%, transparent);
+  }
+  .bg-success\/70 {
+    background-color: color-mix(in oklab, var(--success) 70%, transparent);
+  }
+  .bg-success\/80 {
+    background-color: color-mix(in oklab, var(--success) 80%, transparent);
+  }
+  .bg-success\/90 {
+    background-color: color-mix(in oklab, var(--success) 90%, transparent);
+  }
+  .bg-surface {
+    background-color: var(--surface);
+  }
+  .bg-surface-inverse {
+    background-color: var(--surface-inverse);
+  }
+  .bg-surface-inverse\/10 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 10%, transparent);
+  }
+  .bg-surface-inverse\/15 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 15%, transparent);
+  }
+  .bg-surface-inverse\/20 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 20%, transparent);
+  }
+  .bg-surface-inverse\/30 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 30%, transparent);
+  }
+  .bg-surface-inverse\/40 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 40%, transparent);
+  }
+  .bg-surface-inverse\/5 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 5%, transparent);
+  }
+  .bg-surface-inverse\/50 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 50%, transparent);
+  }
+  .bg-surface-inverse\/60 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 60%, transparent);
+  }
+  .bg-surface-inverse\/70 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 70%, transparent);
+  }
+  .bg-surface-inverse\/80 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 80%, transparent);
+  }
+  .bg-surface-inverse\/90 {
+    background-color: color-mix(in oklab, var(--surface-inverse) 90%, transparent);
+  }
+  .bg-surface-muted {
+    background-color: var(--surface-muted);
+  }
+  .bg-surface-muted\/10 {
+    background-color: color-mix(in oklab, var(--surface-muted) 10%, transparent);
+  }
+  .bg-surface-muted\/15 {
+    background-color: color-mix(in oklab, var(--surface-muted) 15%, transparent);
+  }
+  .bg-surface-muted\/20 {
+    background-color: color-mix(in oklab, var(--surface-muted) 20%, transparent);
+  }
+  .bg-surface-muted\/30 {
+    background-color: color-mix(in oklab, var(--surface-muted) 30%, transparent);
+  }
+  .bg-surface-muted\/40 {
+    background-color: color-mix(in oklab, var(--surface-muted) 40%, transparent);
+  }
+  .bg-surface-muted\/5 {
+    background-color: color-mix(in oklab, var(--surface-muted) 5%, transparent);
+  }
+  .bg-surface-muted\/50 {
+    background-color: color-mix(in oklab, var(--surface-muted) 50%, transparent);
+  }
+  .bg-surface-muted\/60 {
+    background-color: color-mix(in oklab, var(--surface-muted) 60%, transparent);
+  }
+  .bg-surface-muted\/70 {
+    background-color: color-mix(in oklab, var(--surface-muted) 70%, transparent);
+  }
+  .bg-surface-muted\/80 {
+    background-color: color-mix(in oklab, var(--surface-muted) 80%, transparent);
+  }
+  .bg-surface-muted\/90 {
+    background-color: color-mix(in oklab, var(--surface-muted) 90%, transparent);
+  }
+  .bg-surface\/10 {
+    background-color: color-mix(in oklab, var(--surface) 10%, transparent);
+  }
+  .bg-surface\/15 {
+    background-color: color-mix(in oklab, var(--surface) 15%, transparent);
+  }
+  .bg-surface\/20 {
+    background-color: color-mix(in oklab, var(--surface) 20%, transparent);
+  }
+  .bg-surface\/30 {
+    background-color: color-mix(in oklab, var(--surface) 30%, transparent);
+  }
+  .bg-surface\/40 {
+    background-color: color-mix(in oklab, var(--surface) 40%, transparent);
+  }
+  .bg-surface\/5 {
+    background-color: color-mix(in oklab, var(--surface) 5%, transparent);
+  }
+  .bg-surface\/50 {
+    background-color: color-mix(in oklab, var(--surface) 50%, transparent);
+  }
+  .bg-surface\/60 {
+    background-color: color-mix(in oklab, var(--surface) 60%, transparent);
+  }
+  .bg-surface\/70 {
+    background-color: color-mix(in oklab, var(--surface) 70%, transparent);
+  }
+  .bg-surface\/80 {
+    background-color: color-mix(in oklab, var(--surface) 80%, transparent);
+  }
+  .bg-surface\/90 {
+    background-color: color-mix(in oklab, var(--surface) 90%, transparent);
+  }
+  .bg-transparent {
+    background-color: transparent;
+  }
+  .bg-warning {
+    background-color: var(--warning);
+  }
+  .bg-warning\/10 {
+    background-color: color-mix(in oklab, var(--warning) 10%, transparent);
+  }
+  .bg-warning\/15 {
+    background-color: color-mix(in oklab, var(--warning) 15%, transparent);
+  }
+  .bg-warning\/20 {
+    background-color: color-mix(in oklab, var(--warning) 20%, transparent);
+  }
+  .bg-warning\/30 {
+    background-color: color-mix(in oklab, var(--warning) 30%, transparent);
+  }
+  .bg-warning\/40 {
+    background-color: color-mix(in oklab, var(--warning) 40%, transparent);
+  }
+  .bg-warning\/5 {
+    background-color: color-mix(in oklab, var(--warning) 5%, transparent);
+  }
+  .bg-warning\/50 {
+    background-color: color-mix(in oklab, var(--warning) 50%, transparent);
+  }
+  .bg-warning\/60 {
+    background-color: color-mix(in oklab, var(--warning) 60%, transparent);
+  }
+  .bg-warning\/70 {
+    background-color: color-mix(in oklab, var(--warning) 70%, transparent);
+  }
+  .bg-warning\/80 {
+    background-color: color-mix(in oklab, var(--warning) 80%, transparent);
+  }
+  .bg-warning\/90 {
+    background-color: color-mix(in oklab, var(--warning) 90%, transparent);
+  }
+  .bg-white {
+    background-color: var(--white);
+  }
+  .bg-white\/10 {
+    background-color: color-mix(in oklab, var(--white) 10%, transparent);
+  }
+  .bg-white\/15 {
+    background-color: color-mix(in oklab, var(--white) 15%, transparent);
+  }
+  .bg-white\/20 {
+    background-color: color-mix(in oklab, var(--white) 20%, transparent);
+  }
+  .bg-white\/30 {
+    background-color: color-mix(in oklab, var(--white) 30%, transparent);
+  }
+  .bg-white\/40 {
+    background-color: color-mix(in oklab, var(--white) 40%, transparent);
+  }
+  .bg-white\/5 {
+    background-color: color-mix(in oklab, var(--white) 5%, transparent);
+  }
+  .bg-white\/50 {
+    background-color: color-mix(in oklab, var(--white) 50%, transparent);
+  }
+  .bg-white\/60 {
+    background-color: color-mix(in oklab, var(--white) 60%, transparent);
+  }
+  .bg-white\/70 {
+    background-color: color-mix(in oklab, var(--white) 70%, transparent);
+  }
+  .bg-white\/80 {
+    background-color: color-mix(in oklab, var(--white) 80%, transparent);
+  }
+  .bg-white\/90 {
+    background-color: color-mix(in oklab, var(--white) 90%, transparent);
+  }
+  .bg-gradient-accent {
+    background-image: var(--gradient-accent);
+  }
+  .bg-gradient-brand {
+    background-image: var(--gradient-brand);
+  }
+  .bg-gradient-dark {
+    background-image: var(--gradient-dark);
+  }
+  .bg-cover {
+    background-size: cover;
+  }
+  .bg-center {
+    background-position: center;
+  }
+  .bg-no-repeat {
+    background-repeat: no-repeat;
+  }
+  .bg-clip-text {
+    background-clip: text;
+    color: transparent;
+  }
+  .text-accent {
+    color: var(--accent);
+  }
+  .text-accent-foreground {
+    color: var(--accent-foreground);
+  }
+  .text-background {
+    color: var(--background);
+  }
+  .text-black {
+    color: var(--black);
+  }
+  .text-border {
+    color: var(--border);
+  }
+  .text-border-strong {
+    color: var(--border-strong);
+  }
+  .text-code-attr {
+    color: var(--code-attr);
+  }
+  .text-code-comment {
+    color: var(--code-comment);
+  }
+  .text-code-fn {
+    color: var(--code-fn);
+  }
+  .text-code-keyword {
+    color: var(--code-keyword);
+  }
+  .text-code-number {
+    color: var(--code-number);
+  }
+  .text-code-punct {
+    color: var(--code-punct);
+  }
+  .text-code-string {
+    color: var(--code-string);
+  }
+  .text-code-tag {
+    color: var(--code-tag);
+  }
+  .text-current {
+    color: currentColor;
+  }
+  .text-danger {
+    color: var(--danger);
+  }
+  .text-foreground {
+    color: var(--foreground);
+  }
+  .text-foreground-inverse {
+    color: var(--foreground-inverse);
+  }
+  .text-foreground-muted {
+    color: var(--foreground-muted);
+  }
+  .text-foreground-subtle {
+    color: var(--foreground-subtle);
+  }
+  .text-glass-border {
+    color: var(--glass-border);
+  }
+  .text-glass-caustic {
+    color: var(--glass-caustic);
+  }
+  .text-glass-highlight {
+    color: var(--glass-highlight);
+  }
+  .text-glass-line {
+    color: var(--glass-line);
+  }
+  .text-glass-shadow {
+    color: var(--glass-shadow);
+  }
+  .text-info {
+    color: var(--info);
+  }
+  .text-overlay {
+    color: var(--overlay);
+  }
+  .text-primary {
+    color: var(--primary);
+  }
+  .text-primary-foreground {
+    color: var(--primary-foreground);
+  }
+  .text-primary-hover {
+    color: var(--primary-hover);
+  }
+  .text-ring {
+    color: var(--ring);
+  }
+  .text-scrollbar-thumb {
+    color: var(--scrollbar-thumb);
+  }
+  .text-scrollbar-thumb-hover {
+    color: var(--scrollbar-thumb-hover);
+  }
+  .text-scrollbar-track {
+    color: var(--scrollbar-track);
+  }
+  .text-secondary {
+    color: var(--secondary);
+  }
+  .text-secondary-foreground {
+    color: var(--secondary-foreground);
+  }
+  .text-success {
+    color: var(--success);
+  }
+  .text-surface {
+    color: var(--surface);
+  }
+  .text-surface-inverse {
+    color: var(--surface-inverse);
+  }
+  .text-surface-muted {
+    color: var(--surface-muted);
+  }
+  .text-warning {
+    color: var(--warning);
+  }
+  .text-white {
+    color: var(--white);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .hover\:bg-accent:hover {
+      background-color: var(--accent);
+    }
+    .hover\:bg-accent-foreground:hover {
+      background-color: var(--accent-foreground);
+    }
+    .hover\:bg-accent-foreground\/10:hover {
+      background-color: color-mix(in oklab, var(--accent-foreground) 10%, transparent);
+    }
+    .hover\:bg-accent-foreground\/15:hover {
+      background-color: color-mix(in oklab, var(--accent-foreground) 15%, transparent);
+    }
+    .hover\:bg-accent-foreground\/5:hover {
+      background-color: color-mix(in oklab, var(--accent-foreground) 5%, transparent);
+    }
+    .hover\:bg-accent\/10:hover {
+      background-color: color-mix(in oklab, var(--accent) 10%, transparent);
+    }
+    .hover\:bg-accent\/15:hover {
+      background-color: color-mix(in oklab, var(--accent) 15%, transparent);
+    }
+    .hover\:bg-accent\/5:hover {
+      background-color: color-mix(in oklab, var(--accent) 5%, transparent);
+    }
+    .hover\:bg-background:hover {
+      background-color: var(--background);
+    }
+    .hover\:bg-background\/10:hover {
+      background-color: color-mix(in oklab, var(--background) 10%, transparent);
+    }
+    .hover\:bg-background\/15:hover {
+      background-color: color-mix(in oklab, var(--background) 15%, transparent);
+    }
+    .hover\:bg-background\/5:hover {
+      background-color: color-mix(in oklab, var(--background) 5%, transparent);
+    }
+    .hover\:bg-black:hover {
+      background-color: var(--black);
+    }
+    .hover\:bg-black\/10:hover {
+      background-color: color-mix(in oklab, var(--black) 10%, transparent);
+    }
+    .hover\:bg-black\/15:hover {
+      background-color: color-mix(in oklab, var(--black) 15%, transparent);
+    }
+    .hover\:bg-black\/5:hover {
+      background-color: color-mix(in oklab, var(--black) 5%, transparent);
+    }
+    .hover\:bg-border:hover {
+      background-color: var(--border);
+    }
+    .hover\:bg-border-strong:hover {
+      background-color: var(--border-strong);
+    }
+    .hover\:bg-border-strong\/10:hover {
+      background-color: color-mix(in oklab, var(--border-strong) 10%, transparent);
+    }
+    .hover\:bg-border-strong\/15:hover {
+      background-color: color-mix(in oklab, var(--border-strong) 15%, transparent);
+    }
+    .hover\:bg-border-strong\/5:hover {
+      background-color: color-mix(in oklab, var(--border-strong) 5%, transparent);
+    }
+    .hover\:bg-border\/10:hover {
+      background-color: color-mix(in oklab, var(--border) 10%, transparent);
+    }
+    .hover\:bg-border\/15:hover {
+      background-color: color-mix(in oklab, var(--border) 15%, transparent);
+    }
+    .hover\:bg-border\/5:hover {
+      background-color: color-mix(in oklab, var(--border) 5%, transparent);
+    }
+    .hover\:bg-code-attr:hover {
+      background-color: var(--code-attr);
+    }
+    .hover\:bg-code-attr\/10:hover {
+      background-color: color-mix(in oklab, var(--code-attr) 10%, transparent);
+    }
+    .hover\:bg-code-attr\/15:hover {
+      background-color: color-mix(in oklab, var(--code-attr) 15%, transparent);
+    }
+    .hover\:bg-code-attr\/5:hover {
+      background-color: color-mix(in oklab, var(--code-attr) 5%, transparent);
+    }
+    .hover\:bg-code-comment:hover {
+      background-color: var(--code-comment);
+    }
+    .hover\:bg-code-comment\/10:hover {
+      background-color: color-mix(in oklab, var(--code-comment) 10%, transparent);
+    }
+    .hover\:bg-code-comment\/15:hover {
+      background-color: color-mix(in oklab, var(--code-comment) 15%, transparent);
+    }
+    .hover\:bg-code-comment\/5:hover {
+      background-color: color-mix(in oklab, var(--code-comment) 5%, transparent);
+    }
+    .hover\:bg-code-fn:hover {
+      background-color: var(--code-fn);
+    }
+    .hover\:bg-code-fn\/10:hover {
+      background-color: color-mix(in oklab, var(--code-fn) 10%, transparent);
+    }
+    .hover\:bg-code-fn\/15:hover {
+      background-color: color-mix(in oklab, var(--code-fn) 15%, transparent);
+    }
+    .hover\:bg-code-fn\/5:hover {
+      background-color: color-mix(in oklab, var(--code-fn) 5%, transparent);
+    }
+    .hover\:bg-code-keyword:hover {
+      background-color: var(--code-keyword);
+    }
+    .hover\:bg-code-keyword\/10:hover {
+      background-color: color-mix(in oklab, var(--code-keyword) 10%, transparent);
+    }
+    .hover\:bg-code-keyword\/15:hover {
+      background-color: color-mix(in oklab, var(--code-keyword) 15%, transparent);
+    }
+    .hover\:bg-code-keyword\/5:hover {
+      background-color: color-mix(in oklab, var(--code-keyword) 5%, transparent);
+    }
+    .hover\:bg-code-number:hover {
+      background-color: var(--code-number);
+    }
+    .hover\:bg-code-number\/10:hover {
+      background-color: color-mix(in oklab, var(--code-number) 10%, transparent);
+    }
+    .hover\:bg-code-number\/15:hover {
+      background-color: color-mix(in oklab, var(--code-number) 15%, transparent);
+    }
+    .hover\:bg-code-number\/5:hover {
+      background-color: color-mix(in oklab, var(--code-number) 5%, transparent);
+    }
+    .hover\:bg-code-punct:hover {
+      background-color: var(--code-punct);
+    }
+    .hover\:bg-code-punct\/10:hover {
+      background-color: color-mix(in oklab, var(--code-punct) 10%, transparent);
+    }
+    .hover\:bg-code-punct\/15:hover {
+      background-color: color-mix(in oklab, var(--code-punct) 15%, transparent);
+    }
+    .hover\:bg-code-punct\/5:hover {
+      background-color: color-mix(in oklab, var(--code-punct) 5%, transparent);
+    }
+    .hover\:bg-code-string:hover {
+      background-color: var(--code-string);
+    }
+    .hover\:bg-code-string\/10:hover {
+      background-color: color-mix(in oklab, var(--code-string) 10%, transparent);
+    }
+    .hover\:bg-code-string\/15:hover {
+      background-color: color-mix(in oklab, var(--code-string) 15%, transparent);
+    }
+    .hover\:bg-code-string\/5:hover {
+      background-color: color-mix(in oklab, var(--code-string) 5%, transparent);
+    }
+    .hover\:bg-code-tag:hover {
+      background-color: var(--code-tag);
+    }
+    .hover\:bg-code-tag\/10:hover {
+      background-color: color-mix(in oklab, var(--code-tag) 10%, transparent);
+    }
+    .hover\:bg-code-tag\/15:hover {
+      background-color: color-mix(in oklab, var(--code-tag) 15%, transparent);
+    }
+    .hover\:bg-code-tag\/5:hover {
+      background-color: color-mix(in oklab, var(--code-tag) 5%, transparent);
+    }
+    .hover\:bg-danger:hover {
+      background-color: var(--danger);
+    }
+    .hover\:bg-danger\/10:hover {
+      background-color: color-mix(in oklab, var(--danger) 10%, transparent);
+    }
+    .hover\:bg-danger\/15:hover {
+      background-color: color-mix(in oklab, var(--danger) 15%, transparent);
+    }
+    .hover\:bg-danger\/5:hover {
+      background-color: color-mix(in oklab, var(--danger) 5%, transparent);
+    }
+    .hover\:bg-foreground:hover {
+      background-color: var(--foreground);
+    }
+    .hover\:bg-foreground-inverse:hover {
+      background-color: var(--foreground-inverse);
+    }
+    .hover\:bg-foreground-inverse\/10:hover {
+      background-color: color-mix(in oklab, var(--foreground-inverse) 10%, transparent);
+    }
+    .hover\:bg-foreground-inverse\/15:hover {
+      background-color: color-mix(in oklab, var(--foreground-inverse) 15%, transparent);
+    }
+    .hover\:bg-foreground-inverse\/5:hover {
+      background-color: color-mix(in oklab, var(--foreground-inverse) 5%, transparent);
+    }
+    .hover\:bg-foreground-muted:hover {
+      background-color: var(--foreground-muted);
+    }
+    .hover\:bg-foreground-muted\/10:hover {
+      background-color: color-mix(in oklab, var(--foreground-muted) 10%, transparent);
+    }
+    .hover\:bg-foreground-muted\/15:hover {
+      background-color: color-mix(in oklab, var(--foreground-muted) 15%, transparent);
+    }
+    .hover\:bg-foreground-muted\/5:hover {
+      background-color: color-mix(in oklab, var(--foreground-muted) 5%, transparent);
+    }
+    .hover\:bg-foreground-subtle:hover {
+      background-color: var(--foreground-subtle);
+    }
+    .hover\:bg-foreground-subtle\/10:hover {
+      background-color: color-mix(in oklab, var(--foreground-subtle) 10%, transparent);
+    }
+    .hover\:bg-foreground-subtle\/15:hover {
+      background-color: color-mix(in oklab, var(--foreground-subtle) 15%, transparent);
+    }
+    .hover\:bg-foreground-subtle\/5:hover {
+      background-color: color-mix(in oklab, var(--foreground-subtle) 5%, transparent);
+    }
+    .hover\:bg-foreground\/10:hover {
+      background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+    }
+    .hover\:bg-foreground\/15:hover {
+      background-color: color-mix(in oklab, var(--foreground) 15%, transparent);
+    }
+    .hover\:bg-foreground\/5:hover {
+      background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+    }
+    .hover\:bg-glass-border:hover {
+      background-color: var(--glass-border);
+    }
+    .hover\:bg-glass-border\/10:hover {
+      background-color: color-mix(in oklab, var(--glass-border) 10%, transparent);
+    }
+    .hover\:bg-glass-border\/15:hover {
+      background-color: color-mix(in oklab, var(--glass-border) 15%, transparent);
+    }
+    .hover\:bg-glass-border\/5:hover {
+      background-color: color-mix(in oklab, var(--glass-border) 5%, transparent);
+    }
+    .hover\:bg-glass-caustic:hover {
+      background-color: var(--glass-caustic);
+    }
+    .hover\:bg-glass-caustic\/10:hover {
+      background-color: color-mix(in oklab, var(--glass-caustic) 10%, transparent);
+    }
+    .hover\:bg-glass-caustic\/15:hover {
+      background-color: color-mix(in oklab, var(--glass-caustic) 15%, transparent);
+    }
+    .hover\:bg-glass-caustic\/5:hover {
+      background-color: color-mix(in oklab, var(--glass-caustic) 5%, transparent);
+    }
+    .hover\:bg-glass-highlight:hover {
+      background-color: var(--glass-highlight);
+    }
+    .hover\:bg-glass-highlight\/10:hover {
+      background-color: color-mix(in oklab, var(--glass-highlight) 10%, transparent);
+    }
+    .hover\:bg-glass-highlight\/15:hover {
+      background-color: color-mix(in oklab, var(--glass-highlight) 15%, transparent);
+    }
+    .hover\:bg-glass-highlight\/5:hover {
+      background-color: color-mix(in oklab, var(--glass-highlight) 5%, transparent);
+    }
+    .hover\:bg-glass-line:hover {
+      background-color: var(--glass-line);
+    }
+    .hover\:bg-glass-line\/10:hover {
+      background-color: color-mix(in oklab, var(--glass-line) 10%, transparent);
+    }
+    .hover\:bg-glass-line\/15:hover {
+      background-color: color-mix(in oklab, var(--glass-line) 15%, transparent);
+    }
+    .hover\:bg-glass-line\/5:hover {
+      background-color: color-mix(in oklab, var(--glass-line) 5%, transparent);
+    }
+    .hover\:bg-glass-shadow:hover {
+      background-color: var(--glass-shadow);
+    }
+    .hover\:bg-glass-shadow\/10:hover {
+      background-color: color-mix(in oklab, var(--glass-shadow) 10%, transparent);
+    }
+    .hover\:bg-glass-shadow\/15:hover {
+      background-color: color-mix(in oklab, var(--glass-shadow) 15%, transparent);
+    }
+    .hover\:bg-glass-shadow\/5:hover {
+      background-color: color-mix(in oklab, var(--glass-shadow) 5%, transparent);
+    }
+    .hover\:bg-info:hover {
+      background-color: var(--info);
+    }
+    .hover\:bg-info\/10:hover {
+      background-color: color-mix(in oklab, var(--info) 10%, transparent);
+    }
+    .hover\:bg-info\/15:hover {
+      background-color: color-mix(in oklab, var(--info) 15%, transparent);
+    }
+    .hover\:bg-info\/5:hover {
+      background-color: color-mix(in oklab, var(--info) 5%, transparent);
+    }
+    .hover\:bg-overlay:hover {
+      background-color: var(--overlay);
+    }
+    .hover\:bg-overlay\/10:hover {
+      background-color: color-mix(in oklab, var(--overlay) 10%, transparent);
+    }
+    .hover\:bg-overlay\/15:hover {
+      background-color: color-mix(in oklab, var(--overlay) 15%, transparent);
+    }
+    .hover\:bg-overlay\/5:hover {
+      background-color: color-mix(in oklab, var(--overlay) 5%, transparent);
+    }
+    .hover\:bg-primary:hover {
+      background-color: var(--primary);
+    }
+    .hover\:bg-primary-foreground:hover {
+      background-color: var(--primary-foreground);
+    }
+    .hover\:bg-primary-foreground\/10:hover {
+      background-color: color-mix(in oklab, var(--primary-foreground) 10%, transparent);
+    }
+    .hover\:bg-primary-foreground\/15:hover {
+      background-color: color-mix(in oklab, var(--primary-foreground) 15%, transparent);
+    }
+    .hover\:bg-primary-foreground\/5:hover {
+      background-color: color-mix(in oklab, var(--primary-foreground) 5%, transparent);
+    }
+    .hover\:bg-primary-hover:hover {
+      background-color: var(--primary-hover);
+    }
+    .hover\:bg-primary-hover\/10:hover {
+      background-color: color-mix(in oklab, var(--primary-hover) 10%, transparent);
+    }
+    .hover\:bg-primary-hover\/15:hover {
+      background-color: color-mix(in oklab, var(--primary-hover) 15%, transparent);
+    }
+    .hover\:bg-primary-hover\/5:hover {
+      background-color: color-mix(in oklab, var(--primary-hover) 5%, transparent);
+    }
+    .hover\:bg-primary\/10:hover {
+      background-color: color-mix(in oklab, var(--primary) 10%, transparent);
+    }
+    .hover\:bg-primary\/15:hover {
+      background-color: color-mix(in oklab, var(--primary) 15%, transparent);
+    }
+    .hover\:bg-primary\/5:hover {
+      background-color: color-mix(in oklab, var(--primary) 5%, transparent);
+    }
+    .hover\:bg-ring:hover {
+      background-color: var(--ring);
+    }
+    .hover\:bg-ring\/10:hover {
+      background-color: color-mix(in oklab, var(--ring) 10%, transparent);
+    }
+    .hover\:bg-ring\/15:hover {
+      background-color: color-mix(in oklab, var(--ring) 15%, transparent);
+    }
+    .hover\:bg-ring\/5:hover {
+      background-color: color-mix(in oklab, var(--ring) 5%, transparent);
+    }
+    .hover\:bg-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb);
+    }
+    .hover\:bg-scrollbar-thumb-hover:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+    .hover\:bg-scrollbar-thumb-hover\/10:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 10%, transparent);
+    }
+    .hover\:bg-scrollbar-thumb-hover\/15:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 15%, transparent);
+    }
+    .hover\:bg-scrollbar-thumb-hover\/5:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-thumb-hover) 5%, transparent);
+    }
+    .hover\:bg-scrollbar-thumb\/10:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-thumb) 10%, transparent);
+    }
+    .hover\:bg-scrollbar-thumb\/15:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-thumb) 15%, transparent);
+    }
+    .hover\:bg-scrollbar-thumb\/5:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-thumb) 5%, transparent);
+    }
+    .hover\:bg-scrollbar-track:hover {
+      background-color: var(--scrollbar-track);
+    }
+    .hover\:bg-scrollbar-track\/10:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-track) 10%, transparent);
+    }
+    .hover\:bg-scrollbar-track\/15:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-track) 15%, transparent);
+    }
+    .hover\:bg-scrollbar-track\/5:hover {
+      background-color: color-mix(in oklab, var(--scrollbar-track) 5%, transparent);
+    }
+    .hover\:bg-secondary:hover {
+      background-color: var(--secondary);
+    }
+    .hover\:bg-secondary-foreground:hover {
+      background-color: var(--secondary-foreground);
+    }
+    .hover\:bg-secondary-foreground\/10:hover {
+      background-color: color-mix(in oklab, var(--secondary-foreground) 10%, transparent);
+    }
+    .hover\:bg-secondary-foreground\/15:hover {
+      background-color: color-mix(in oklab, var(--secondary-foreground) 15%, transparent);
+    }
+    .hover\:bg-secondary-foreground\/5:hover {
+      background-color: color-mix(in oklab, var(--secondary-foreground) 5%, transparent);
+    }
+    .hover\:bg-secondary\/10:hover {
+      background-color: color-mix(in oklab, var(--secondary) 10%, transparent);
+    }
+    .hover\:bg-secondary\/15:hover {
+      background-color: color-mix(in oklab, var(--secondary) 15%, transparent);
+    }
+    .hover\:bg-secondary\/5:hover {
+      background-color: color-mix(in oklab, var(--secondary) 5%, transparent);
+    }
+    .hover\:bg-success:hover {
+      background-color: var(--success);
+    }
+    .hover\:bg-success\/10:hover {
+      background-color: color-mix(in oklab, var(--success) 10%, transparent);
+    }
+    .hover\:bg-success\/15:hover {
+      background-color: color-mix(in oklab, var(--success) 15%, transparent);
+    }
+    .hover\:bg-success\/5:hover {
+      background-color: color-mix(in oklab, var(--success) 5%, transparent);
+    }
+    .hover\:bg-surface:hover {
+      background-color: var(--surface);
+    }
+    .hover\:bg-surface-inverse:hover {
+      background-color: var(--surface-inverse);
+    }
+    .hover\:bg-surface-inverse\/10:hover {
+      background-color: color-mix(in oklab, var(--surface-inverse) 10%, transparent);
+    }
+    .hover\:bg-surface-inverse\/15:hover {
+      background-color: color-mix(in oklab, var(--surface-inverse) 15%, transparent);
+    }
+    .hover\:bg-surface-inverse\/5:hover {
+      background-color: color-mix(in oklab, var(--surface-inverse) 5%, transparent);
+    }
+    .hover\:bg-surface-muted:hover {
+      background-color: var(--surface-muted);
+    }
+    .hover\:bg-surface-muted\/10:hover {
+      background-color: color-mix(in oklab, var(--surface-muted) 10%, transparent);
+    }
+    .hover\:bg-surface-muted\/15:hover {
+      background-color: color-mix(in oklab, var(--surface-muted) 15%, transparent);
+    }
+    .hover\:bg-surface-muted\/5:hover {
+      background-color: color-mix(in oklab, var(--surface-muted) 5%, transparent);
+    }
+    .hover\:bg-surface\/10:hover {
+      background-color: color-mix(in oklab, var(--surface) 10%, transparent);
+    }
+    .hover\:bg-surface\/15:hover {
+      background-color: color-mix(in oklab, var(--surface) 15%, transparent);
+    }
+    .hover\:bg-surface\/5:hover {
+      background-color: color-mix(in oklab, var(--surface) 5%, transparent);
+    }
+    .hover\:bg-warning:hover {
+      background-color: var(--warning);
+    }
+    .hover\:bg-warning\/10:hover {
+      background-color: color-mix(in oklab, var(--warning) 10%, transparent);
+    }
+    .hover\:bg-warning\/15:hover {
+      background-color: color-mix(in oklab, var(--warning) 15%, transparent);
+    }
+    .hover\:bg-warning\/5:hover {
+      background-color: color-mix(in oklab, var(--warning) 5%, transparent);
+    }
+    .hover\:bg-white:hover {
+      background-color: var(--white);
+    }
+    .hover\:bg-white\/10:hover {
+      background-color: color-mix(in oklab, var(--white) 10%, transparent);
+    }
+    .hover\:bg-white\/15:hover {
+      background-color: color-mix(in oklab, var(--white) 15%, transparent);
+    }
+    .hover\:bg-white\/5:hover {
+      background-color: color-mix(in oklab, var(--white) 5%, transparent);
+    }
+    .hover\:text-accent:hover {
+      color: var(--accent);
+    }
+    .hover\:text-accent-foreground:hover {
+      color: var(--accent-foreground);
+    }
+    .hover\:text-background:hover {
+      color: var(--background);
+    }
+    .hover\:text-black:hover {
+      color: var(--black);
+    }
+    .hover\:text-border:hover {
+      color: var(--border);
+    }
+    .hover\:text-border-strong:hover {
+      color: var(--border-strong);
+    }
+    .hover\:text-code-attr:hover {
+      color: var(--code-attr);
+    }
+    .hover\:text-code-comment:hover {
+      color: var(--code-comment);
+    }
+    .hover\:text-code-fn:hover {
+      color: var(--code-fn);
+    }
+    .hover\:text-code-keyword:hover {
+      color: var(--code-keyword);
+    }
+    .hover\:text-code-number:hover {
+      color: var(--code-number);
+    }
+    .hover\:text-code-punct:hover {
+      color: var(--code-punct);
+    }
+    .hover\:text-code-string:hover {
+      color: var(--code-string);
+    }
+    .hover\:text-code-tag:hover {
+      color: var(--code-tag);
+    }
+    .hover\:text-danger:hover {
+      color: var(--danger);
+    }
+    .hover\:text-foreground:hover {
+      color: var(--foreground);
+    }
+    .hover\:text-foreground-inverse:hover {
+      color: var(--foreground-inverse);
+    }
+    .hover\:text-foreground-muted:hover {
+      color: var(--foreground-muted);
+    }
+    .hover\:text-foreground-subtle:hover {
+      color: var(--foreground-subtle);
+    }
+    .hover\:text-glass-border:hover {
+      color: var(--glass-border);
+    }
+    .hover\:text-glass-caustic:hover {
+      color: var(--glass-caustic);
+    }
+    .hover\:text-glass-highlight:hover {
+      color: var(--glass-highlight);
+    }
+    .hover\:text-glass-line:hover {
+      color: var(--glass-line);
+    }
+    .hover\:text-glass-shadow:hover {
+      color: var(--glass-shadow);
+    }
+    .hover\:text-info:hover {
+      color: var(--info);
+    }
+    .hover\:text-overlay:hover {
+      color: var(--overlay);
+    }
+    .hover\:text-primary:hover {
+      color: var(--primary);
+    }
+    .hover\:text-primary-foreground:hover {
+      color: var(--primary-foreground);
+    }
+    .hover\:text-primary-hover:hover {
+      color: var(--primary-hover);
+    }
+    .hover\:text-ring:hover {
+      color: var(--ring);
+    }
+    .hover\:text-scrollbar-thumb:hover {
+      color: var(--scrollbar-thumb);
+    }
+    .hover\:text-scrollbar-thumb-hover:hover {
+      color: var(--scrollbar-thumb-hover);
+    }
+    .hover\:text-scrollbar-track:hover {
+      color: var(--scrollbar-track);
+    }
+    .hover\:text-secondary:hover {
+      color: var(--secondary);
+    }
+    .hover\:text-secondary-foreground:hover {
+      color: var(--secondary-foreground);
+    }
+    .hover\:text-success:hover {
+      color: var(--success);
+    }
+    .hover\:text-surface:hover {
+      color: var(--surface);
+    }
+    .hover\:text-surface-inverse:hover {
+      color: var(--surface-inverse);
+    }
+    .hover\:text-surface-muted:hover {
+      color: var(--surface-muted);
+    }
+    .hover\:text-warning:hover {
+      color: var(--warning);
+    }
+    .hover\:text-white:hover {
+      color: var(--white);
+    }
+  }
+}
+

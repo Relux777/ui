@@ -1,0 +1,112 @@
+@charset "UTF-8";
+/*! RenDit UI v0.2.0 | MIT | Рамки: 32 классов RenDit Code */
+@layer utilities {
+  .br-0 {
+    border-radius: 0;
+  }
+  .br-12 {
+    border-radius: 12px;
+  }
+  .br-16 {
+    border-radius: 16px;
+  }
+  .br-20 {
+    border-radius: 20px;
+  }
+  .br-24 {
+    border-radius: 24px;
+  }
+  .br-2xl {
+    border-radius: var(--radius-2xl);
+  }
+  .br-32 {
+    border-radius: 32px;
+  }
+  .br-4 {
+    border-radius: 4px;
+  }
+  .br-8 {
+    border-radius: 8px;
+  }
+  .br-full {
+    border-radius: 9999px;
+  }
+  .br-lg {
+    border-radius: var(--radius-lg);
+  }
+  .br-md {
+    border-radius: var(--radius-md);
+  }
+  .br-sm {
+    border-radius: var(--radius-sm);
+  }
+  .br-xl {
+    border-radius: var(--radius-xl);
+  }
+  .br-xs {
+    border-radius: var(--radius-xs);
+  }
+  .border {
+    border-width: 1px;
+    border-style: solid;
+  }
+  .border-0 {
+    border-width: 0;
+    border-style: solid;
+  }
+  .border-2 {
+    border-width: 2px;
+    border-style: solid;
+  }
+  .border-x {
+    border-inline-width: 1px;
+    border-inline-style: solid;
+  }
+  .border-y {
+    border-block-width: 1px;
+    border-block-style: solid;
+  }
+  .border-t {
+    border-top-width: 1px;
+    border-top-style: solid;
+  }
+  .border-r {
+    border-right-width: 1px;
+    border-right-style: solid;
+  }
+  .border-b {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+  .border-l {
+    border-left-width: 1px;
+    border-left-style: solid;
+  }
+  .border-dashed {
+    border-style: dashed;
+  }
+  .border-dotted {
+    border-style: dotted;
+  }
+  .border-solid {
+    border-style: solid;
+  }
+  .outline-none {
+    outline-style: none;
+  }
+  .focus-visible\:outline-2:focus-visible {
+    outline-style: solid;
+    outline-width: 2px;
+  }
+  .focus-visible\:outline-offset-2:focus-visible {
+    outline-offset: 2px;
+  }
+  .focus-visible\:outline-ring:focus-visible {
+    outline-color: var(--ring);
+  }
+  .dark\:border:where([data-theme="dark"], [data-theme="dark"] *) {
+    border-width: 1px;
+    border-style: solid;
+  }
+}
+

@@ -73,7 +73,7 @@ export default function ConfigPage() {
   return (
     <>
       <DocHeader
-        path={["RenDit Code", "Конфиг"]}
+        path={["Движок RenDit Code", "Конфиг"]}
         title="Конфиг"
         lead={
           <>

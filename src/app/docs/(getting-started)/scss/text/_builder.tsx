@@ -5,6 +5,7 @@
 // только классы, написанные в коде целиком, а здесь значения выбирают на лету.
 
 import { useState } from "react";
+import { HtmlHint } from "../../../../_docs/builder";
 import { CopyButton } from "../../../../_docs/copy-button";
 
 const LABEL = "font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle";
@@ -254,6 +255,7 @@ export function TextBuilder() {
             </code>
             <CopyButton text={classes} className="shrink-0" />
           </div>
+          <HtmlHint classes={classes.split(" ")} />
         </div>
       </div>
     </div>

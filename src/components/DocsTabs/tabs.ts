@@ -4,9 +4,9 @@
 // title — в шапке, short — в доке над нижним меню (там места меньше)
 export const DOCS_TABS = [
   {
-    id: "install",
-    title: "Установка и настройка",
-    short: "Установка",
+    id: "guide",
+    title: "Справка",
+    short: "Справка",
     href: "/docs/install",
   },
   {
@@ -31,7 +31,7 @@ const within = (pathname: string, href: string) =>
   pathname === href || pathname.startsWith(`${href}/`);
 
 // вкладка текущей страницы: адрес вне /docs — −1; страница своей вкладки (/docs/components/button) — она;
-// всё остальное в /docs (обзор, установка, стеки, токены…) — первая вкладка, «Установка и настройка»
+// всё остальное в /docs (обзор, установка, классы, токены…) — первая вкладка, «Справка»
 export function activeTab(pathname: string, tabs: readonly Tab[] = DOCS_TABS) {
   if (!within(pathname, DOCS_ROOT)) return -1;
   const i = tabs.findIndex((tab, n) => n > 0 && within(pathname, tab.href));

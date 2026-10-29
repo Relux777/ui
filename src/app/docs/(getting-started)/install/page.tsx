@@ -256,7 +256,7 @@ export default function InstallPage() {
     <div className="grid xl:grid-cols-[minmax(0,1fr)_200px] gap-48">
       <div className="min-w-0 flex flex-col gap-56">
         <DocHeader
-          path={["Установка и настройка"]}
+          path={["Начало", "Установка и настройка"]}
           title="Установка и настройка"
           lead={
             <>

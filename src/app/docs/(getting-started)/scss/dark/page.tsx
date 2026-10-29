@@ -5,6 +5,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { extraCss } from "../../../../_docs/class-css";
 import {
   Code,
   CodeBlock,
@@ -17,6 +18,7 @@ import {
 import { Toc, type TocItem } from "../../../../_docs/toc";
 import { ThemeInstall } from "./_install";
 import { ThemeSwitcherBuilder } from "./_switcher";
+import { classesOf, htmlCode, VARIANTS } from "./_switcher-code";
 import { ThemePreview } from "./_tools";
 
 export const metadata: Metadata = { title: "Тёмная тема" };
@@ -104,12 +106,21 @@ const BEST: [string, string][] = [
     "theme-color с media и скрипт по выбранной теме — строка состояния не «прыгает».",
   ],
 ];
-export default function DarkPage() {
+export default async function DarkPage() {
+  // HTML-код переключателя: классы, которых нет в готовом CSS, — CSS для каждого варианта (движок, при сборке)
+  const styles = Object.fromEntries(
+    await Promise.all(
+      VARIANTS.map(async (v) => [
+        v.key,
+        await extraCss(classesOf(htmlCode(v.kind, v.animate, v.labels))),
+      ]),
+    ),
+  );
   return (
     <div className="grid xl:grid-cols-[minmax(0,1fr)_200px] gap-48">
       <div className="min-w-0 flex flex-col gap-56">
         <DocHeader
-          path={["RenDit SCSS", "Тёмная тема"]}
+          path={["Основы", "Тёмная тема"]}
           title="Тёмная тема"
           lead={
             <>
@@ -128,7 +139,7 @@ export default function DarkPage() {
             шапке здесь, ползунок, три кнопки или список. Нажмите на пример — он
             переключит тему у себя; код — для Next.js и React или чистого JS.
           </Lead>
-          <ThemeSwitcherBuilder />
+          <ThemeSwitcherBuilder styles={styles} />
         </section>
         <section className="flex flex-col gap-16">
           <Heading id="try">Попробуйте</Heading>

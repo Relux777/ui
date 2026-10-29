@@ -2,23 +2,26 @@
 
 // Конструктор переключателя темы: вид (иконка с анимацией, как в шапке сайта; ползунок; три кнопки;
 // выпадающий список), анимация и подписи → живой пример в своей теме и готовый код для Next.js / React
-// (next-themes) или чистого JS. Пример меняет тему только у себя (data-theme на рамке), не у сайта.
+// (next-themes) или HTML. Пример меняет тему только у себя (data-theme на рамке), не у сайта.
+// Код — _switcher-code.ts. HTML-код рабочий целиком; классы, которых нет в готовом CSS, страница собирает
+// движком и дописывает в код <style> (styles: вариант → CSS) — пример работает и с одним готовым CSS.
 
 import { ChevronDown } from "@boxicons/react/ChevronDown";
 import { Desktop } from "@boxicons/react/Desktop";
 import { Moon } from "@boxicons/react/Moon";
 import { Sun } from "@boxicons/react/Sun";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CodeBlock } from "../../../../_docs/docs";
 import { useDocsPlatform, usesJsx } from "../../../_platform";
-
-const KINDS = {
-  icon: "Иконка",
-  switch: "Ползунок",
-  segmented: "Три кнопки",
-  select: "Список",
-} as const;
-type Kind = keyof typeof KINDS;
+import {
+  ANIM,
+  htmlCode,
+  jsxCode,
+  KINDS,
+  type Kind,
+  variantKey,
+} from "./_switcher-code";
 
 type Mode = "light" | "dark" | "system";
 const MODES: { id: Mode; title: string; Icon: typeof Sun }[] = [
@@ -30,10 +33,6 @@ const MODES: { id: Mode; title: string; Icon: typeof Sun }[] = [
 const LABEL = "font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle";
 const SEG =
   "h-32 px-10 br-full font-13 font-w-600 text-foreground-muted transition aria-pressed:bg-surface aria-pressed:text-foreground aria-pressed:shadow-2";
-
-// анимация смены иконки: уходящая поворачивается и гаснет, новая выкручивается навстречу
-const ANIM =
-  "transition-[rotate,scale,opacity] duration-500 ease-spring-bouncy";
 
 // ── Живые образцы ───────────────────────────────────────────────────────────
 
@@ -181,197 +180,28 @@ function Preview({
   );
 }
 
-// ── Код ─────────────────────────────────────────────────────────────────────
-
-function jsxCode(kind: Kind, animate: boolean, labels: boolean) {
-  const anim = animate ? ` ${ANIM}` : "";
-  const head = `"use client";
-
-import { useTheme } from "next-themes";
-import { Moon } from "@boxicons/react/Moon";
-import { Sun } from "@boxicons/react/Sun";${kind === "segmented" || kind === "select" ? `\nimport { Desktop } from "@boxicons/react/Desktop";` : ""}
-`;
-  if (kind === "icon")
-    return `${head}
-export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const dark = resolvedTheme === "dark";
-  return (
-    <button
-      type="button"
-      aria-label="Сменить тему"
-      onClick={() => setTheme(dark ? "light" : "dark")}
-      className="flex items-center gap-8 h-40 px-10 br-full border bg-surface shadow-2 active:scale-92"
-    >
-      {/* обе иконки в разметке, видимую выбирает CSS по data-theme — без мигания до гидратации */}
-      <span className="grid size-24 place-items-center">
-        <Sun className="[grid-area:1/1]${anim} opacity-0 -rotate-90 scale-40 dark:opacity-100 dark:rotate-0 dark:scale-100" />
-        <Moon className="[grid-area:1/1]${anim} dark:opacity-0 dark:rotate-90 dark:scale-40" />
-      </span>${labels ? `\n      <span className="font-13 font-w-600">{dark ? "Тёмная" : "Светлая"}</span>` : ""}
-    </button>
-  );
-}`;
-  if (kind === "switch")
-    return `${head}
-export function ThemeSwitch() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const dark = resolvedTheme === "dark";
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={dark}
-      aria-label="Тёмная тема"
-      onClick={() => setTheme(dark ? "light" : "dark")}
-      className="flex items-center gap-10"
-    >
-      <span className="relative w-60 h-34 br-full bg-foreground/12 dark:bg-secondary transition-colors">
-        <span className="absolute top-3 left-3 size-28 br-full grid place-items-center bg-white text-gray-900 shadow-2${animate ? " transition-[translate] duration-500 ease-spring" : ""} dark:translate-x-26">
-          {dark ? <Moon size="xs" /> : <Sun size="xs" />}
-        </span>
-      </span>${labels ? `\n      <span>{dark ? "Тёмная" : "Светлая"}</span>` : ""}
-    </button>
-  );
-}`;
-  if (kind === "segmented")
-    return `${head}
-const MODES = [
-  { id: "light", title: "Светлая", Icon: Sun },
-  { id: "dark", title: "Тёмная", Icon: Moon },
-  { id: "system", title: "Система", Icon: Desktop },
-];
-
-export function ThemeSegmented() {
-  const { theme = "system", setTheme } = useTheme();
-  const index = MODES.findIndex((m) => m.id === theme);
-  return (
-    <fieldset className="relative grid grid-cols-3 m-0 p-3 border-0 br-full bg-foreground/6">
-      <legend className="sr-only">Тема</legend>
-      <span
-        aria-hidden="true"
-        className="absolute top-3 bottom-3 left-3 w-[calc((100%-6px)/3)] br-full bg-surface shadow-2${animate ? " transition-[translate] duration-500 ease-spring" : ""}"
-        style={{ translate: \`\${index * 100}% 0\` }}
-      />
-      {MODES.map(({ id, title, Icon }) => (
-        <button
-          key={id}
-          type="button"
-          aria-pressed={theme === id}
-          aria-label={title}
-          onClick={() => setTheme(id)}
-          className="relative z-1 flex items-center justify-center gap-6 h-34 px-12 br-full text-foreground-muted aria-pressed:text-foreground"
-        >
-          <Icon size="xs" />${labels ? "\n          {title}" : ""}
-        </button>
-      ))}
-    </fieldset>
-  );
-}`;
-  return `${head}
-import { useEffect, useState } from "react";
-
-const MODES = [
-  { id: "light", title: "Светлая", Icon: Sun },
-  { id: "dark", title: "Тёмная", Icon: Moon },
-  { id: "system", title: "Система", Icon: Desktop },
-];
-
-export function ThemeSelect() {
-  const { theme = "system", setTheme } = useTheme();
-  const [open, setOpen] = useState(false);
-  const current = MODES.find((m) => m.id === theme) ?? MODES[2];
-  return (
-    <div className="relative">
-      <button
-        type="button"
-        aria-haspopup="menu"
-        aria-expanded={open}
-        onClick={() => setOpen(!open)}
-        className="flex items-center gap-8 h-40 px-12 br-lg border bg-surface"
-      >
-        <current.Icon size="xs" />${labels ? "\n        {current.title}" : ""}
-      </button>
-      <div
-        role="menu"
-        data-open={open || undefined}
-        className="absolute top-full mt-6 w-160 p-4 br-lg border bg-surface shadow-4 opacity-0 scale-95 invisible data-open:opacity-100 data-open:scale-100 data-open:visible${animate ? " transition-[opacity,scale,visibility] duration-300 ease-spring" : ""}"
-      >
-        {MODES.map(({ id, title, Icon }) => (
-          <button
-            key={id}
-            type="button"
-            role="menuitemradio"
-            aria-checked={theme === id}
-            onClick={() => { setTheme(id); setOpen(false); }}
-            className="flex items-center gap-8 w-full h-34 px-10 br-md hover:bg-foreground/5 aria-checked:text-secondary"
-          >
-            <Icon size="xs" /> {title}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}`;
-}
-
-function jsCode(kind: Kind, animate: boolean, labels: boolean) {
-  const save = `// тема: светлая, тёмная или как в системе; выбор помним
-function applyTheme(mode) {
-  const dark = mode === "dark" ||
-    (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
-  document.documentElement.dataset.theme = dark ? "dark" : "light";
-  localStorage.setItem("theme", mode);
-}`;
-  const anim = animate ? ` ${ANIM}` : "";
-  if (kind === "icon" || kind === "switch")
-    return `<!-- разметка -->
-${
-  kind === "icon"
-    ? `<button type="button" class="theme-toggle flex items-center gap-8 h-40 px-10 br-full border bg-surface shadow-2" aria-label="Сменить тему">
-  <span class="grid size-24 place-items-center">
-    <svg class="[grid-area:1/1]${anim} opacity-0 -rotate-90 scale-40 dark:opacity-100 dark:rotate-0 dark:scale-100"><!-- солнце --></svg>
-    <svg class="[grid-area:1/1]${anim} dark:opacity-0 dark:rotate-90 dark:scale-40"><!-- луна --></svg>
-  </span>${labels ? '\n  <span class="theme-label font-13 font-w-600">Светлая</span>' : ""}
-</button>`
-    : `<button type="button" role="switch" aria-checked="false" class="theme-toggle flex items-center gap-10" aria-label="Тёмная тема">
-  <span class="relative w-60 h-34 br-full bg-foreground/12 dark:bg-secondary">
-    <span class="absolute top-3 left-3 size-28 br-full bg-white shadow-2${animate ? " transition-[translate] duration-500 ease-spring" : ""} dark:translate-x-26"></span>
-  </span>${labels ? '\n  <span class="theme-label">Светлая</span>' : ""}
-</button>`
-}
-
-<script>
-${save}
-
-document.querySelector(".theme-toggle").addEventListener("click", (e) => {
-  const dark = document.documentElement.dataset.theme !== "dark";
-  applyTheme(dark ? "dark" : "light");
-  e.currentTarget.setAttribute("aria-checked", dark);${labels ? '\n  e.currentTarget.querySelector(".theme-label").textContent = dark ? "Тёмная" : "Светлая";' : ""}
-});
-</script>`;
-  return `<!-- разметка -->
-<div class="theme-modes flex gap-4 p-3 br-full bg-foreground/6">
-  <button type="button" data-mode="light" class="h-34 px-12 br-full aria-pressed:bg-surface aria-pressed:shadow-2">${labels ? "Светлая" : "☀"}</button>
-  <button type="button" data-mode="dark" class="h-34 px-12 br-full aria-pressed:bg-surface aria-pressed:shadow-2">${labels ? "Тёмная" : "☾"}</button>
-  <button type="button" data-mode="system" class="h-34 px-12 br-full aria-pressed:bg-surface aria-pressed:shadow-2">${labels ? "Система" : "◐"}</button>
-</div>
-
-<script>
-${save}
-
-const buttons = document.querySelectorAll(".theme-modes [data-mode]");
-const mark = (mode) => buttons.forEach((b) => b.setAttribute("aria-pressed", b.dataset.mode === mode));
-mark(localStorage.getItem("theme") || "system");
-buttons.forEach((b) => b.addEventListener("click", () => {
-  applyTheme(b.dataset.mode);
-  mark(b.dataset.mode);
-}));
-</script>`;
-}
-
 // ── Конструктор ─────────────────────────────────────────────────────────────
 
-export function ThemeSwitcherBuilder() {
+// HTML целиком: что ещё нужно в <head>, <style> с недостающими классами (если есть), разметка и скрипт
+function htmlWithStyles(code: string, style: string) {
+  const head = `<!-- В <head>: готовый CSS RenDit UI и скрипт темы — шаги в «Установке» ниже -->`;
+  if (!style) return `${head}\n\n${code}`;
+  return `${head}
+<!-- Этих классов нет в готовом CSS — их правила здесь, и пример работает как есть.
+     Можно вписать их в CSS-конструктор справки (/docs/css) и убрать этот <style>. -->
+<style>
+${style}
+</style>
+
+${code}`;
+}
+
+export function ThemeSwitcherBuilder({
+  styles,
+}: {
+  /** вариант (вид, анимация, подписи) → CSS классов HTML-кода, которых нет в готовом CSS */
+  styles: Record<string, string>;
+}) {
   const [kind, setKind] = useState<Kind>("icon");
   const [animate, setAnimate] = useState(true);
   const [labels, setLabels] = useState(false);
@@ -463,9 +293,28 @@ export function ThemeSwitcherBuilder() {
         <CodeBlock
           file={jsx ? "ThemeToggle.tsx" : "index.html"}
           code={
-            jsx ? jsxCode(kind, animate, labels) : jsCode(kind, animate, labels)
+            jsx
+              ? jsxCode(kind, animate, labels)
+              : htmlWithStyles(
+                  htmlCode(kind, animate, labels),
+                  styles[variantKey(kind, animate, labels)] ?? "",
+                )
           }
         />
+        {!jsx && (
+          <p className="font-13 text-foreground-muted">
+            Код рабочий целиком: иконки — SVG прямо в разметке, скрипт без
+            модулей (работает и из файла с диска). Готовый CSS и свои классы —
+            на странице{" "}
+            <Link
+              href="/docs/css"
+              className="font-w-600 text-secondary hover:underline"
+            >
+              «Готовый CSS»
+            </Link>
+            .
+          </p>
+        )}
       </div>
     </div>
   );

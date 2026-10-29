@@ -85,7 +85,7 @@ export function PlatformSwitch({ className = "" }: { className?: string }) {
         aria-label="Платформа справки"
         data-open={open || undefined}
         inert={!open}
-        className="absolute top-full inset-x-0 z-20 mt-6 flex flex-col p-4 br-lg border bg-surface shadow-5 origin-top opacity-0 scale-95 -translate-y-4 invisible transition-[opacity,scale,translate,visibility] duration-300 ease-spring data-open:opacity-100 data-open:scale-100 data-open:translate-y-0 data-open:visible motion-reduce:transition-none"
+        className="absolute top-full inset-x-0 z-20 mt-6 flex flex-col gap-4 p-5 br-lg border bg-surface shadow-5 origin-top opacity-0 scale-95 -translate-y-4 invisible transition-[opacity,scale,translate,visibility] duration-300 ease-spring data-open:opacity-100 data-open:scale-100 data-open:translate-y-0 data-open:visible motion-reduce:transition-none"
       >
         {DOCS_PLATFORMS.map((p) => {
           const { Icon: PIcon, color: pColor } = PLATFORM_ICONS[p.id];
@@ -99,7 +99,7 @@ export function PlatformSwitch({ className = "" }: { className?: string }) {
                 choosePlatform(p.id);
                 setOpen(false);
               }}
-              className="flex items-center gap-10 p-6 br-md text-left transition-colors hover:bg-foreground/5 aria-selected:bg-secondary/8"
+              className="flex items-center gap-10 p-7 br-md text-left transition-colors hover:bg-foreground/5 aria-selected:bg-secondary/8"
             >
               <span className="size-28 shrink-0 br-sm grid place-items-center bg-surface-muted">
                 <PIcon size="xs" className={pColor} aria-hidden="true" />

@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { withAlpha } from "./utilities.mjs";
+import { buildTheme } from "./theme.mjs";
 import { looksLikeColor } from "./values.mjs";
 
 export const CONFIG_FILE = "rendit.config.mjs";
@@ -85,6 +85,8 @@ export async function loadConfig(root) {
   };
   config.tokensPath = config.tokens ? path.join(root, config.tokens) : null;
   config.tokenInfo = await readTokens(config.tokensPath);
+  // исходные настройки темы — для движка в браузере (CSS-конструктор справки): Map с функциями не передать
+  config.themeSource = config.theme;
   config.theme = buildTheme(config);
   return config;
 }
@@ -171,31 +173,4 @@ export async function readTokens(file) {
     else if (name.startsWith("ease-")) info.eases.push(name.slice(5));
   }
   return info;
-}
-
-function buildTheme(config) {
-  const { tokenInfo } = config;
-  const colors = new Map();
-
-  colors.set("transparent", () => "transparent");
-  colors.set("current", (a) => withAlpha("currentColor", a));
-  colors.set("inherit", () => "inherit");
-  for (const name of tokenInfo.colors)
-    colors.set(name, (a) => withAlpha(`var(--${name})`, a));
-  for (const [name, value] of Object.entries(config.theme.colors ?? {}))
-    colors.set(name, (a) => withAlpha(value, a));
-
-  const fromTokens = (prefix, names) =>
-    new Map(names.map((n) => [n, `var(--${prefix}-${n})`]));
-
-  return {
-    columns: config.theme.columns,
-    colors,
-    fonts: new Map(Object.entries(config.theme.fonts)),
-    spacing: new Map(Object.entries(config.theme.spacing ?? {})),
-    radius: fromTokens("radius", tokenInfo.radius),
-    shadows: fromTokens("shadow", tokenInfo.shadows),
-    gradients: fromTokens("gradient", tokenInfo.gradients),
-    eases: fromTokens("ease", tokenInfo.eases),
-  };
 }

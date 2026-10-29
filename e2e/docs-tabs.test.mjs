@@ -78,7 +78,7 @@ describe("вкладки справки", { skip: skip ?? false }, () => {
       h1: [...document.querySelectorAll('h1')].find((h) => h.checkVisibility())?.textContent,
     })`);
     assert.equal(state.sidebar, false, "у «Компонентов» нет бокового меню");
-    assert.equal(state.h1, "Привет мир");
+    assert.equal(state.h1, "Компоненты");
     const afterNav = await page.eval(rect(NAV_GLASS));
     assert.deepEqual(afterNav, before, "нижнее меню не сдвинулось");
 

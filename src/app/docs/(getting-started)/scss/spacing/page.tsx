@@ -49,7 +49,7 @@ export default function SpacingPage() {
     <div className="grid xl:grid-cols-[minmax(0,1fr)_200px] gap-48">
       <div className="min-w-0 flex flex-col gap-56">
         <DocHeader
-          path={["RenDit SCSS", "Отступы"]}
+          path={["Отступы", "Отступы"]}
           title="Отступы"
           lead={
             <>

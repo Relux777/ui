@@ -71,6 +71,27 @@ test("варианты и значения со скобками", () => {
   assert.equal(p.negative, true);
   assert.equal(p.base, "mt-[calc(1px+2px)]");
 });
+test("текст: линия подчёркивания, отступ первой строки, списки, перенос", () => {
+  assert.deepEqual(decls("decoration-2"), {
+    "text-decoration-thickness": "2px",
+  });
+  assert.deepEqual(decls("decoration-wavy"), {
+    "text-decoration-style": "wavy",
+  });
+  // цвет линии по-прежнему цветом, а не толщиной
+  assert.deepEqual(decls("decoration-secondary"), {
+    "text-decoration-color": "var(--secondary)",
+  });
+  assert.deepEqual(decls("overline"), { "text-decoration-line": "overline" });
+  assert.deepEqual(decls("indent-24"), { "text-indent": "24px" });
+  assert.deepEqual(decls("list-none"), { "list-style-type": "none" });
+  assert.deepEqual(decls("list-inside"), { "list-style-position": "inside" });
+  assert.deepEqual(decls("break-normal"), {
+    "overflow-wrap": "normal",
+    "word-break": "normal",
+  });
+});
+
 test("модификатор после /", () => {
   assert.equal(parseCandidate("bg-primary/50").modifier, "50");
   assert.equal(parseCandidate("w-[calc(100%/3)]").modifier, null);
@@ -142,6 +163,10 @@ test("защита от CSS-инъекций: свои значения и ва�
     "content-['</style><script>']",
     "w-[1px/**/]",
     "content-['abc]",
+    // «…» — заглушка из текста справки, не CSS: url(…) ломал сборку
+    "bg-[url(…)]",
+    "w-[…]",
+    "[…]:p-1",
   );
   // обычные свои значения и варианты работают как раньше
   assert.deepEqual(decls("[mask-type:alpha]"), { "mask-type": "alpha" });

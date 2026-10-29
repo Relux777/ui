@@ -40,6 +40,19 @@ export function DocStub({ href }: { href: string }) {
             </li>
           ))}
         </ol>
+        {link.classes && (
+          <div className="flex flex-wrap items-center gap-6 pt-4">
+            <span className="font-13 text-foreground-muted">Классы:</span>
+            {link.classes.map((c) => (
+              <code
+                key={c}
+                className="px-8 py-2 br-md bg-foreground/5 font-mono font-13"
+              >
+                {c}
+              </code>
+            ))}
+          </div>
+        )}
         {stub.home && (
           <Link
             href={`/#${stub.home}`}

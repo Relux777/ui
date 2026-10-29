@@ -41,7 +41,7 @@ export default function CliPage() {
   return (
     <>
       <DocHeader
-        path={["RenDit Code", "Команды"]}
+        path={["Движок RenDit Code", "Команды"]}
         title="Команды"
         lead={
           <>

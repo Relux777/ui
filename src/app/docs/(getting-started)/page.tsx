@@ -72,43 +72,27 @@ export default function DocsPage() {
       <section className="flex flex-col gap-16">
         <h2 className="font-24 font-w-700 -letter-s-2">Разделы</h2>
         <div className="grid sm:grid-cols-2 gap-16">
-          {DOCS_NAV.map((group) => {
-            const first = group.links.find((l) => l.ready);
-            return (
-              <article
-                key={group.title}
-                className="flex flex-col gap-6 p-20 br-xl border bg-surface"
-              >
-                <div className="flex items-center justify-between gap-8">
-                  <h3 className="font-17 font-w-700">{group.title}</h3>
-                  {!first && (
-                    <span className="font-11 px-6 br-full border text-foreground-subtle">
-                      скоро
-                    </span>
-                  )}
-                </div>
-                <p className="font-14 text-foreground-muted">{group.lead}</p>
-                <ul className="flex flex-wrap gap-6 pt-6">
-                  {group.links.map((link) => (
-                    <li key={link.href}>
-                      {link.ready ? (
-                        <Link
-                          href={link.href}
-                          className="block px-10 py-4 br-full bg-surface-muted font-13 transition hover:bg-surface-muted/50"
-                        >
-                          {link.title}
-                        </Link>
-                      ) : (
-                        <span className="block px-10 py-4 br-full border font-13 text-foreground-subtle">
-                          {link.title}
-                        </span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            );
-          })}
+          {DOCS_NAV.map((group) => (
+            <article
+              key={group.title}
+              className="flex flex-col gap-6 p-20 br-xl border bg-surface"
+            >
+              <h3 className="font-17 font-w-700">{group.title}</h3>
+              <p className="font-14 text-foreground-muted">{group.lead}</p>
+              <ul className="flex flex-wrap gap-6 pt-6">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="block px-10 py-4 br-full bg-surface-muted font-13 transition hover:bg-surface-muted/50"
+                    >
+                      {link.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </section>
     </>

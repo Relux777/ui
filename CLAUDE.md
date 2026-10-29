@@ -81,12 +81,16 @@ npx tsc --noEmit     # после next build / next typegen
 ## Где что
 
 ```
-src/components/Header      шапка «две таблетки»; по центру в /docs — вкладки справки; справа «Быстрый переход»
-src/components/NavBar      нижнее меню «Жидкое стекло»: Главная · Справка · Блог · Меню (открывает QuickNav)
+src/components/Header      шапка «две таблетки»; по центру в /docs — вкладки справки; справа кружок «всё меню» (MenuSheet)
+src/components/NavBar      нижнее меню «Жидкое стекло»: Главная · Справка · Блог · Меню (/menu); быстрое меню у стрелки:
+                           язык, шрифт, тема, «Быстрый переход» (только где есть разделы), сколько прочитано
 src/components/DocsTabs    вкладки справки (tabs.ts — данные и выбор по адресу, под тестом)
-src/components/ui/QuickNav    окно быстрого доступа (.sheet): вкладки, «На этой странице» (элементы с data-toc), справка
-src/app/docs/_nav.ts       оглавление справки (боковое меню, карточки), ready: false — «скоро»
-src/app/docs/(getting-started)  вкладка «Установка и настройка» (боковое меню); components/, releases/ — свои layout
+src/components/ui/Sheet       окно-лист на <dialog> (.sheet): смахивание, размытие под листом, тень под верхом при прокрутке
+src/components/ui/QuickNav    «Быстрый переход» — только разделы страницы (элементы с data-toc), открывает openQuickNav()
+src/components/ui/MenuSheet   «всё меню» шапки: вкладки, поиск по классам, платформа, все страницы справки
+src/app/docs/_nav.ts       оглавление справки как у Tailwind (группы, у страницы classes — для меню и поиска filterDocsNav);
+                           _nav-closed.ts — свёрнутые группы, _nav-filter.tsx — поле поиска, _sidebar.tsx — левое меню
+src/app/docs/(getting-started)  вкладка «Справка» (левое меню); страницы классов — scss/<свойство>; components/, releases/ — свои layout
 src/app/docs/(getting-started)/install  установка: choice.ts — платформы, вопросы, адрес (под тестом);
                            steps.tsx — шаги под набор; _guide.tsx — выбор на странице
 src/app/_docs              блоки документации: DocHeader, Heading, CodeBlock (своя подсветка highlight.ts), Steps,
@@ -109,5 +113,18 @@ GitHub по тегу собирает релиз (`.github/workflows/release.yml
 набор классов там же). Адреса загрузки и CDN — `config/release.ts`. Коммиты и пуш — только по просьбе Рената;
 токены доступа из чата не использовать.
 
+Готовый CSS (`npm run dist`, `rendit-code/dist.mjs`): целиком и по частям (`dist/modules`, список и классы частей —
+`manifest.json`; одно свойство — в одной части). Страница «Готовый CSS» (`docs/(getting-started)/css`) — CSS-конструктор:
+движок RenDit Code работает в браузере (`core/theme.mjs` + `generator.mjs`, данные — `browserEngine()`). Для платформы HTML
+код в справке должен работать с одним готовым CSS: классы, которых в нём нет, — подсказка со ссылкой в конструктор
+(`Output`, `HtmlHint`) или сразу `<style>` в коде (`extraCss`, как у переключателя темы).
+
+Страница классов (как «Ширина», `scss/width/`): `_classes.ts` — все классы конструктора (обычный модуль, не
+`"use client"`), `page.tsx` — `ClassPage` + `Part` (`_docs/class-page.tsx`), `await classCss(КЛАССЫ)` → конструктору,
+`<ClassTable rows={…} />` (CSS от движка, `_docs/class-table.tsx`), примеры `Example`; `_builder.tsx` — конструктор на
+`_docs/builder.tsx` (`Builder`, `Field`, `Seg`, `Range`, `Switch`, `Canvas`, `ClassStyle`, `Output`). Классы примера можно
+собирать на лету (`w-${n}`): их правила вставляет `ClassStyle`. Готова — строку из `_stubs.ts` удалить.
+
 Новая страница справки: папка в `(getting-started)/…/page.tsx`, `DocHeader` + `Heading` (они попадают в быстрый
-переход) + строка в `_nav.ts` с `ready: true` + строка в `CHANGELOG.md`.
+переход) + строка в `_nav.ts` (с `classes`) + строка в `CHANGELOG.md`. Тест `docs/nav.test.ts` проверяет, что у каждого
+пункта меню есть страница. «…» внутри класса в тексте справки (`w-[…]`) движок в CSS не превращает — такие заглушки можно.

@@ -16,6 +16,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { HtmlHint } from "../../../../_docs/builder";
 import {
   COPIED_RING,
   Copied,
@@ -993,6 +994,7 @@ export function StyleBuilder() {
             </div>
           </div>
           <CodeBlock file={jsx ? "Page.tsx" : "index.html"} code={code} />
+          <HtmlHint classes={classes.split(" ")} />
         </div>
       </div>
     </div>

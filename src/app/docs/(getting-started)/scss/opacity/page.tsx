@@ -2,8 +2,8 @@
 
 import { DocStub, stubMetadata } from "@/app/_docs/stub";
 
-export const metadata = stubMetadata("/docs/editor");
+export const metadata = stubMetadata("/docs/scss/opacity");
 
 export default function Page() {
-  return <DocStub href="/docs/editor" />;
+  return <DocStub href="/docs/scss/opacity" />;
 }

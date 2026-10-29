@@ -53,7 +53,7 @@ export default function VariantsPage() {
   return (
     <>
       <DocHeader
-        path={["RenDit Code", "Варианты"]}
+        path={["Основы", "Все варианты"]}
         title="Варианты"
         lead={
           <>
