@@ -93,9 +93,12 @@ export default async function DecorationPage() {
         >
           <p className="font-15 text-foreground-muted">
             Подробнее — в{" "}
-            <span className="underline decoration-foreground/30 underline-offset-4 text-foreground transition-colors hover:decoration-foreground cursor-pointer">
+            <a
+              href="/docs/install"
+              className="underline decoration-foreground/30 underline-offset-4 text-foreground transition-colors hover:decoration-foreground"
+            >
               справке по установке
-            </span>
+            </a>
             .
           </p>
         </Example>

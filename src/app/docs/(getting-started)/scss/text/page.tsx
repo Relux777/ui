@@ -29,12 +29,8 @@ const TOC: TocItem[] = [
 ];
 
 const SCALE = [
-  [
-    "font-56",
-    "Заголовок страницы",
-    "font-56 font-w-700 -letter-s-3 leading-1.05",
-  ],
-  ["font-40", "Крупный заголовок", "font-40 font-w-700 -letter-s-3"],
+  ["font-56", "Заголовок", "font-56 font-w-700 -letter-s-3 leading-1.05"],
+  ["font-40", "RenDit UI", "font-40 font-w-700 -letter-s-3"],
   ["font-28", "Заголовок раздела", "font-28 font-w-700 -letter-s-2"],
   ["font-20", "Подзаголовок", "font-20 font-w-600 -letter-s-1"],
   ["font-17", "Вводный абзац", "font-17 text-foreground-muted"],
@@ -84,7 +80,7 @@ export default function TextPage() {
                 <code className="font-12 font-mono text-foreground-muted">
                   {cls}
                 </code>
-                <span className={`min-w-0 truncate ${cls}`}>{title}</span>
+                <span className={`min-w-0 ${cls}`}>{title}</span>
               </div>
             ))}
           </div>
@@ -100,7 +96,7 @@ export default function TextPage() {
             title="font-w-400 … font-w-700"
             code={`<p class="font-w-400">  <p class="font-w-500">  <p class="font-w-600">  <p class="font-w-700">`}
           >
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-12 font-24">
+            <div className="flex flex-wrap gap-x-16 gap-y-8 font-24">
               <span className="font-w-400">Обычный</span>
               <span className="font-w-500">Средний</span>
               <span className="font-w-600">Полужирный</span>

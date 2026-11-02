@@ -1246,6 +1246,9 @@
   .list-disc {
     list-style-type: disc;
   }
+  .list-none {
+    list-style-type: none;
+  }
   .appearance-none {
     appearance: none;
   }
@@ -1632,11 +1635,21 @@
   .break-all {
     word-break: break-all;
   }
+  .break-normal {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
   .break-words {
     overflow-wrap: break-word;
   }
   .hyphens-auto {
     hyphens: auto;
+  }
+  .hyphens-manual {
+    hyphens: manual;
+  }
+  .hyphens-none {
+    hyphens: none;
   }
   .br-10 {
     border-radius: 10px;
@@ -2798,6 +2811,9 @@
   .no-underline {
     text-decoration-line: none;
   }
+  .overline {
+    text-decoration-line: overline;
+  }
   .underline {
     text-decoration-line: underline;
   }
@@ -3184,8 +3200,32 @@
   .\[outline\:1px_dashed_color-mix\(in_oklab\,var\(--green-500\)_50\%\,transparent\)\] {
     outline: 1px dashed color-mix(in oklab,var(--green-500) 50%,transparent);
   }
+  .decoration-2 {
+    text-decoration-thickness: 2px;
+  }
+  .decoration-dashed {
+    text-decoration-style: dashed;
+  }
+  .decoration-dotted {
+    text-decoration-style: dotted;
+  }
+  .decoration-double {
+    text-decoration-style: double;
+  }
+  .decoration-solid {
+    text-decoration-style: solid;
+  }
+  .decoration-wavy {
+    text-decoration-style: wavy;
+  }
   .field-sizing-content {
     field-sizing: content;
+  }
+  .list-inside {
+    list-style-position: inside;
+  }
+  .list-outside {
+    list-style-position: outside;
   }
   .select-all {
     user-select: all;
