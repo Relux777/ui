@@ -179,11 +179,11 @@
   .bottom-4 {
     bottom: 4px;
   }
+  .bottom-\[calc\(15px\+env\(safe-area-inset-bottom\)\+var\(--browser-ui\,0px\)\)\] {
+    bottom: calc(15px + env(safe-area-inset-bottom) + var(--browser-ui,0px));
+  }
   .bottom-\[calc\(16px\+env\(safe-area-inset-bottom\)\)\] {
     bottom: calc(16px + env(safe-area-inset-bottom));
-  }
-  .bottom-\[calc\(18px\+env\(safe-area-inset-bottom\)\)\] {
-    bottom: calc(18px + env(safe-area-inset-bottom));
   }
   .bottom-full {
     bottom: 100%;
@@ -976,8 +976,8 @@
   .h-\[calc\(100dvh-64px\)\] {
     height: calc(100dvh - 64px);
   }
-  .h-\[calc\(100px\+env\(safe-area-inset-bottom\)\)\] {
-    height: calc(100px + env(safe-area-inset-bottom));
+  .h-\[calc\(100px\+env\(safe-area-inset-bottom\)\+var\(--browser-ui\,0px\)\)\] {
+    height: calc(100px + env(safe-area-inset-bottom) + var(--browser-ui,0px));
   }
   .h-auto {
     height: auto;
@@ -2960,6 +2960,11 @@
   }
   .transition-\[border-color\,box-shadow\] {
     transition-property: border-color,box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .transition-\[bottom\] {
+    transition-property: bottom;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
