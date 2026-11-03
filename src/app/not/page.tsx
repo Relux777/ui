@@ -27,7 +27,7 @@ const chr = (
   label: string,
   code: string,
   char: string,
-  shiftChar: string
+  shiftChar: string,
 ): KeyDef => ({ label, code, units: 1, kind: "char", char, shiftChar });
 
 const letter = (l: string): KeyDef => ({
@@ -45,7 +45,9 @@ const DIGIT_SHIFT = "!@#$%^&*()";
 const ROWS: KeyDef[][] = [
   [
     chr("`", "Backquote", "`", "~"),
-    ..."1234567890".split("").map((d, i) => chr(d, `Digit${d}`, d, DIGIT_SHIFT[i])),
+    ..."1234567890"
+      .split("")
+      .map((d, i) => chr(d, `Digit${d}`, d, DIGIT_SHIFT[i])),
     chr("-", "Minus", "-", "_"),
     chr("=", "Equal", "=", "+"),
     { label: "⌫", code: "Backspace", units: 2, kind: "backspace" },
@@ -65,21 +67,45 @@ const ROWS: KeyDef[][] = [
     { label: "enter", code: "Enter", units: 2.25, kind: "enter", small: true },
   ],
   [
-    { label: "shift", code: "ShiftLeft", units: 2.25, kind: "shift", small: true },
+    {
+      label: "shift",
+      code: "ShiftLeft",
+      units: 2.25,
+      kind: "shift",
+      small: true,
+    },
     ..."ZXCVBNM".split("").map(letter),
     chr(",", "Comma", ",", "<"),
     chr(".", "Period", ".", ">"),
     chr("/", "Slash", "/", "?"),
-    { label: "shift", code: "ShiftRight", units: 2.75, kind: "shift", small: true },
+    {
+      label: "shift",
+      code: "ShiftRight",
+      units: 2.75,
+      kind: "shift",
+      small: true,
+    },
   ],
   [
-    { label: "ctrl", code: "ControlLeft", units: 1.5, kind: "mod", small: true },
+    {
+      label: "ctrl",
+      code: "ControlLeft",
+      units: 1.5,
+      kind: "mod",
+      small: true,
+    },
     { label: "alt", code: "AltLeft", units: 1.5, kind: "mod", small: true },
     { label: "cmd", code: "MetaLeft", units: 1.5, kind: "mod", small: true },
     { label: "", code: "Space", units: 6, kind: "space" },
     { label: "alt", code: "AltRight", units: 1.5, kind: "mod", small: true },
     { label: "fn", code: "Fn", units: 1.5, kind: "mod", small: true },
-    { label: "ctrl", code: "ControlRight", units: 1.5, kind: "mod", small: true },
+    {
+      label: "ctrl",
+      code: "ControlRight",
+      units: 1.5,
+      kind: "mod",
+      small: true,
+    },
   ],
 ];
 
@@ -116,19 +142,19 @@ export default function Page() {
           setTyped((t) => t.slice(0, -1));
           return;
         case "enter":
-          setTyped((t) => t + "\n");
+          setTyped((t) => `${t}\n`);
           return;
         case "tab":
-          setTyped((t) => t + "  ");
+          setTyped((t) => `${t}  `);
           return;
         case "space":
-          setTyped((t) => t + " ");
+          setTyped((t) => `${t} `);
           return;
         case "char": {
           const base = key.char ?? "";
           const isLetter = /^[a-z]$/.test(base);
           const upper = isLetter ? shiftOn !== capsOn : shiftOn;
-          const out = upper ? key.shiftChar ?? base : base;
+          const out = upper ? (key.shiftChar ?? base) : base;
           setTyped((t) => (t + out).slice(-160));
           // клик по Shift = «одноразовый» модификатор
           if (!fromPhysical && shiftRef.current) {
@@ -139,7 +165,7 @@ export default function Page() {
         }
       }
     },
-    []
+    [],
   );
 
   // Ввод с физической клавиатуры
@@ -266,9 +292,12 @@ export default function Page() {
             <div className={styles.base} />
           </div>
 
-          <div className={styles.keyboard} role="group" aria-label="Интерактивная клавиатура">
-            {ROWS.map((row, ri) => (
-              <div className={styles.row} key={ri}>
+          <fieldset
+            className={styles.keyboard}
+            aria-label="Интерактивная клавиатура"
+          >
+            {ROWS.map((row) => (
+              <div className={styles.row} key={row[0].code}>
                 {row.map((k) => (
                   <button
                     key={k.code + k.label}
@@ -290,7 +319,7 @@ export default function Page() {
                 ))}
               </div>
             ))}
-          </div>
+          </fieldset>
         </div>
       </section>
     </main>

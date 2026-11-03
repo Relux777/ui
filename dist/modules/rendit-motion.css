@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.2.0 | MIT | Движение: 25 классов RenDit Code */
+/*! RenDit UI v0.3.0 | MIT | Движение: 25 классов RenDit Code */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @layer utilities {

@@ -1,2 +1,4 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Текстовые файлы — всегда LF: на Windows git (core.autocrlf) иначе отдаёт CRLF,
+# и `npx biome check` находит «ошибки форматирования» в каждом файле (в CI-Linux их нет).
+# text=auto сам отличает бинарные файлы (png, ttf) — их eol не трогает.
+* text=auto eol=lf
