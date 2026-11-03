@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.0 | MIT | Палитра: 616 классов RenDit Code */
+/*! RenDit UI v0.3.1 | MIT | Палитра: 616 классов RenDit Code */
 @layer utilities {
   .border-amber-100 {
     border-color: var(--amber-100);
