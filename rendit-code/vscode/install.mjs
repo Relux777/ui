@@ -1,5 +1,6 @@
 // Сборка и установка расширения RenDit Code IntelliSense: npm run rendit-code:vscode
-// Упаковывает папку в .vsix (через @vscode/vsce) и ставит в VS Code командой `code --install-extension`.
+// Упаковывает папку в .vsix (локальный @vscode/vsce из devDependencies корня — без скачивания
+// при каждом запуске) и ставит в VS Code командой `code --install-extension`.
 
 import { execSync } from "node:child_process";
 import path from "node:path";
@@ -10,7 +11,7 @@ const vsix = path.join(dir, "rendit-code.vsix");
 const run = (cmd) => execSync(cmd, { cwd: dir, stdio: "inherit" });
 
 run(
-  `npx --yes @vscode/vsce@3 package --allow-missing-repository --skip-license --out "${vsix}"`,
+  `npx --no-install vsce package --allow-missing-repository --skip-license --out "${vsix}"`,
 );
 run(`code --install-extension "${vsix}" --force`);
 console.log(

@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.1 | MIT | Цвета и фон: 1240 классов RenDit Code */
+/*! RenDit UI v0.3.2 | MIT | Цвета и фон: 1240 классов RenDit Code */
 @layer utilities {
   .border-accent {
     border-color: var(--accent);

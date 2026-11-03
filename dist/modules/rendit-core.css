@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.1 | MIT | основа: токены обеих тем, сброс, база, .container, .row, компоненты */
+/*! RenDit UI v0.3.2 | MIT | основа: токены обеих тем, сброс, база, .container, .row, компоненты */
 @layer theme, reset, base, layout, components, utilities;
 @layer theme {
   :root {
