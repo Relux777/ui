@@ -82,7 +82,10 @@ describe("шапка", { skip: skip ?? false }, () => {
     // в конце — компактный круг 44px и data-scrolled
     const settled = late.slice(-5);
     assert.ok(settled.length > 0);
-    assert.ok(settled.every((r) => r.s), "в прокрутке data-scrolled");
+    assert.ok(
+      settled.every((r) => r.s),
+      "в прокрутке data-scrolled",
+    );
     assert.deepEqual(
       [...new Set(settled.map((r) => Math.round(r.w)))],
       [44],
