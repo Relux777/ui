@@ -1,5 +1,5 @@
 // npm run test:e2e — HTML-код переключателя темы из справки работает «как пример»: берём код из конструктора
-// (платформа HTML/CSS), вставляем в чистую страницу с одним готовым CSS (dist/rendit-ui.min.css), нажимаем.
+// (платформа HTML/CSS), вставляем в чистую страницу с одним готовым CSS (src/assets/css/rendit-ui.min.css), нажимаем.
 // Скрипта в <head> нет — код кнопки ставит тему сам.
 
 import assert from "node:assert/strict";
@@ -9,7 +9,7 @@ import { launch, sleep, unavailable, warm } from "./browser.mjs";
 
 const skip = await unavailable();
 const DIST = readFileSync(
-  new URL("../dist/rendit-ui.min.css", import.meta.url),
+  new URL("../src/assets/css/rendit-ui.min.css", import.meta.url),
   "utf8",
 );
 

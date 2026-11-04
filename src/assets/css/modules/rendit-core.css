@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.2 | MIT | основа: токены обеих тем, сброс, база, .container, .row, компоненты */
+/*! RenDit UI v0.3.3 | MIT | основа: токены обеих тем, сброс, база, .container, .row, компоненты */
 @layer theme, reset, base, layout, components, utilities;
 @layer theme {
   :root {
@@ -567,13 +567,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: var(--foreground);
   }
-  /* Состояние, восстановленное без участия пользователя (прокрутка после перезагрузки), — сразу, без переходов.
-     data-instant на <html> ставит и снимает встроенный скрипт из Header/scroll-state.ts */
-  [data-instant] *,
-  [data-instant] *::before,
-  [data-instant] *::after {
-    transition: none !important;
-  }
 }
 @layer layout {
   .container {
@@ -661,6 +654,12 @@
       border: 1px solid CanvasText;
     }
   }
+  @media (width < 620px) and (prefers-reduced-transparency: no-preference) {
+    .liquid-glass {
+      -webkit-backdrop-filter: blur(8px) saturate(150%) brightness(1.03);
+      backdrop-filter: blur(8px) saturate(150%) brightness(1.03);
+    }
+  }
 }
 @property --mx {
   syntax: "<length>";
@@ -742,11 +741,11 @@
     border-radius: inherit;
   }
   .tilt-light::before {
-    background: radial-gradient(180px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-300) 18%, transparent), transparent 70%), radial-gradient(360px circle at calc(var(--mx) - 80px) calc(var(--my) + 50px), color-mix(in oklab, var(--pink-200) 16%, transparent), transparent 70%), radial-gradient(380px circle at calc(var(--mx) + 100px) calc(var(--my) - 40px), color-mix(in oklab, var(--lime-200) 18%, transparent), transparent 70%);
+    background: radial-gradient(180px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-300) 10%, transparent), transparent 70%), radial-gradient(360px circle at calc(var(--mx) - 80px) calc(var(--my) + 50px), color-mix(in oklab, var(--pink-200) 9%, transparent), transparent 70%), radial-gradient(380px circle at calc(var(--mx) + 100px) calc(var(--my) - 40px), color-mix(in oklab, var(--lime-200) 10%, transparent), transparent 70%);
   }
   .tilt-light::after {
     padding: 1px;
-    background: radial-gradient(200px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-400) 50%, transparent), transparent 70%);
+    background: radial-gradient(200px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-400) 32%, transparent), transparent 70%);
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
   }
   [data-spot] > .tilt-light {

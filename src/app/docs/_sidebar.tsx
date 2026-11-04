@@ -134,7 +134,7 @@ export function DocsSidebar() {
                     <ChevronDown
                       size="xs"
                       aria-hidden="true"
-                      className="shrink-0 transition-[rotate] duration-400 ease-spring group-[[aria-expanded=false]]:-rotate-90 group-[:disabled]:hidden"
+                      className="shrink-0 transition-[rotate] duration-300 ease-spring group-[[aria-expanded=false]]:-rotate-90 group-[:disabled]:hidden"
                     />
                   </button>
                 </h2>
@@ -143,7 +143,7 @@ export function DocsSidebar() {
                   id={listId}
                   inert={!open}
                   data-closed={!open || undefined}
-                  className="grid grid-rows-[1fr] data-closed:grid-rows-[0fr] [[data-ready]_&]:transition-[grid-template-rows] [[data-ready]_&]:duration-400 [[data-ready]_&]:ease-spring motion-reduce:transition-none"
+                  className="grid grid-rows-[1fr] data-closed:grid-rows-[0fr] [[data-ready]_&]:transition-[grid-template-rows] [[data-ready]_&]:duration-300 [[data-ready]_&]:ease-spring motion-reduce:transition-none"
                 >
                   <ul className="min-h-0 overflow-hidden flex flex-col ml-2 mb-8 border-l border-foreground/8">
                     {group.links.map((link) => {

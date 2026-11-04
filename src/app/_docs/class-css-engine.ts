@@ -2,7 +2,7 @@
 // с диска конфиг и токены) и раскладывает его вывод на CSS для <style> и строку для таблицы. Кэш и вызов
 // со страниц — class-css.ts; здесь — то, что проверяется обычным node --test.
 // Ещё отсюда — данные для движка в браузере (CSS-конструктор): имена токенов и настройки, из которых браузер
-// строит ту же тему (rendit-code/core/theme.mjs), и список классов готового CSS (dist/modules/manifest.json).
+// строит ту же тему (rendit-code/core/theme.mjs), и список классов готового CSS (src/assets/css/modules/manifest.json).
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -33,7 +33,7 @@ export type EngineData = {
   config: GeneratorConfig;
 };
 
-/** часть готового CSS из dist/modules/manifest.json */
+/** часть готового CSS из src/assets/css/modules/manifest.json */
 export type DistModule = {
   id: string;
   title: string;
@@ -79,9 +79,16 @@ export type DistManifest = {
   modules: DistModule[];
 };
 
-// готовый CSS по частям; нет файла (dist не собран) — пусто
+// готовый CSS по частям; нет файла (src/assets/css не собран) — пусто
 export function distModules(): DistManifest {
-  const file = join(process.cwd(), "dist", "modules", "manifest.json");
+  const file = join(
+    process.cwd(),
+    "src",
+    "assets",
+    "css",
+    "modules",
+    "manifest.json",
+  );
   if (!existsSync(file))
     return { version: "", full: { bytes: 0, minBytes: 0 }, modules: [] };
   return JSON.parse(readFileSync(file, "utf8"));

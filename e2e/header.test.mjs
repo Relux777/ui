@@ -56,14 +56,12 @@ describe("шапка", { skip: skip ?? false }, () => {
     await page.close();
   });
 
-  test("перезагрузка посреди страницы: шапка компактная сразу, без анимации", async () => {
+  test("перезагрузка посреди страницы: шапка плавно сжимается до круга", async () => {
     const page = await browser.page();
     await page.goto("/");
     await page.wheel(400, 6);
     await sleep(800);
-    // ширина таблетки логотипа в каждом нарисованном кадре: либо развёрнутая, либо круг 44px — промежуточных
-    // быть не должно. Замер — после отрисовки кадра (setTimeout из rAF): внутри rAF замер мог бы пройти раньше,
-    // чем в том же кадре обработчик прокрутки поставит атрибут, и увидеть то, что на экран не попало
+    // ширина таблетки логотипа в каждом нарисованном кадре: развёрнутая → круг 44px, плавно
     await page.onNewDocument(`window.__hd = []; (() => {
       const t0 = performance.now();
       const tick = () => {
@@ -81,17 +79,18 @@ describe("шапка", { skip: skip ?? false }, () => {
     assert.ok(rows.length > 5);
     const late = rows.filter((r) => r.y > 100);
     assert.ok(late.length > 0, "прокрутка восстановлена");
+    // в конце — компактный круг 44px и data-scrolled
+    const settled = late.slice(-5);
+    assert.ok(settled.length > 0);
+    assert.ok(settled.every((r) => r.s), "в прокрутке data-scrolled");
     assert.deepEqual(
-      late.filter((r) => !r.s),
-      [],
-      "в прокрутке — data-scrolled в каждом кадре",
-    );
-    const widths = new Set(late.map((r) => Math.round(r.w)));
-    assert.deepEqual(
-      [...widths],
+      [...new Set(settled.map((r) => Math.round(r.w)))],
       [44],
-      `только круг 44px, без промежуточных: ${[...widths]}`,
+      `в конце — круг 44px: ${[...new Set(settled.map((r) => Math.round(r.w)))]}`,
     );
+    // плавно: ширина прошла через промежуточные значения, а не скакнула
+    const widths = new Set(late.map((r) => Math.round(r.w)));
+    assert.ok(widths.size > 1, `ширина менялась плавно: ${[...widths]}`);
     await page.close();
   });
 

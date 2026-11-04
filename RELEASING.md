@@ -39,7 +39,7 @@ npm run release -- 0.3.0
 ```
 
 Скрипт (`scripts/release.mjs`): переносит `[Unreleased]` в `## [0.3.0] — дата`, ставит версию в
-`package.json`, пересобирает готовый CSS (`dist/`), делает коммит «Версия 0.3.0» и тег `v0.3.0`. Затем:
+`package.json`, пересобирает готовый CSS (`src/assets/css/`), делает коммит «Версия 0.3.0» и тег `v0.3.0`. Затем:
 
 ```bash
 git push --follow-tags
@@ -47,7 +47,7 @@ git push --follow-tags
 
 GitHub (`.github/workflows/release.yml`) соберёт архив и создаст релиз с описанием из CHANGELOG. Готовый CSS
 этой версии сразу доступен с CDN:
-`https://cdn.jsdelivr.net/gh/Relux777/ui@v0.3.0/dist/rendit-ui.min.css`.
+`https://cdn.jsdelivr.net/gh/Relux777/ui@v0.3.0/src/assets/css/rendit-ui.min.css`.
 
 Релиз не собрался (например, тег ушёл одним пушем с первым появлением workflow) — запустите его вручную для
 уже отправленного тега: на GitHub **Actions → «Релиз» → Run workflow**, тег `v0.3.0`, или из терминала:
@@ -65,6 +65,6 @@ rendit-ui/
 ├── rendit-code/          движок RenDit Code и расширение VS Code
 ├── src/assets/scss/      RenDit SCSS
 ├── rendit.config.mjs     настройки движка
-├── dist/                 готовый CSS: rendit-ui.css и rendit-ui.min.css
+├── src/assets/css/       готовый CSS: rendit-ui.css и rendit-ui.min.css
 ├── README.md · CHANGELOG.md · LICENSE
 ```

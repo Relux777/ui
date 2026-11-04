@@ -44,7 +44,7 @@ describe("CSS-конструктор", { skip: skip ?? false }, () => {
     await page.eval(tab("Подключение"));
     await sleep(100);
     const links = await page.eval(panel);
-    assert.match(links, /dist\/modules\/rendit-core\.min\.css/);
+    assert.match(links, /src\/assets\/css\/modules\/rendit-core\.min\.css/);
     assert.match(links, /css\/rendit-custom\.min\.css/);
     assert.deepEqual(page.errors, []);
     await page.close();

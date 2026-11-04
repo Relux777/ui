@@ -33,6 +33,10 @@ export function PlatformSwitch({ className = "" }: { className?: string }) {
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  // до оживления (после гидратации) хук отдаёт платформу по умолчанию — не показываем её, чтобы не «мелькал»
+  // Next.js перед сохранённым выбором: пустой переключатель, затем сразу нужная платформа
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
   const current =
     DOCS_PLATFORMS.find((p) => p.id === platform) ?? DOCS_PLATFORMS[0];
   const { Icon, color } = PLATFORM_ICONS[current.id];
@@ -64,13 +68,15 @@ export function PlatformSwitch({ className = "" }: { className?: string }) {
         className="group w-full flex items-center gap-10 p-6 pr-10 br-lg border bg-surface shadow-1 text-left transition-[border-color,box-shadow] hover:border-border-strong aria-expanded:border-secondary aria-expanded:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
       >
         <span className="size-32 shrink-0 br-md grid place-items-center bg-surface-muted">
-          <Icon size="sm" className={color} aria-hidden="true" />
+          {ready && <Icon size="sm" className={color} aria-hidden="true" />}
         </span>
         <span className="flex-1 min-w-0 flex flex-col">
           <span className="font-11 font-w-600 uppercase letter-s-6 text-foreground-subtle">
             Платформа
           </span>
-          <span className="truncate font-14 font-w-600">{current.title}</span>
+          <span className="truncate font-14 font-w-600">
+            {ready ? current.title : "…"}
+          </span>
         </span>
         <ChevronDown
           size="xs"

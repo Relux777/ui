@@ -41,7 +41,7 @@ jobs:
           cp -r src/assets/scss pkg/rendit-ui/src/assets/
           # тест сайта и классы самого сайта в архив не нужны: движок соберёт классы вашего проекта сам
           rm -f pkg/rendit-ui/src/assets/scss/*.test.ts pkg/rendit-ui/src/assets/scss/generated/rendit-code.css
-          cp -r dist rendit.config.mjs README.md CHANGELOG.md LICENSE pkg/rendit-ui/
+          cp -r src/assets/css rendit.config.mjs README.md CHANGELOG.md LICENSE pkg/rendit-ui/
           cd pkg && zip -qr ../rendit-ui.zip rendit-ui
 
       - name: Описание из CHANGELOG.md
@@ -54,7 +54,7 @@ jobs:
             if (start < 0) { console.error(`нет раздела ${v} в CHANGELOG.md`); process.exit(1); }
             const next = log.indexOf("\n## [", start + 1);
             const body = log.slice(log.indexOf("\n", start) + 1, next < 0 ? undefined : next).trim();
-            const cdn = `https://cdn.jsdelivr.net/gh/${process.env.GITHUB_REPOSITORY}@${tag}/dist/rendit-ui.min.css`;
+            const cdn = `https://cdn.jsdelivr.net/gh/${process.env.GITHUB_REPOSITORY}@${tag}/src/assets/css/rendit-ui.min.css`;
             require("fs").writeFileSync("notes.md", `${body}\n\nГотовый CSS с CDN:\n\n    <link rel="stylesheet" href="${cdn}">\n`);
           '
 
@@ -62,7 +62,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          FILES="rendit-ui.zip dist/rendit-ui.css dist/rendit-ui.min.css"
+          FILES="rendit-ui.zip src/assets/css/rendit-ui.css src/assets/css/rendit-ui.min.css"
           if gh release view "$TAG" > /dev/null 2>&1; then
             gh release upload "$TAG" $FILES --clobber
             gh release edit "$TAG" --notes-file notes.md

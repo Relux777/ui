@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 // Готовый CSS RenDit UI для проектов без сборки (HTML/CSS, CDN, WordPress…):
 //   node rendit-code/dist.mjs   (npm run dist)
-// → dist/rendit-ui.css         — всё целиком: RenDit SCSS (токены обеих тем, сброс, база, сетка .row, компоненты)
-//                                и готовые классы RenDit Code — частые значения шкалы, все цвета, варианты экранов
-//                                и состояний;
-//   dist/rendit-ui.min.css     — то же, сжатое (для продакшена);
-//   dist/modules/rendit-*.css  — то же по частям: основа (core) обязательна, остальные — по желанию (раскладка,
-//                                flex и grid, отступы, размеры, текст, цвета, рамки, эффекты, движение,
-//                                взаимодействие), у каждой обычная и .min.css;
-//   dist/modules/manifest.json — список частей: название, что внутри, размер, классы (для CSS-конструктора справки).
+// → src/assets/css/rendit-ui.css         — всё целиком: RenDit SCSS (токены обеих тем, сброс, база, сетка .row,
+//                                          компоненты) и готовые классы RenDit Code — частые значения шкалы, все
+//                                          цвета, варианты экранов и состояний;
+//   src/assets/css/rendit-ui.min.css     — то же, сжатое (для продакшена);
+//   src/assets/css/modules/rendit-*.css  — то же по частям: основа (core) обязательна, остальные — по желанию
+//                                          (раскладка, flex и grid, отступы, размеры, текст, цвета, рамки, эффекты,
+//                                          движение, взаимодействие), у каждой обычная и .min.css;
+//   src/assets/css/modules/manifest.json — список частей: название, что внутри, размер, классы (для
+//                                          CSS-конструктора справки).
 //
 // Части делятся по свойствам CSS: одно свойство — всегда в одной части, вместе с его вариантами (sm:, hover:,
 // dark:). Поэтому части можно подключать в любом наборе и порядке — классы разных частей не спорят друг с другом.
@@ -24,7 +25,7 @@ import { loadConfig } from "./core/config.mjs";
 import { createGenerator } from "./core/generator.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = path.join(ROOT, "dist");
+const OUT = path.join(ROOT, "src/assets/css");
 const MODULES_OUT = path.join(OUT, "modules");
 const SCSS = path.join(ROOT, "src/assets/scss");
 
@@ -524,9 +525,9 @@ fs.writeFileSync(
 const kb = (n) => `${(n / 1024).toFixed(0)} КБ`;
 const skipped = parts.reduce((n, p) => n + p.skipped, 0);
 console.log(
-  `✓ dist/rendit-ui.css ${kb(whole.bytes)} · .min.css ${kb(whole.minBytes)} · ${all.length} классов${skipped ? ` (пропущено ${skipped} — нет такой утилиты)` : ""}`,
+  `✓ src/assets/css/rendit-ui.css ${kb(whole.bytes)} · .min.css ${kb(whole.minBytes)} · ${all.length} классов${skipped ? ` (пропущено ${skipped} — нет такой утилиты)` : ""}`,
 );
 for (const f of files)
   console.log(
-    `  dist/modules/${f.file}.css ${kb(f.bytes)} · .min ${kb(f.minBytes)}${f.classes.length ? ` · ${f.classes.length} классов` : ""}`,
+    `  src/assets/css/modules/${f.file}.css ${kb(f.bytes)} · .min ${kb(f.minBytes)}${f.classes.length ? ` · ${f.classes.length} классов` : ""}`,
   );

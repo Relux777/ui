@@ -8,5 +8,12 @@
 @layer components {
     .liquid-glass {
         @include glass.liquid-glass($tint: 38%);
+
+        // Старые телефоны (60 Гц): полное размытие 14px с насыщением дорого — полегче, плавность важнее
+        // глубины. Не трогаем тех, кто попросил без прозрачности (миксин выше ставит backdrop-filter: none).
+        @media (width < 620px) and (prefers-reduced-transparency: no-preference) {
+            -webkit-backdrop-filter: blur(8px) saturate(150%) brightness(1.03);
+            backdrop-filter: blur(8px) saturate(150%) brightness(1.03);
+        }
     }
 }

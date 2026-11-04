@@ -5,16 +5,6 @@
 export type DocsStub = { lead: string; plan: string[]; home?: string };
 
 export const DOCS_STUBS: Record<string, DocsStub> = {
-  "/docs/structure": {
-    lead: "Из чего состоит RenDit UI — стили RenDit SCSS, движок классов RenDit Code и компоненты — и как они работают вместе.",
-    plan: [
-      "Три части и одна версия",
-      "Как движок находит классы в коде и пишет CSS",
-      "Порядок слоёв: почему классы всегда сильнее базовых стилей",
-      "Где что лежит в проекте и что можно менять",
-    ],
-    home: "start",
-  },
   "/docs/code/classes": {
     lead: "Как пишутся классы RenDit Code: числа в пикселях, цвета из токенов, прозрачность /N, отрицательные значения.",
     plan: [
@@ -23,16 +13,6 @@ export const DOCS_STUBS: Record<string, DocsStub> = {
       "Прозрачность /N",
       "Почему класс надо писать строкой целиком",
     ],
-  },
-  "/docs/scss/states": {
-    lead: "Наведение, нажатие, фокус, выбранное и раскрытое — префиксами hover:, active:, focus-visible:, aria-[…]:, group-[…]:.",
-    plan: [
-      "hover: только для мыши",
-      "active: и focus-visible:",
-      "Состояния атрибутами: aria-[current=page]:, data-*:",
-      "group- и has- — состояние родителя и соседей",
-    ],
-    home: "states",
   },
   "/docs/scss/responsive": {
     lead: "Брейкпоинты sm 620 · md 770 · lg 990 · xl 1200 · 2xl 1400: mobile-first и max-… для узких экранов.",

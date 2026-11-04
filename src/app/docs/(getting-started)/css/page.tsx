@@ -1,6 +1,6 @@
 // Готовый CSS — для HTML без сборки: CSS-конструктор сверху (части + свои классы, движок собирает их в браузере),
 // какие части есть и сколько весят, как подключить, когда вместо готового CSS лучше движок.
-// Части и их классы — dist/modules/manifest.json (npm run dist), движок для браузера — browserEngine().
+// Части и их классы — src/assets/css/modules/manifest.json (npm run dist), движок для браузера — browserEngine().
 
 import Link from "next/link";
 import { cdnCss, cdnModule, VERSION } from "@/config/release";
@@ -111,7 +111,7 @@ export default async function CssPage() {
           >
             «Установка»
           </Link>
-          ) содержит все части в папке <Code>dist/modules</Code>.
+          ) содержит все части в папке <Code>src/assets/css/modules</Code>.
         </Callout>
       </Part>
 

@@ -45,12 +45,12 @@ const sass = (text: Step["text"]): Step => ({
   block: <InstallCommand pkg="sass" dev />,
 });
 
-// готовый CSS без Sass: из архива версии (папка dist/) — всё целиком, и стили, и частые классы
+// готовый CSS без Sass: из архива версии (папка src/assets/css/) — всё целиком, и стили, и частые классы
 const prebuilt = (to: string): Step => ({
   title: "Возьмите готовый CSS",
   text: (
     <>
-      Скачайте архив — в папке <Code>dist/</Code> лежит{" "}
+      Скачайте архив — в папке <Code>src/assets/css/</Code> лежит{" "}
       <Code>rendit-ui.min.css</Code>: стили RenDit SCSS и готовые классы.
       Положите его в <Code>{to}</Code>:
     </>

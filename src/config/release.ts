@@ -18,8 +18,8 @@ export const zipUrl = (v: string | "latest" = "latest") =>
 
 // готовый CSS с CDN — подключается строкой <link>
 export const cdnCss = (v: string = VERSION, min = true) =>
-  `https://cdn.jsdelivr.net/gh/${REPO}@v${v}/dist/rendit-ui${min ? ".min" : ""}.css`;
+  `https://cdn.jsdelivr.net/gh/${REPO}@v${v}/src/assets/css/rendit-ui${min ? ".min" : ""}.css`;
 
-// часть готового CSS (dist/modules: rendit-core, rendit-layout …) — с версии, где появились части
+// часть готового CSS (src/assets/css/modules: rendit-core, rendit-layout …) — с версии, где появились части
 export const cdnModule = (file: string, min = true, v: string = VERSION) =>
-  `https://cdn.jsdelivr.net/gh/${REPO}@v${v}/dist/modules/${file}${min ? ".min" : ""}.css`;
+  `https://cdn.jsdelivr.net/gh/${REPO}@v${v}/src/assets/css/modules/${file}${min ? ".min" : ""}.css`;

@@ -28,7 +28,7 @@ const TRACK = "flex items-center gap-2 p-3 br-full";
 const TRACK_TINT = "bg-foreground/5 border border-foreground/5";
 // подложка выбранной вкладки — стекло для маленьких элементов, вырастает из середины
 const THUMB =
-  "before:absolute before:inset-0 before:-z-1 before:br-full before:bg-surface/50 before:shadow-9 before:opacity-0 before:[scale:0.6_1] before:transition-[opacity,scale] before:duration-500 before:ease-spring aria-[current=page]:before:opacity-100 aria-[current=page]:before:[scale:1] motion-reduce:before:transition-none";
+  "before:absolute before:inset-0 before:-z-1 before:br-full before:bg-surface/50 before:shadow-9 before:opacity-0 before:[scale:0.6_1] before:transition-[opacity,scale] before:duration-300 before:ease-spring aria-[current=page]:before:opacity-100 aria-[current=page]:before:[scale:1] motion-reduce:before:transition-none";
 const TAB = `relative isolate flex items-center justify-center gap-6 h-32 br-full font-13 font-w-500 whitespace-nowrap text-foreground/60 transition-colors hover:text-foreground aria-[current=page]:text-foreground ${THUMB}`;
 
 type Props = {

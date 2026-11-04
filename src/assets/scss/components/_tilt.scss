@@ -59,15 +59,15 @@
 
         &::before {
             background:
-                radial-gradient(180px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-300) 18%, transparent), transparent 70%),
-                radial-gradient(360px circle at calc(var(--mx) - 80px) calc(var(--my) + 50px), color-mix(in oklab, var(--pink-200) 16%, transparent), transparent 70%),
-                radial-gradient(380px circle at calc(var(--mx) + 100px) calc(var(--my) - 40px), color-mix(in oklab, var(--lime-200) 18%, transparent), transparent 70%);
+                radial-gradient(180px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-300) 10%, transparent), transparent 70%),
+                radial-gradient(360px circle at calc(var(--mx) - 80px) calc(var(--my) + 50px), color-mix(in oklab, var(--pink-200) 9%, transparent), transparent 70%),
+                radial-gradient(380px circle at calc(var(--mx) + 100px) calc(var(--my) - 40px), color-mix(in oklab, var(--lime-200) 10%, transparent), transparent 70%);
         }
 
         // кромка у курсора
         &::after {
             padding: 1px;
-            background: radial-gradient(200px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-400) 50%, transparent), transparent 70%);
+            background: radial-gradient(200px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-400) 32%, transparent), transparent 70%);
             mask:
                 linear-gradient(#000 0 0) content-box exclude,
                 linear-gradient(#000 0 0);

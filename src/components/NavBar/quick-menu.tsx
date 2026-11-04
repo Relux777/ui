@@ -40,7 +40,7 @@ const BUTTON =
   "grid place-items-center br-full text-foreground/70 hover:text-foreground active:bg-foreground/10";
 // появление пункта: снизу вверх по очереди (--i — номер от стрелки), исчезновение — сразу и быстро
 const REVEAL =
-  "opacity-0 translate-y-8 scale-90 transition-[opacity,translate,scale,color,background-color] duration-150 ease-in [[data-open]_&]:opacity-100 [[data-open]_&]:translate-y-0 [[data-open]_&]:scale-100 [[data-open]_&]:duration-500 [[data-open]_&]:ease-spring-bouncy [[data-open]_&]:[transition-delay:calc(var(--i)*40ms+60ms)] motion-reduce:transition-none";
+  "opacity-0 translate-y-8 scale-90 transition-[opacity,translate,scale,color,background-color] duration-150 ease-in [[data-open]_&]:opacity-100 [[data-open]_&]:translate-y-0 [[data-open]_&]:scale-100 [[data-open]_&]:duration-300 [[data-open]_&]:ease-spring-bouncy [[data-open]_&]:[transition-delay:calc(var(--i)*40ms+60ms)] motion-reduce:transition-none";
 const LINE = "w-26 border-foreground/10";
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
@@ -158,7 +158,7 @@ export function QuickMenu() {
     >
       <div
         ref={pillRef}
-        className="liquid-glass relative grid grid-rows-[0fr_50px] w-50 br-full transition-[grid-template-rows] duration-300 ease-in [[data-open]>&]:grid-rows-[1fr_50px] [[data-open]>&]:duration-500 [[data-open]>&]:ease-spring motion-reduce:transition-none"
+        className="liquid-glass relative grid grid-rows-[0fr_50px] w-50 br-full transition-[grid-template-rows] duration-300 ease-in [[data-open]>&]:grid-rows-[1fr_50px] [[data-open]>&]:duration-300 [[data-open]>&]:ease-spring motion-reduce:transition-none"
       >
         <div
           id={listId}
@@ -238,7 +238,7 @@ export function QuickMenu() {
             width={22}
             height={22}
             aria-hidden="true"
-            className="transition-[rotate] duration-500 ease-spring-bouncy"
+            className="transition-[rotate] duration-300 ease-spring-bouncy"
           />
         </button>
       </div>
@@ -249,7 +249,7 @@ export function QuickMenu() {
       <fieldset
         ref={rowRef}
         inert={!(open && sizesOpen)}
-        className="m-0 min-w-0 border-0 liquid-glass bg-background/70 backdrop-blur-20 absolute right-[calc(100%+8px)] bottom-(--fs-bottom) p-4 br-22 invisible opacity-0 translate-x-12 [clip-path:inset(0_0_0_100%_round_22px)] transition-[clip-path,opacity,translate,visibility] duration-200 ease-in [[data-sizes]_&]:visible [[data-sizes]_&]:opacity-100 [[data-sizes]_&]:translate-x-0 [[data-sizes]_&]:[clip-path:inset(0_round_22px)] [[data-sizes]_&]:duration-500 [[data-sizes]_&]:ease-spring motion-reduce:transition-none"
+        className="m-0 min-w-0 border-0 liquid-glass bg-background/70 backdrop-blur-20 absolute right-[calc(100%+8px)] bottom-(--fs-bottom) p-4 br-22 invisible opacity-0 translate-x-12 [clip-path:inset(0_0_0_100%_round_22px)] transition-[clip-path,opacity,translate,visibility] duration-200 ease-in [[data-sizes]_&]:visible [[data-sizes]_&]:opacity-100 [[data-sizes]_&]:translate-x-0 [[data-sizes]_&]:[clip-path:inset(0_round_22px)] [[data-sizes]_&]:duration-300 [[data-sizes]_&]:ease-spring motion-reduce:transition-none"
       >
         <legend className="[float:left] w-full px-10 pt-6 pb-7 font-11 font-w-500 whitespace-nowrap text-foreground/60">
           Размер шрифта на сайте, px

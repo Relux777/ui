@@ -2,7 +2,7 @@
 // Выпуск версии RenDit UI: npm run release -- 0.3.0
 //   1) CHANGELOG.md: раздел [Unreleased] → «## [0.3.0] — сегодняшняя дата», сверху — новый пустой [Unreleased];
 //   2) package.json: version;
-//   3) готовый CSS (dist/) — пересобрать с новой версией в шапке;
+//   3) готовый CSS (src/assets/css/) — пересобрать с новой версией в шапке;
 //   4) коммит «Версия 0.3.0» и тег v0.3.0.
 // Дальше — git push --follow-tags: GitHub соберёт релиз с архивом (.github/workflows/release.yml).
 // Подробно — RELEASING.md.

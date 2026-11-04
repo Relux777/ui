@@ -22,10 +22,10 @@ import { Spotlight } from "./spotlight";
 
 // таблетка: прозрачная наверху, стеклянная после прокрутки
 const PILL =
-  "relative isolate br-full transition-[background-color,backdrop-filter,box-shadow,padding,gap] duration-450 ease-out [:is([data-scrolled],[data-search])_&]:bg-background/50 [:is([data-scrolled],[data-search])_&]:backdrop-blur-12 [:is([data-scrolled],[data-search])_&]:shadow-7 motion-reduce:transition-none";
+  "relative isolate br-full transition-[background-color,backdrop-filter,box-shadow,padding,gap] duration-300 ease-out [:is([data-scrolled],[data-search])_&]:bg-background/50 [:is([data-scrolled],[data-search])_&]:backdrop-blur-12 [:is([data-scrolled],[data-search])_&]:shadow-7 motion-reduce:transition-none";
 // что уходит после прокрутки: ширина от реальной (auto, interpolate-size) до 0; где interpolate-size нет — max-width
 const FOLD =
-  "[interpolate-size:allow-keywords] max-w-160 overflow-hidden whitespace-nowrap transition-[width,max-width,opacity,filter] duration-500 ease-spring [:is([data-scrolled],[data-search])_&]:w-0 [:is([data-scrolled],[data-search])_&]:max-w-0 [:is([data-scrolled],[data-search])_&]:opacity-0 [:is([data-scrolled],[data-search])_&]:blur-6 motion-reduce:transition-none";
+  "[interpolate-size:allow-keywords] max-w-160 overflow-hidden whitespace-nowrap transition-[width,max-width,opacity,filter] duration-300 ease-spring [:is([data-scrolled],[data-search])_&]:w-0 [:is([data-scrolled],[data-search])_&]:max-w-0 [:is([data-scrolled],[data-search])_&]:opacity-0 [:is([data-scrolled],[data-search])_&]:blur-6 motion-reduce:transition-none";
 
 // свет только на стеклянных таблетках
 const SPOT = "hidden [:is([data-scrolled],[data-search])_&]:block";
@@ -37,7 +37,7 @@ export default async function HeaderComponent() {
     // ::before — градиент цвета фона вверху экрана (90px, от сплошного к прозрачному): после прокрутки текст
     // плавно уходит под шапку, а не обрезается краем экрана. Под таблетками (z −2), клики проходят насквозь;
     // наверху страницы его нет — там под шапкой свечение .aura
-    <header className="sticky top-[calc(5px+env(safe-area-inset-top))] mt-[env(safe-area-inset-top)] z-30 before:fixed before:inset-x-0 before:top-0 before:h-90 before:-z-2 before:pointer-events-none before:bg-[linear-gradient(to_bottom,var(--background)_0%,color-mix(in_oklab,var(--background)_60%,transparent)_50%,transparent_100%)] before:opacity-0 before:transition-opacity before:duration-450 [[data-scrolled]_&]:before:opacity-100 motion-reduce:before:transition-none">
+    <header className="sticky top-[calc(5px+env(safe-area-inset-top))] mt-[env(safe-area-inset-top)] z-30 before:fixed before:inset-x-0 before:top-0 before:h-90 before:-z-2 before:pointer-events-none before:bg-[linear-gradient(to_bottom,var(--background)_0%,color-mix(in_oklab,var(--background)_60%,transparent)_50%,transparent_100%)] before:opacity-0 before:transition-opacity before:duration-300 [[data-scrolled]_&]:before:opacity-100 motion-reduce:before:transition-none">
       <nav className="container h-48 grid grid-cols-[1fr_auto_1fr] items-center gap-16">
         <div className="flex items-center gap-10 justify-self-start">
           {/* логотип с названием — одна таблетка, как кнопки справа; −8px — логотип там же, где был.
@@ -68,7 +68,9 @@ export default async function HeaderComponent() {
             <SearchComponent />
             <Link
               href="/docs/install"
-              className="h-36 px-16 br-full flex items-center bg-primary text-primary-foreground font-14 font-w-500 whitespace-nowrap transition hover:bg-primary-hover active:scale-95 max-sm:[[data-search]_&]:hidden"
+              // на телефоне с открытым поиском «Начать» не пропадает резко (резкий пропал = таблетка прыгала,
+              // поле росло «с самого левого края»), а плавно сжимается, как название логотипа (FOLD)
+              className="h-36 px-16 br-full flex items-center bg-primary text-primary-foreground font-14 font-w-500 whitespace-nowrap overflow-hidden [interpolate-size:allow-keywords] transition-[width,max-width,padding,opacity,background-color,scale] duration-300 ease-out hover:bg-primary-hover active:scale-95 max-sm:[[data-search]_&]:w-0 max-sm:[[data-search]_&]:max-w-0 max-sm:[[data-search]_&]:px-0 max-sm:[[data-search]_&]:opacity-0 motion-reduce:transition-none"
             >
               Начать
             </Link>

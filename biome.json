@@ -11,8 +11,8 @@
       "**",
       "!node_modules",
       "!.next",
-      "!dist",
       "!build",
+      "!src/assets/css",
       "!src/assets/scss/generated"
     ]
   },

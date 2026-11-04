@@ -98,7 +98,7 @@ export function SearchComponent() {
         setOpen(false);
         router.push(item.href);
       }}
-      className="relative flex items-center h-36 w-36 br-full transition-[width,background-color] duration-500 ease-spring [[data-search]_&]:w-[min(260px,calc(100vw-110px))] [[data-search]_&]:bg-foreground/5 motion-reduce:transition-none"
+      className="relative flex items-center h-36 w-36 br-full transition-[width,background-color] duration-300 ease-out [[data-search]_&]:w-[min(260px,calc(100vw-110px))] [[data-search]_&]:bg-foreground/5 motion-reduce:transition-none"
     >
       <button
         ref={buttonRef}
@@ -154,7 +154,7 @@ export function SearchComponent() {
           setQuery("");
           buttonRef.current?.focus();
         }}
-        className="shrink-0 h-28 w-0 br-full grid place-items-center overflow-hidden bg-surface/40 shadow-9 text-foreground/70 opacity-0 scale-0 transition-[width,margin,scale,opacity,color] duration-500 ease-spring-bouncy hover:text-foreground [[data-search]_&]:w-28 [[data-search]_&]:mr-4 [[data-search]_&]:opacity-100 [[data-search]_&]:scale-100 [[data-search]_&]:[transition-delay:0ms,0ms,120ms,120ms,0ms] [[data-search]_&]:active:scale-92 motion-reduce:transition-none"
+        className="shrink-0 h-28 w-0 br-full grid place-items-center overflow-hidden bg-surface/40 shadow-9 text-foreground/70 opacity-0 scale-0 transition-[width,margin,scale,opacity,color] duration-300 ease-spring-bouncy hover:text-foreground [[data-search]_&]:w-28 [[data-search]_&]:mr-4 [[data-search]_&]:opacity-100 [[data-search]_&]:scale-100 [[data-search]_&]:[transition-delay:0ms,0ms,80ms,80ms,0ms] [[data-search]_&]:active:scale-92 motion-reduce:transition-none"
       >
         <X width={16} height={16} />
       </button>
@@ -178,7 +178,7 @@ export function SearchComponent() {
                   tabIndex={-1}
                   onPointerMove={() => setActive(i)}
                   style={{ "--i": i } as CSSProperties}
-                  className="opacity-0 translate-y-8 blur-4 transition-[opacity,translate,filter] duration-400 ease-spring group-[[data-show]]:opacity-100 group-[[data-show]]:translate-y-0 group-[[data-show]]:blur-0 group-[[data-show]]:[transition-delay:calc(var(--i)*40ms)] group-[[data-show]]:[@starting-style]:opacity-0 group-[[data-show]]:[@starting-style]:translate-y-8 group-[[data-show]]:[@starting-style]:blur-4 motion-reduce:transition-none"
+                  className="opacity-0 translate-y-8 blur-4 transition-[opacity,translate,filter] duration-300 ease-spring group-[[data-show]]:opacity-100 group-[[data-show]]:translate-y-0 group-[[data-show]]:blur-0 group-[[data-show]]:[transition-delay:calc(var(--i)*40ms)] group-[[data-show]]:[@starting-style]:opacity-0 group-[[data-show]]:[@starting-style]:translate-y-8 group-[[data-show]]:[@starting-style]:blur-4 motion-reduce:transition-none"
                 >
                   <Link
                     href={href}

@@ -50,7 +50,7 @@ export function MenuSheet({ className = "", children }: Props) {
         aria-label="Всё меню"
         aria-haspopup="dialog"
         onClick={() => sheet.current?.open()}
-        className={`${className} group size-44 shrink-0 grid place-items-center text-foreground max-sm:[[data-search]_&]:hidden`}
+        className={`${className} group size-44 shrink-0 grid place-items-center overflow-hidden text-foreground transition-[width,max-width,opacity,background-color,backdrop-filter,box-shadow] duration-300 ease-out max-sm:[[data-search]_&]:w-0 max-sm:[[data-search]_&]:max-w-0 max-sm:[[data-search]_&]:opacity-0 motion-reduce:transition-none`}
       >
         {children}
         <MenuRight
@@ -123,7 +123,7 @@ export function MenuSheet({ className = "", children }: Props) {
                     <ChevronDown
                       size="xs"
                       aria-hidden="true"
-                      className="shrink-0 transition-[rotate] duration-400 ease-spring group-[[aria-expanded=false]]:-rotate-90 group-[:disabled]:hidden motion-reduce:transition-none"
+                      className="shrink-0 transition-[rotate] duration-300 ease-spring group-[[aria-expanded=false]]:-rotate-90 group-[:disabled]:hidden motion-reduce:transition-none"
                     />
                   </button>
                 </h3>
@@ -132,7 +132,7 @@ export function MenuSheet({ className = "", children }: Props) {
                   id={listId}
                   inert={!open}
                   data-closed={!open || undefined}
-                  className="grid grid-rows-[1fr] data-closed:grid-rows-[0fr] transition-[grid-template-rows] duration-400 ease-spring motion-reduce:transition-none"
+                  className="grid grid-rows-[1fr] data-closed:grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-spring motion-reduce:transition-none"
                 >
                   {/* плитки в две колонки: всё меню видно почти без прокрутки */}
                   <ul className="min-h-0 overflow-hidden grid grid-cols-2 gap-6 pb-8">

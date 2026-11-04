@@ -81,6 +81,12 @@ const SETUP = [
     Icon: Terminal,
   },
   {
+    href: "/docs/css",
+    title: "Готовый CSS",
+    text: "Для HTML без сборки: CDN, части и CSS-конструктор.",
+    Icon: CodeIcon,
+  },
+  {
     href: "/docs/code/vscode",
     title: "VS Code",
     text: "Подсказки классов и CSS при наведении.",
@@ -247,6 +253,28 @@ const FAQ: { q: string; a: ReactNode }[] = [
       </p>
     ),
   },
+  {
+    q: "Чем это отличается от Tailwind?",
+    a: (
+      <p>
+        Идея та же — классы в разметке, но всё своё: числа в пикселях (
+        <Code>p-20</Code> = 20px), цвета из собственных токенов (новый токен — и
+        классы <Code>bg-*</Code> появляются сами), движок маленький и
+        прозрачный, а для HTML без сборки есть один готовый CSS.
+      </p>
+    ),
+  },
+  {
+    q: "Как обновить RenDit UI?",
+    a: (
+      <p>
+        Скачайте новую версию и замените файлы в проекте:{" "}
+        <Code>rendit-code/</Code>, <Code>src/assets/scss/</Code> и{" "}
+        <Code>rendit.config.mjs</Code>, если он менялся. Что нового — во вкладке{" "}
+        «Обновления». На готовом CSS — просто поменяйте версию в строке CDN.
+      </p>
+    ),
+  },
 ];
 
 const CHIP = "flex items-center gap-6 h-30 px-12 br-full border bg-surface";
@@ -260,9 +288,10 @@ export default function InstallPage() {
           title="Установка и настройка"
           lead={
             <>
-              RenDit UI — стили, токены и классы для вашего сайта. Выберите, на
-              чём сделан проект, и ответьте на пару вопросов: ниже появятся шаги
-              именно для него — обычно это несколько минут.
+              RenDit UI — стили, токены и классы для вашего сайта, всё в одном
+              архиве. Дальше три шага: скачайте версию ниже, выберите, на чём
+              сделан проект, и ответьте на пару вопросов — страница соберёт шаги
+              именно под него. Обычно всё занимает несколько минут.
             </>
           }
         >
@@ -306,12 +335,16 @@ export default function InstallPage() {
           <CodeBlock
             lang="css"
             code={`@layer utilities {
+  /* все классы живут в одном слое — они всегда сильнее базовых стилей */
   .p-20 {
-    padding: 20px;
+    padding: 20px; /* числа — пиксели */
   }
   @media (width >= 770px) {
+    /* md: — экран от 770px и шире */
     @media (hover: hover) and (pointer: fine) {
+      /* hover: — только для мыши, на телефоне не срабатывает */
       .md\\:hover\\:bg-primary\\/50:hover {
+        /* цвет — токен primary, /50 — половина прозрачности */
         background-color: color-mix(in oklab, var(--primary) 50%, transparent);
       }
     }

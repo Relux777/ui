@@ -24,13 +24,7 @@ import { Menu } from "@boxicons/react/Menu";
 import { Newspaper } from "@boxicons/react/Newspaper";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  type CSSProperties,
-  type MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { type CSSProperties, type MouseEvent, useRef, useState } from "react";
 import styles from "./navbar.module.scss";
 import { QuickMenu } from "./quick-menu";
 import { activeIndex, ROUTES } from "./routes";
@@ -91,38 +85,6 @@ export default function NavBarComponent() {
     onReselect: reselect,
   });
 
-  // iOS (Яндекс-браузер, Safari): при прокрутке браузер прячет свою нижнюю панель, а layout-вьюпорт, к которому
-  // привязан fixed, остаётся прежним — под меню оставалась бы пустота. Разницу между видимой областью
-  // (visualViewport) и вьюпортом пишем в --browser-ui; класс меню добавляет её к bottom, и меню едет вместе
-  // с краем экрана. На компьютере и Android разница всегда 0 — меню не трогается.
-  useEffect(() => {
-    const vv = window.visualViewport;
-    if (!vv) return;
-    let last = "";
-    const sync = () => {
-      const gap = Math.max(
-        0,
-        vv.height - document.documentElement.clientHeight,
-      );
-      const value = `${Math.round(gap)}px`;
-      if (value === last) return;
-      last = value;
-      document.documentElement.style.setProperty("--browser-ui", value);
-    };
-    vv.addEventListener("resize", sync);
-    vv.addEventListener("scroll", sync);
-    window.addEventListener("resize", sync);
-    window.addEventListener("scroll", sync, { passive: true });
-    sync();
-    return () => {
-      vv.removeEventListener("resize", sync);
-      vv.removeEventListener("scroll", sync);
-      window.removeEventListener("resize", sync);
-      window.removeEventListener("scroll", sync);
-      document.documentElement.style.removeProperty("--browser-ui");
-    };
-  }, []);
-
   const onLinkClick = (e: MouseEvent, i: number) => {
     // Ctrl/Cmd/Shift + клик — как у обычной ссылки (новая вкладка, окно)
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -132,10 +94,10 @@ export default function NavBarComponent() {
 
   return (
     <>
-      {/* место в конце страницы: иначе меню закрывало бы последний блок; --browser-ui — та же поправка iOS */}
-      <div className="h-[calc(100px+env(safe-area-inset-bottom)+var(--browser-ui,0px))]" />
+      {/* место в конце страницы: иначе меню закрывало бы последний блок */}
+      <div className="h-[calc(100px+env(safe-area-inset-bottom))]" />
       <div
-        className={`${styles.enter} fixed left-1/2 bottom-[calc(15px+env(safe-area-inset-bottom)+var(--browser-ui,0px))] z-30 flex items-end gap-8 -translate-x-1/2 transition-[bottom] duration-200 ease-out motion-reduce:transition-none`}
+        className={`${styles.enter} fixed left-1/2 bottom-[calc(15px+env(safe-area-inset-bottom))] z-30 flex items-end gap-8 -translate-x-1/2`}
       >
         <nav
           ref={barRef}

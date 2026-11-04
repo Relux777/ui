@@ -97,12 +97,4 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: var(--foreground);
     }
-
-    /* Состояние, восстановленное без участия пользователя (прокрутка после перезагрузки), — сразу, без переходов.
-       data-instant на <html> ставит и снимает встроенный скрипт из Header/scroll-state.ts */
-    [data-instant] *,
-    [data-instant] *::before,
-    [data-instant] *::after {
-        transition: none !important;
-    }
 }

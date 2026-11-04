@@ -15,7 +15,7 @@ import {
   Table,
 } from "../../../../_docs/docs";
 import { Toc, type TocItem } from "../../../../_docs/toc";
-import { MotionPlayground, TokenGenerator } from "./_tools";
+import { MotionPlayground, ShadowSwitcher, TokenGenerator } from "./_tools";
 
 export const metadata: Metadata = { title: "Токены" };
 
@@ -43,21 +43,6 @@ const ROWS: ReactNode[][] = [
 ];
 
 // классы написаны строками целиком — движок их видит
-const SHADOWS = [
-  ["shadow-1", "чуть приподнята: карточки"],
-  ["shadow-2", "кнопки, чипы"],
-  ["shadow-3", "под курсором"],
-  ["shadow-4", "выпадающие меню"],
-  ["shadow-5", "всплывающие панели"],
-  ["shadow-6", "окна поверх страницы"],
-  ["shadow-7", "кромка стеклянной таблетки"],
-  ["shadow-8", "мягкая, из ReluxCode"],
-  ["shadow-9", "стекло маленьких элементов"],
-  ["shadow-10", "глубокая, из ReluxCode"],
-  ["shadow-11", "парящая, из ReluxCode"],
-  ["shadow-12", "самая глубокая"],
-];
-
 const RADII = [
   ["br-xs", "6px"],
   ["br-sm", "8px"],
@@ -163,19 +148,9 @@ export default function TokensPage() {
           <Lead>
             <Code>shadow-1…6</Code> — высота: чем выше элемент над страницей,
             тем больше номер. 7 и 9 — для стекла, 8, 10–12 — мягкие тени из
-            ReluxCode. В тёмной теме тени темнее и заметнее.
+            ReluxCode. Переключите тему — в тёмной тени темнее и заметнее.
           </Lead>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-14 p-16 sm:p-24 br-2xl bg-surface-muted/60">
-            {SHADOWS.map(([cls, note]) => (
-              <div
-                key={cls}
-                className={`flex flex-col gap-2 p-14 br-lg bg-surface ${cls}`}
-              >
-                <code className="font-13 font-mono font-w-600">{cls}</code>
-                <span className="font-12 text-foreground-muted">{note}</span>
-              </div>
-            ))}
-          </div>
+          <ShadowSwitcher />
         </section>
 
         <section className="flex flex-col gap-16">

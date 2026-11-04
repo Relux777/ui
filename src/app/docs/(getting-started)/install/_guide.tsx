@@ -184,7 +184,10 @@ export function InstallGuide() {
     } catch {}
     saved = { ...saved, platform: readPlatform() };
     const query = new URLSearchParams(location.search);
-    setChoice(parseChoice((p) => query.get(p), saved));
+    const restoredChoice = parseChoice((p) => query.get(p), saved);
+    setChoice(restoredChoice);
+    // ссылка с параметрами или сохранённый набор могут задать другую платформу — сразу синхронизируем меню
+    choosePlatform(restoredChoice.platform);
     restored.current = true;
   }, []);
 
@@ -199,8 +202,9 @@ export function InstallGuide() {
     );
   }, [docsPlatform]);
 
-  // набор изменился — запомнить, в адрес и платформу справки. Первый проход (тот же кадр, что и
-  // восстановление, набор ещё по умолчанию) пропускаем
+  // набор изменился — запомнить и в адрес. Первый проход (тот же кадр, что и восстановление, набор ещё по
+  // умолчанию) пропускаем. Платформа в меню синхронизируется в выборе карточки и при восстановлении —
+  // здесь только сохраняем набор и адрес, без уведомлений магазина (без повторного рендера по кругу)
   const persisted = useRef(false);
   useEffect(() => {
     if (!restored.current) return;
@@ -208,7 +212,6 @@ export function InstallGuide() {
       persisted.current = true;
       return;
     }
-    choosePlatform(choice.platform);
     try {
       localStorage.setItem(
         KEY,
@@ -256,7 +259,10 @@ export function InstallGuide() {
                     name={`${name}-platform`}
                     value={id}
                     checked={choice.platform === id}
-                    onChange={() => update({ platform: id })}
+                    onChange={() => {
+                      choosePlatform(id);
+                      update({ platform: id });
+                    }}
                     className="sr-only"
                   />
                   <span className="relative size-32 sm:size-40 shrink-0 br-full grid place-items-center bg-surface-muted transition-transform duration-500 ease-spring-bouncy group-[:has(:checked)]:scale-110">

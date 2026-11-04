@@ -4,18 +4,17 @@
 // Без контекста: общее хранилище на useSyncExternalStore, выбор в одной вкладке браузера видят и другие.
 
 import { useSyncExternalStore } from "react";
+import {
+  DEFAULT_PLATFORM,
+  DOCS_PLATFORMS,
+  type DocsPlatform,
+} from "./_platform-data";
 
-export const DOCS_PLATFORMS = [
-  { id: "nextjs", title: "Next.js", note: "App Router, 15+" },
-  { id: "react", title: "React", note: "на Vite" },
-  { id: "node", title: "Node.js", note: "без фреймворка" },
-  { id: "html", title: "HTML / CSS", note: "без сборки" },
-] as const;
-
-export type DocsPlatform = (typeof DOCS_PLATFORMS)[number]["id"];
+export { DOCS_PLATFORMS };
+export type { DocsPlatform };
 
 const KEY = "docs-platform";
-const DEFAULT: DocsPlatform = "nextjs";
+const DEFAULT: DocsPlatform = DEFAULT_PLATFORM;
 const listeners = new Set<() => void>();
 
 export function readPlatform(): DocsPlatform {

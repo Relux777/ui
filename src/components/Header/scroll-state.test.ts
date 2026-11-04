@@ -17,20 +17,11 @@ function fakeWindow(scrollY = 0) {
   const frames: (() => void)[] = [];
   const root = {
     hasAttribute: (a: string) => attrs.has(a),
-    setAttribute: (a: string) => {
-      attrs.add(a);
-      log.push(`+${a}`);
-    },
-    removeAttribute: (a: string) => {
-      attrs.delete(a);
-      log.push(`-${a}`);
-    },
     toggleAttribute: (a: string, on: boolean) => {
       if (on) attrs.add(a);
       else attrs.delete(a);
       log.push(`${on ? "+" : "-"}${a}`);
     },
-    offsetHeight: 0,
   };
   const win = {
     scrollY,
@@ -58,11 +49,6 @@ function fakeWindow(scrollY = 0) {
       fire("scroll");
       for (const fn of frames.splice(0)) fn();
     },
-    /** записи журнала с этого места */
-    mark() {
-      const from = log.length;
-      return () => log.slice(from);
-    },
   };
 }
 
@@ -71,16 +57,13 @@ const start = (scrollY = 0) => {
   watchScroll(page.win as unknown as Window, SCROLL_ON, SCROLL_OFF);
   return page;
 };
-const INSTANT_ON = ["+data-instant", "+data-scrolled", "-data-instant"];
-const INSTANT_OFF = ["+data-instant", "-data-scrolled", "-data-instant"];
 
 // ── перезагрузка и восстановление прокрутки ────────────────────────────────
 
-test("перезагрузка посреди страницы: data-scrolled сразу и без переходов", () => {
+test("перезагрузка посреди страницы: data-scrolled сразу", () => {
   const page = start(2000);
   assert.ok(page.attrs.has("data-scrolled"));
-  assert.ok(!page.attrs.has("data-instant"));
-  assert.deepEqual(page.log, INSTANT_ON);
+  assert.deepEqual(page.log, ["+data-scrolled"]);
 });
 
 test("начало страницы: ничего не меняется", () => {
@@ -89,48 +72,30 @@ test("начало страницы: ничего не меняется", () => 
   assert.deepEqual(page.log, []);
 });
 
-test("браузер восстановил прокрутку после скрипта (DOMContentLoaded) — тоже без переходов", () => {
+test("браузер восстановил прокрутку после скрипта (DOMContentLoaded)", () => {
   const page = start(0);
   page.win.scrollY = 1500;
   page.fire("DOMContentLoaded");
-  assert.deepEqual(page.log, INSTANT_ON);
+  assert.deepEqual(page.log, ["+data-scrolled"]);
 });
 
-test("восстановление прокрутки событием scroll до касания — без переходов", () => {
+test("восстановление прокрутки событием scroll", () => {
   const page = start(0);
   page.scrollTo(1500);
-  assert.deepEqual(page.log, INSTANT_ON);
+  assert.deepEqual(page.log, ["+data-scrolled"]);
 });
 
-test("переход по #якорю в адресе и обратно наверх без участия пользователя — оба раза мгновенно", () => {
+test("переход по #якорю в адресе и обратно наверх — обе смены состояния", () => {
   const page = start(0);
   page.scrollTo(900);
   page.scrollTo(0);
-  assert.deepEqual(page.log, [...INSTANT_ON, ...INSTANT_OFF]);
+  assert.deepEqual(page.log, ["+data-scrolled", "-data-scrolled"]);
 });
 
-// ── прокрутка пользователем ────────────────────────────────────────────────
-
-for (const type of ["wheel", "touchstart", "keydown", "pointerdown"]) {
-  test(`после «${type}» — с анимацией, без data-instant`, () => {
-    const page = start(0);
-    page.fire(type);
-    page.scrollTo(500);
-    assert.deepEqual(page.log, ["+data-scrolled"]);
-  });
-}
-
-test("после первого касания подписки на ввод снимаются, на прокрутку — остаются", () => {
-  const page = start(0);
-  page.fire("wheel");
-  for (const type of ["wheel", "touchstart", "keydown", "pointerdown"])
-    assert.equal(page.listeners.get(type)?.size ?? 0, 0, type);
-  assert.equal(page.listeners.get("scroll")?.size, 1);
-});
+// ── пороги ─────────────────────────────────────────────────────────────────
 
 test("несколько событий scroll за кадр — один пересчёт", () => {
   const page = start(0);
-  page.fire("wheel");
   let frames = 0;
   const raf = page.win.requestAnimationFrame;
   page.win.requestAnimationFrame = (fn) => {
@@ -148,16 +113,12 @@ test("несколько событий scroll за кадр — один пер
 
 test("атрибут пишется только при смене состояния", () => {
   const page = start(0);
-  page.fire("wheel");
   for (const y of [100, 200, 300, 400, 500]) page.scrollTo(y);
   assert.deepEqual(page.log, ["+data-scrolled"]);
 });
 
-// ── пороги ─────────────────────────────────────────────────────────────────
-
 test("включается только после SCROLL_ON", () => {
   const page = start(0);
-  page.fire("wheel");
   page.scrollTo(SCROLL_ON);
   assert.ok(!page.attrs.has("data-scrolled"));
   page.scrollTo(SCROLL_ON + 1);
@@ -167,19 +128,16 @@ test("включается только после SCROLL_ON", () => {
 test("между порогами состояние не меняется — шапка не дрожит", () => {
   const middle = (SCROLL_ON + SCROLL_OFF) / 2;
   const down = start(0);
-  down.fire("wheel");
   down.scrollTo(middle);
   assert.ok(!down.attrs.has("data-scrolled"));
 
   const up = start(500);
-  up.fire("wheel");
   up.scrollTo(middle);
   assert.ok(up.attrs.has("data-scrolled"));
 });
 
 test("выключается на SCROLL_OFF и выше страницы", () => {
   const page = start(500);
-  page.fire("wheel");
   page.scrollTo(SCROLL_OFF + 1);
   assert.ok(page.attrs.has("data-scrolled"));
   page.scrollTo(SCROLL_OFF);
@@ -188,33 +146,20 @@ test("выключается на SCROLL_OFF и выше страницы", () =
 
 test("отрицательная прокрутка (оттягивание на iOS) — не прокручено", () => {
   const page = start(500);
-  page.fire("touchstart");
   page.scrollTo(-40);
   assert.ok(!page.attrs.has("data-scrolled"));
 });
 
 test("дрожание у порога (инерция ±пара пикселей) не переключает туда-обратно", () => {
   const page = start(0);
-  page.fire("touchstart");
   for (const y of [38, 42, 39, 41, 30, 44, 20, 17]) page.scrollTo(y);
   assert.deepEqual(page.log, ["+data-scrolled"]);
 });
 
 // ── переходы между страницами ──────────────────────────────────────────────
 
-test("клик по логотипу в прокрутке: переход наверх — с анимацией, без data-instant", () => {
-  const page = start(0);
-  page.fire("pointerdown");
-  page.scrollTo(2000);
-  const after = page.mark();
-  page.fire("pointerdown"); // клик по ссылке
-  page.scrollTo(0); // Next прокручивает новую страницу наверх
-  assert.deepEqual(after(), ["-data-scrolled"]);
-});
-
 test("«назад» на прокрученную страницу: шапка снова компактная", () => {
   const page = start(0);
-  page.fire("pointerdown");
   page.scrollTo(2000);
   page.scrollTo(0);
   page.scrollTo(2000); // браузер восстановил прокрутку прежней страницы
@@ -223,7 +168,6 @@ test("«назад» на прокрученную страницу: шапка 
 
 test("переход на длинную страницу с сохранённой прокруткой и сразу наверх — без лишних смен", () => {
   const page = start(0);
-  page.fire("pointerdown");
   page.win.scrollY = 1200;
   page.fire("scroll");
   page.win.scrollY = 0; // за тот же кадр страница уже наверху
@@ -237,6 +181,6 @@ test("переход на длинную страницу с сохранённ�
 test("SCROLL_SCRIPT — самодостаточный текст: работает без модуля, с порогами внутри", () => {
   const page = fakeWindow(SCROLL_ON + 1);
   new Function("window", SCROLL_SCRIPT)(page.win);
-  assert.deepEqual(page.log, INSTANT_ON);
+  assert.deepEqual(page.log, ["+data-scrolled"]);
   assert.ok(SCROLL_SCRIPT.endsWith(`(window,${SCROLL_ON},${SCROLL_OFF})`));
 });
