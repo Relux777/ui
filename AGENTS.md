@@ -8,12 +8,144 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+# RenDit UI — правила для агента
+
+> Свой UI-фреймворк Рената (стили RenDit SCSS, движок классов RenDit Code, компоненты) и его сайт-документация.
+> Это основа стиля всех будущих страниц и компонентов. Расходится с кодом — верить коду и поправить файл.
+
 ## Ориентиры — примеры сайтов
 
-Стиль и подача RenDit UI берутся отсюда:
+Стиль и подача берутся отсюда:
 
 - <https://ozon-v5.vercel.app/ozon> — наш пример (ReluxCode, PageNav, модалки);
 - <https://unocss.dev/guide/> — подача справочника классов;
 - <https://nextjs.org/docs> — структура документации;
-- <https://heroui.com/> — вкладки раздела и страницы компонентов;
+- <https://heroui.com/> — вкладки раздела (Getting Started · Components · Releases) и страницы компонентов;
 - <https://boxicons.com/icons> — визуальный стиль (монохром + лаймовый акцент), 3D-карточки.
+
+## Как работать с Ренатом
+
+- Отвечать **по-русски**, кратко: что сделано, что осталось. Ошибки признавать прямо, данные не выдумывать.
+- Менять **только то, что просили**; лишнего (страниц, классов, обёрток) не добавлять, остатки удалять.
+  Вместо непрошеных страниц — заглушки («Привет мир»).
+- Перед удалением файлов и большой перестройкой — спросить. Без просьбы — ни коммитов, ни push, ни PR.
+- Шапка (`components/Header`) — Рената: правки только по его просьбе.
+- `../job/ozon` — только для примера (ReluxCode, PageNav, модалки), не менять.
+
+## Команды
+
+```bash
+npm run dev          # движок RenDit Code следит за классами + next dev (голый next dev не собирает CSS)
+npm run build        # движок + next build
+npm test             # юнит-тесты (node:test, TS без сборки) + тесты движка
+npm run test:e2e     # браузерные тесты (нужен запущенный сайт; другой адрес — E2E_URL=http://localhost:3100)
+npx biome check src e2e rendit-code
+npx tsc --noEmit     # после next build / next typegen
+```
+
+Проверка перед отчётом: `npm test`, biome, tsc, `next build` + `next start -p 3100` + `E2E_URL=… npm run test:e2e`,
+скриншоты телефона (375–390px) и компьютера, светлая и тёмная тема. `next build` можно запускать при работающем
+`npm run dev` (dev живёт в `.next/dev`).
+
+**После переноса или переименования файлов маршрутов** dev-сервер держит старые модули (было: боковое меню
+справки рисовалось дважды) — перезапустить `npm run dev`, при необходимости удалить `.next/dev`.
+**После правок движка** (`rendit-code/core`) тоже перезапуск: наблюдатель держит старый движок в памяти;
+расширение VS Code — `npm run rendit-code:vscode`.
+
+## Стили
+
+- Всё, что можно, — **классами RenDit Code в разметке**. `*.module.scss` — только то, что классами не выразить и
+  что не нужно больше нигде (математика линзы NavBar). Нужное многим — в RenDit SCSS (`src/assets/scss/components`).
+- Классы пишутся строками целиком (`bg-${c}` движок не увидит). Числа — px (`p-20`), цвета — токены
+  (`bg-surface`, `text-foreground-muted`), прозрачность — только `/N` (`bg-secondary/12`).
+- Брейкпоинты mobile-first: sm 620 · md 770 · lg 990 · xl 1200 · 2xl 1400; `max-sm:` — уже 620.
+- Свои значения — `[…]` с `_` вместо пробела; движок отбрасывает опасные (`{ } ;`, комментарии).
+- Рамка с одной стороны (`border-b`, `border-l-2`) ставит стиль только своей стороне.
+- Разметка минимальная: без лишних обёрток; для состояний — атрибуты (`aria-current`, `data-show`, `[open]`)
+  и варианты движка (`aria-[current=page]:`, `group-[…]:`, `[[data-scrolled]_&]:`).
+
+### Токены (`src/assets/scss/settings/`)
+
+Стиль — по мотивам boxicons.com: монохром + лаймовый акцент (`accent`) + фиолетовый второй (`secondary`).
+Фон светлой темы — `gray-50` (#fafafb), карточки — белые `bg-surface`; тёмная — `#070707` / `gray-900`.
+Цвет панели браузера — `config/theme.ts` (менять вместе с `--background`); скрипт `THEME_COLOR_SCRIPT` в `<head>`
+ставит его по теме сайта до первого кадра (иначе браузер берёт тему системы — полоса сверху «перетекает»). Подсветка кода — `--code-*`
+(классы `text-code-keyword` …). Пружины — `ease-spring`, `ease-spring-bouncy`. Тени: `shadow-1…6` высота,
+`shadow-7` кромка стеклянной таблетки, `shadow-9` стекло маленьких элементов.
+
+### Компоненты RenDit SCSS (`components/_*.scss`)
+
+| Класс | Что |
+| --- | --- |
+| `.liquid-glass` | «жидкое стекло» плавающих панелей (нижнее меню) — без SVG-фильтров, работает на iPhone |
+| `.sheet` | окно на `<dialog>`: лист снизу на телефоне, панель справа с 620px, анимации @starting-style |
+| `.aura` | фон страницы: мягкое свечение и сетка точек вверху (на `<body>`) |
+| `.reveal` | блок проявляется при прокрутке (scroll-driven, только opacity — якоря не сбиваются) |
+| `.spotlight` | тусклый свет за курсором по стеклу (только мышь) |
+| `.tilt` | 3D-наклон карточки за курсором + мягкий свет `.tilt-light` (компонент `components/ui/Tilt`), как на boxicons.com |
+| `.route-enter` | плавная смена страниц без View Transitions; при первой загрузке не играет (`data-first-load`, `config/route-enter.ts`) |
+
+### Стекло, анимации, производительность
+
+- `backdrop-filter` у элемента делает его «корнем» размытия: стекло внутри стекла не размывает страницу.
+  У самой шапки размытия нет — только у таблеток. Нельзя анимировать opacity/filter/clip-path/mask
+  **у предков** стеклянных элементов (transform можно). View Transitions не использовать (снимок рисуется
+  поверх шапки и меню).
+- Появление нижнего меню — `@keyframes`, не transition (next-themes на гидратации выключает переходы).
+- Анимировать transform/opacity, не размеры; где можно — CSS без JS (scroll-driven, @starting-style).
+  Без `filter: blur()` на больших площадях — дорого на телефоне. Исключение по просьбе Рената: под окном
+  `.sheet` страница размыта (backdrop-filter 8px, как в ozon) и размытие тает при смахивании (`--sheet-drag`).
+- Всё интерактивное — с `motion-reduce:transition-none`; hover — только мышь (вариант `hover:` уже такой).
+- Телефон: поля ввода ≥16px (iOS не приближает), `env(safe-area-inset-*)`, касание ≥36–44px, лист снизу смахивается.
+  Адаптив проверять **вплоть до 320px** (маленькие Android).
+
+## Где что
+
+```
+src/components/Header      шапка «две таблетки»; по центру в /docs — вкладки справки; справа кружок «всё меню» (MenuSheet)
+src/components/NavBar      нижнее меню «Жидкое стекло»: Главная · Справка · Блог · Меню (/menu); быстрое меню у стрелки:
+                           язык, шрифт, тема, «Быстрый переход» (только где есть разделы), сколько прочитано
+src/components/DocsTabs    вкладки справки (tabs.ts — данные и выбор по адресу, под тестом)
+src/components/ui/Sheet       окно-лист на <dialog> (.sheet): смахивание, размытие под листом, тень под верхом при прокрутке
+src/components/ui/QuickNav    «Быстрый переход» — только разделы страницы (элементы с data-toc), открывает openQuickNav()
+src/components/ui/MenuSheet   «всё меню» шапки: вкладки, поиск по классам, платформа, все страницы справки
+src/app/docs/_nav.ts       оглавление справки как у Tailwind (группы, у страницы classes — для меню и поиска filterDocsNav);
+                           _nav-closed.ts — свёрнутые группы, _nav-filter.tsx — поле поиска, _sidebar.tsx — левое меню
+src/app/docs/(getting-started)  вкладка «Справка» (левое меню); страницы классов — scss/<свойство>; components/, releases/ — свои layout
+src/app/docs/(getting-started)/install  установка: choice.ts — платформы, вопросы, адрес (под тестом);
+                           steps.tsx — шаги под набор; _guide.tsx — выбор на странице
+src/app/_docs              блоки документации: DocHeader, Heading, CodeBlock (своя подсветка highlight.ts), Steps,
+                           Callout, Table, Files, LinkCards, InstallCommand (npm/pnpm/yarn/bun), Toc,
+                           Accordion (вопрос-ответ, плавно на WAAPI), FileTree (дерево папок);
+                           copy-button.tsx — useCopy/CopyIcon/Copied: один отклик копирования для всех кнопок
+src/components/ui/Tilt        3D-наклон карточки за курсором и свет по ней (.tilt, .tilt-light)
+rendit-code/               движок; README.md — справочник классов и вариантов
+```
+
+Компоненты интерфейса (окно, тема, поиск, 3D-карточка) — в `src/components/ui/`; шапка, нижнее меню и вкладки
+справки — рядом, в `src/components/`. Страницы справки, что ещё в работе, — заготовки: план в `docs/_stubs.ts`,
+`page.tsx` из двух строк (`DocStub`). Готова — строку из `_stubs.ts` удалить, страницу написать целиком.
+
+Платформа справки (Next.js · React · Node.js · HTML/CSS) — `app/docs/_platform.ts` (`useDocsPlatform`, `usesJsx`):
+новые конструкторы и инструкции показывают код под неё. Конструкторы — всегда вверху страницы.
+
+Версии: работа в `main`, выпуск — `npm run release -- X.Y.Z` и `git push --follow-tags` (RELEASING.md);
+GitHub по тегу собирает релиз (`.github/workflows/release.yml`). Готовый CSS — `npm run dist` (`rendit-code/dist.mjs`,
+набор классов там же). Адреса загрузки и CDN — `config/release.ts`. Коммиты и пуш — только по просьбе Рената;
+токены доступа из чата не использовать.
+
+Готовый CSS (`npm run dist`, `rendit-code/dist.mjs`): целиком и по частям (`src/assets/css/modules`, список и классы частей —
+`manifest.json`; одно свойство — в одной части). Страница «Готовый CSS» (`docs/(getting-started)/css`) — CSS-конструктор:
+движок RenDit Code работает в браузере (`core/theme.mjs` + `generator.mjs`, данные — `browserEngine()`). Для платформы HTML
+код в справке должен работать с одним готовым CSS: классы, которых в нём нет, — подсказка со ссылкой в конструктор
+(`Output`, `HtmlHint`) или сразу `<style>` в коде (`extraCss`, как у переключателя темы).
+
+Страница классов (как «Ширина», `scss/width/`): `_classes.ts` — все классы конструктора (обычный модуль, не
+`"use client"`), `page.tsx` — `ClassPage` + `Part` (`_docs/class-page.tsx`), `await classCss(КЛАССЫ)` → конструктору,
+`<ClassTable rows={…} />` (CSS от движка, `_docs/class-table.tsx`), примеры `Example`; `_builder.tsx` — конструктор на
+`_docs/builder.tsx` (`Builder`, `Field`, `Seg`, `Range`, `Switch`, `Canvas`, `ClassStyle`, `Output`). Классы примера можно
+собирать на лету (`w-${n}`): их правила вставляет `ClassStyle`. Готова — строку из `_stubs.ts` удалить.
+
+Новая страница справки: папка в `(getting-started)/…/page.tsx`, `DocHeader` + `Heading` (они попадают в быстрый
+переход) + строка в `_nav.ts` (с `classes`) + строка в `CHANGELOG.md`. Тест `docs/nav.test.ts` проверяет, что у каждого
+пункта меню есть страница. «…» внутри класса в тексте справки (`w-[…]`) движок в CSS не превращает — такие заглушки можно.

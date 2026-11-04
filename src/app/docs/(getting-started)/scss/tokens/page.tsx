@@ -1,6 +1,6 @@
-// Токены RenDit SCSS: что это и зачем, какие классы из них получаются, все виды токенов с живыми примерами
-// (цвета, тени, скругления, движение, градиенты), где лежат, генератор своего токена и как поменять тему.
-// Живые инструменты — _tools.tsx.
+// Токены RenDit SCSS: что это, как из них появляются классы, где лежат и как завести свой. Живые примеры
+// каждого вида токенов — на отдельных страницах (Цвета, Тени, Скругления, Градиенты, Переходы), чтобы не
+// было повторов: здесь только общее и генератор своего токена.
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -15,18 +15,14 @@ import {
   Table,
 } from "../../../../_docs/docs";
 import { Toc, type TocItem } from "../../../../_docs/toc";
-import { MotionPlayground, ShadowSwitcher, TokenGenerator } from "./_tools";
+import { TokenGenerator } from "./_tools";
 
 export const metadata: Metadata = { title: "Токены" };
 
 const TOC: TocItem[] = [
   { id: "what", title: "Что такое токен" },
   { id: "classes", title: "Какие классы получаются" },
-  { id: "colors", title: "Цвета" },
-  { id: "shadows", title: "Тени" },
-  { id: "radius", title: "Скругления" },
-  { id: "motion", title: "Движение" },
-  { id: "gradients", title: "Градиенты" },
+  { id: "kinds", title: "Виды токенов" },
   { id: "own", title: "Свой токен" },
   { id: "files", title: "Где лежат" },
 ];
@@ -42,15 +38,12 @@ const ROWS: ReactNode[][] = [
   [<Code key="k">--ease-ИМЯ</Code>, "ease-ИМЯ"],
 ];
 
-// классы написаны строками целиком — движок их видит
-const RADII = [
-  ["br-xs", "6px"],
-  ["br-sm", "8px"],
-  ["br-md", "12px"],
-  ["br-lg", "16px"],
-  ["br-xl", "24px"],
-  ["br-2xl", "32px"],
-  ["br-full", "круг, таблетка"],
+const KINDS = [
+  ["/docs/scss/colors", "Цвета", "Палитра, смысловые цвета, контраст"],
+  ["/docs/scss/shadows", "Тени", "shadow-1…12, обе темы"],
+  ["/docs/scss/radius", "Скругления", "br-* — шкала и br-full"],
+  ["/docs/scss/gradients", "Градиенты", "bg-gradient-* и градиентный текст"],
+  ["/docs/scss/transition", "Переходы", "duration, ease-*, пружины"],
 ];
 
 export default function TokensPage() {
@@ -112,96 +105,23 @@ export default function TokensPage() {
         </section>
 
         <section className="flex flex-col gap-14">
-          <Heading id="colors">Цвета</Heading>
+          <Heading id="kinds">Виды токенов</Heading>
           <Lead>
-            Палитра 14 × 11 и смысловые цвета светлой и тёмной темы — с
-            конструктором, палитрой и проверкой контраста на странице{" "}
-            <Link
-              href="/docs/scss/colors"
-              className="text-secondary underline underline-offset-3"
-            >
-              «Цвета»
-            </Link>
-            .
+            Каждый вид — на своей странице с живыми примерами и таблицей «класс
+            → CSS», чтобы ничего не повторялось.
           </Lead>
-          <div className="flex h-48 br-xl overflow-hidden border">
-            {[
-              "bg-background",
-              "bg-surface-muted",
-              "bg-foreground-muted",
-              "bg-foreground",
-              "bg-primary",
-              "bg-secondary",
-              "bg-accent",
-              "bg-success",
-              "bg-warning",
-              "bg-danger",
-              "bg-info",
-            ].map((c) => (
-              <span key={c} title={c} className={`flex-1 ${c}`} />
-            ))}
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-16">
-          <Heading id="shadows">Тени</Heading>
-          <Lead>
-            <Code>shadow-1…6</Code> — высота: чем выше элемент над страницей,
-            тем больше номер. 7 и 9 — для стекла, 8, 10–12 — мягкие тени из
-            ReluxCode. Переключите тему — в тёмной тени темнее и заметнее.
-          </Lead>
-          <ShadowSwitcher />
-        </section>
-
-        <section className="flex flex-col gap-16">
-          <Heading id="radius">Скругления</Heading>
-          <Lead>
-            Шкала от 6 до 32 пикселей: маленьким элементам — маленькие радиусы,
-            крупным секциям — большие. Любое число тоже работает:{" "}
-            <Code>br-20</Code>.
-          </Lead>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-12">
-            {RADII.map(([cls, note]) => (
-              <div key={cls} className="flex flex-col items-center gap-8">
-                <span
-                  className={`size-64 border-2 border-secondary/50 bg-secondary/10 ${cls}`}
-                />
-                <code className="font-12 font-mono font-w-600">{cls}</code>
-                <span className="font-11 text-foreground-muted text-center">
-                  {note}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {KINDS.map(([href, title, text]) => (
+              <Link
+                key={href}
+                href={href}
+                className="flex flex-col gap-4 p-16 br-xl border bg-surface transition-[translate,box-shadow] duration-300 hover:-translate-y-4 hover:shadow-4 motion-reduce:transition-none"
+              >
+                <span className="font-14 font-w-600 text-secondary">
+                  {title}
                 </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="relative z-2 flex flex-col gap-16">
-          <Heading id="motion">Движение</Heading>
-          <Lead>
-            Пружины <Code>ease-spring</Code> и <Code>ease-spring-bouncy</Code> —
-            живее обычных кривых: элемент чуть перелетает и мягко встаёт на
-            место. Нажмите «Запустить» и сравните; выберите строку — классы
-            внизу.
-          </Lead>
-          <MotionPlayground />
-        </section>
-
-        <section className="flex flex-col gap-16">
-          <Heading id="gradients">Градиенты</Heading>
-          <Lead>
-            <Code>--gradient-ИМЯ</Code> → <Code>bg-gradient-ИМЯ</Code>. С{" "}
-            <Code>bg-clip-text</Code> красят текст.
-          </Lead>
-          <div className="grid sm:grid-cols-3 gap-12">
-            {[
-              "bg-gradient-brand",
-              "bg-gradient-dark",
-              "bg-gradient-accent",
-            ].map((g) => (
-              <div key={g} className="flex flex-col gap-8">
-                <span className={`h-80 br-xl ${g}`} />
-                <code className="font-12 font-mono">{g}</code>
-              </div>
+                <span className="font-12 text-foreground-muted">{text}</span>
+              </Link>
             ))}
           </div>
         </section>

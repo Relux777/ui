@@ -53,18 +53,18 @@ export default function DocsPage() {
       {/* ── Герой ─────────────────────────────────────────────────── */}
       <div className="relative flex flex-col gap-20 pt-16">
         <ul className="flex flex-wrap gap-8 font-12 font-w-500">
-          <li className="flex items-center gap-6 h-30 px-12 br-full border bg-surface">
+          <li className="flex items-center gap-6 h-30 px-12 br-full border bg-surface whitespace-nowrap">
             <span className="size-7 br-full bg-accent" aria-hidden="true" />
             RenDit UI {version}
           </li>
-          <li className="flex items-center h-30 px-12 br-full border bg-surface">
+          <li className="flex items-center h-30 px-12 br-full border bg-surface whitespace-nowrap">
             Next.js · React · Node.js · HTML
           </li>
-          <li className="flex items-center h-30 px-12 br-full border bg-surface">
+          <li className="flex items-center h-30 px-12 br-full border bg-surface whitespace-nowrap">
             Лицензия MIT
           </li>
         </ul>
-        <h1 className="font-44 md:font-60 font-w-700 -letter-s-3 leading-1.05 max-w-800">
+        <h1 className="font-34 sm:font-44 md:font-60 font-w-700 -letter-s-3 leading-1.05 max-w-800">
           Справка{" "}
           <span className="bg-gradient-brand bg-clip-text text-transparent">
             RenDit UI
@@ -76,7 +76,7 @@ export default function DocsPage() {
           или без него. Платформу выберите вверху левого меню — шаги и код на
           страницах подстроятся.
         </p>
-        <div className="flex flex-wrap gap-10">
+        <div className="flex flex-wrap gap-10 max-sm:justify-around">
           <Link
             href="/docs/install"
             className="flex items-center gap-8 h-40 px-20 br-full bg-primary text-primary-foreground font-14 font-w-500 transition hover:bg-primary-hover active:scale-95"
@@ -86,10 +86,10 @@ export default function DocsPage() {
           </Link>
           <Link
             href="/docs/structure"
-            className="flex items-center gap-6 h-30 px-12 br-full border font-12 font-w-600 text-secondary transition hover:bg-secondary hover:text-secondary-foreground active:scale-95"
+            className="flex items-center gap-8 h-40 px-20 br-full border bg-surface font-14 font-w-500 text-secondary transition hover:bg-secondary hover:text-secondary-foreground active:scale-95"
           >
             Подробнее об устройстве
-            <ArrowRight width={14} height={14} aria-hidden="true" />
+            <ArrowRight width={18} height={18} aria-hidden="true" />
           </Link>
         </div>
         <p className="font-13 text-foreground-muted">

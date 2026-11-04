@@ -48,7 +48,7 @@ export default async function HeaderComponent() {
           >
             <Spotlight className={SPOT} />
             <RenDitLogos width={28} height={28} />
-            <span className={FOLD}>
+            <span className={`${FOLD} max-[380px]:hidden`}>
               RenDit <span className="text-violet-500">UI</span>
             </span>
           </HomeLink>

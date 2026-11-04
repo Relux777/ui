@@ -5,15 +5,6 @@
 export type DocsStub = { lead: string; plan: string[]; home?: string };
 
 export const DOCS_STUBS: Record<string, DocsStub> = {
-  "/docs/code/classes": {
-    lead: "Как пишутся классы RenDit Code: числа в пикселях, цвета из токенов, прозрачность /N, отрицательные значения.",
-    plan: [
-      "Имена классов и числа",
-      "Цвета: токены и палитра",
-      "Прозрачность /N",
-      "Почему класс надо писать строкой целиком",
-    ],
-  },
   "/docs/scss/responsive": {
     lead: "Брейкпоинты sm 620 · md 770 · lg 990 · xl 1200 · 2xl 1400: mobile-first и max-… для узких экранов.",
     plan: [
@@ -64,15 +55,6 @@ export const DOCS_STUBS: Record<string, DocsStub> = {
       "bg-clip-text — градиент в буквах",
     ],
   },
-  "/docs/scss/gradients": {
-    lead: "Градиенты из токенов и палитры: линейные, радиальные, мягкие подсветки и текст.",
-    plan: [
-      "bg-gradient-* из темы",
-      "Свой градиент bg-[linear-gradient(…)]",
-      "Подсветки radial-gradient",
-      "Градиентный текст",
-    ],
-  },
   "/docs/scss/opacity": {
     lead: "Прозрачность всего элемента — и чем она отличается от прозрачности цвета /N.",
     plan: [
@@ -100,16 +82,6 @@ export const DOCS_STUBS: Record<string, DocsStub> = {
     ],
     home: "shape",
   },
-  "/docs/scss/radius": {
-    lead: "Скругления: br-N, токены скруглений, круг br-full и отдельные углы.",
-    plan: [
-      "br-N и токены br-sm…br-2xl",
-      "br-full — таблетки и круги",
-      "Углы и стороны: br-t-N, br-tl-N",
-      "Вложенные скругления: внешний радиус = внутренний + отступ",
-    ],
-    home: "shape",
-  },
   "/docs/scss/outline": {
     lead: "Обводка: кольцо фокуса с клавиатуры, отступ от края и стиль.",
     plan: [
@@ -120,16 +92,6 @@ export const DOCS_STUBS: Record<string, DocsStub> = {
   },
 
   // Эффекты
-  "/docs/scss/shadows": {
-    lead: "Тени shadow-1…12: высота карточек, кромка стекла, тени в тёмной теме.",
-    plan: [
-      "Высоты shadow-1…6",
-      "Стекло: shadow-7, shadow-9",
-      "Тени из ReluxCode: shadow-8…12",
-      "Свои тени в settings/_shadows.scss",
-    ],
-    home: "shadows",
-  },
   "/docs/scss/blur": {
     lead: "Размытие элемента и того, что под ним: blur- и backdrop-blur- — стекло для панелей и шапки.",
     plan: [
@@ -141,15 +103,6 @@ export const DOCS_STUBS: Record<string, DocsStub> = {
   },
 
   // Движение
-  "/docs/scss/transition": {
-    lead: "Плавные переходы: какие свойства, сколько длится, с какой кривой и задержкой.",
-    plan: [
-      "transition, transition-colors, transition-[…]",
-      "duration-N и delay-N",
-      "ease-out, ease-spring, ease-spring-bouncy",
-      "motion-reduce: — без движения для тех, кто просил",
-    ],
-  },
   "/docs/scss/transform": {
     lead: "Сдвиг, масштаб и поворот — без пересчёта раскладки, плавно и дёшево.",
     plan: [

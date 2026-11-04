@@ -97,7 +97,7 @@ export default function NavBarComponent() {
       {/* место в конце страницы: иначе меню закрывало бы последний блок */}
       <div className="h-[calc(100px+env(safe-area-inset-bottom))]" />
       <div
-        className={`${styles.enter} fixed left-1/2 bottom-[calc(15px+env(safe-area-inset-bottom))] z-30 flex items-end gap-8 -translate-x-1/2`}
+        className={`${styles.enter} fixed left-1/2 [inset-block-end:20px] z-30 flex items-end gap-8 -translate-x-1/2`}
       >
         <nav
           ref={barRef}
