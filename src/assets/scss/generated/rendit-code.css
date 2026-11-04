@@ -1,4 +1,4 @@
-/*! RenDit Code v0.3.3 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.3.4 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-content { syntax: "*"; inherits: false; initial-value: ""; }
@@ -3858,6 +3858,9 @@
   .aria-\[current\]\:bg-secondary\/10[aria-current] {
     background-color: color-mix(in oklab, var(--secondary) 10%, transparent);
   }
+  .aria-pressed\:bg-secondary[aria-pressed="true"] {
+    background-color: var(--secondary);
+  }
   .aria-pressed\:bg-secondary\/10[aria-pressed="true"] {
     background-color: color-mix(in oklab, var(--secondary) 10%, transparent);
   }
@@ -3914,6 +3917,9 @@
   }
   .aria-pressed\:text-secondary[aria-pressed="true"] {
     color: var(--secondary);
+  }
+  .aria-pressed\:text-secondary-foreground[aria-pressed="true"] {
+    color: var(--secondary-foreground);
   }
   .aria-selected\:text-background[aria-selected="true"] {
     color: var(--background);

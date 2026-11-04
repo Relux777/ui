@@ -12,6 +12,7 @@ import {
   Heading,
   Lead,
 } from "../../../../_docs/docs";
+import { ActiveToggle } from "./_toggle";
 
 export const metadata: Metadata = { title: "Как писать классы" };
 
@@ -50,7 +51,7 @@ export default function ClassesPage() {
             <div className="p-20 br-lg bg-secondary/15 font-13">
               p-20 — 20px со всех сторон
             </div>
-            <div className="-mt-10 ml-40 p-12 br-lg bg-accent font-13">
+            <div className="-mt-10 ml-40 p-12 br-lg bg-accent text-accent-foreground font-13">
               -mt-10 — на 10px выше
             </div>
           </div>
@@ -132,19 +133,12 @@ export default function ClassesPage() {
         </Lead>
         <Example
           title="Полные строки"
-          note={`Тернарник с полными строками работает: "bg-primary" и "bg-surface".`}
+          note={`Тернарник с полными строками работает: "bg-primary" и "bg-surface". Переключите — фон сменится.`}
           code={`<button class={active ? "bg-primary" : "bg-surface"}>
   Кнопка
 </button>`}
         >
-          <div className="flex flex-wrap gap-12">
-            <span className="p-14 br-full bg-primary text-primary-foreground font-13 font-w-600">
-              active — bg-primary
-            </span>
-            <span className="p-14 br-full border bg-surface font-13 font-w-600">
-              нет — bg-surface
-            </span>
-          </div>
+          <ActiveToggle />
         </Example>
         <Callout>
           Класс собирается из кусочков в рантайме — добавьте его в{" "}

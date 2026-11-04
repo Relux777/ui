@@ -1,5 +1,6 @@
 // Тени shadow-1…12: высота «подъёма», стекло и мягкие тени из ReluxCode. Свои — в settings/_shadows.scss.
 
+import { classCss } from "../../../../_docs/class-css";
 import {
   ClassPage,
   classPageMetadata,
@@ -8,22 +9,23 @@ import {
 import { ClassTable } from "../../../../_docs/class-table";
 import { Code, CodeBlock, Example } from "../../../../_docs/docs";
 import type { TocItem } from "../../../../_docs/toc";
-import { TABLE_CLASSES } from "./_classes";
-import { ShadowSwitcher } from "./_switcher";
+import { ShadowBuilder } from "./_builder";
+import { SHADOW_CLASSES, TABLE_CLASSES } from "./_classes";
 
 const HREF = "/docs/scss/shadows";
 
 export const metadata = classPageMetadata(HREF);
 
 const TOC: TocItem[] = [
-  { id: "compare", title: "Тени в обеих темах" },
+  { id: "builder", title: "Конструктор" },
   { id: "classes", title: "Все классы" },
   { id: "height", title: "Высота" },
   { id: "glass", title: "Стекло" },
   { id: "own", title: "Свои тени" },
 ];
 
-export default function ShadowsPage() {
+export default async function ShadowsPage() {
+  const css = await classCss(SHADOW_CLASSES);
   return (
     <ClassPage
       href={HREF}
@@ -38,12 +40,12 @@ export default function ShadowsPage() {
       }
     >
       <Part
-        id="compare"
-        title="Тени в обеих темах"
-        lead="Переключайте тему — чип отбрасывает тень на подложку, видно разницу. «Система» — как на сайте."
+        id="builder"
+        title="Конструктор"
+        lead="Выберите тень, элемент и тему — превью и CSS внизу. «Система» — как на сайте."
         className="relative z-1"
       >
-        <ShadowSwitcher />
+        <ShadowBuilder css={css} />
       </Part>
 
       <Part

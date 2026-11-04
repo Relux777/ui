@@ -1,6 +1,7 @@
-// Классы страницы «Тени» — таблица «класс → CSS» (CSS считает движок).
+// Классы страницы «Тени»: для конструктора (SHADOW_CLASSES) и таблицы «класс → CSS» (TABLE_CLASSES).
+// CSS считает движок при сборке страницы.
 
-export const TABLE_CLASSES = [
+export const SHADOW_CLASSES = [
   "shadow-1",
   "shadow-2",
   "shadow-3",
@@ -17,6 +18,10 @@ export const TABLE_CLASSES = [
   "shadow-line",
   "shadow-glass",
   "shadow-none",
+];
+
+export const TABLE_CLASSES = [
+  ...SHADOW_CLASSES,
   "hover:shadow-4",
   "dark:shadow-none",
 ];
