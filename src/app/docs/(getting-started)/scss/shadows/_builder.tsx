@@ -1,8 +1,8 @@
 "use client";
 
-// Конструктор теней: тень, фон позади, цвет кнопки, элемент (SVG / кнопка) и тема. Превью и CSS — от движка.
-// data-theme оборачивает холст, чтобы токены кнопки (bg-surface и другие) перекрашивались вместе с темой.
-// Фон и цвет выбираются цветными свотчами — сразу видно, что выбираешь.
+// Конструктор теней: тень, фон, цвет кнопки и элемент (SVG / кнопка). Превью — два примера рядом,
+// как на странице «Токены»: слева светлая тема, справа тёмная — видно тень на любом фоне и как
+// цвет кнопки (токен) меняется с темой. CSS — от движка.
 
 import { Layers } from "@boxicons/react/Layers";
 import { useState } from "react";
@@ -35,7 +35,7 @@ const SHADOWS = [
   "shadow-none",
 ];
 
-// цвет кнопки/элемента: семантические токены, меняются с темой
+// цвет кнопки/элемента: семантические токены, в каждой половине превью — свой (светлый/тёмный)
 const COLORS = [
   {
     id: "surface",
@@ -82,12 +82,11 @@ const COLORS = [
 ] as const;
 type Color = (typeof COLORS)[number]["id"];
 
-// фон позади — куда падает тень
+// фон позади — куда падает тень; у каждого фона пара: светлая и тёмная половина
 const FONDS = [
-  { id: "white", title: "Белый", color: "#ffffff" },
-  { id: "gray", title: "Светло-серый", color: "#eeeeee" },
-  { id: "graphite", title: "Графит", color: "#1a1a1a" },
-  { id: "black", title: "Чёрный", color: "#070707" },
+  { id: "white", title: "Белый", light: "#ffffff", dark: "#141414" },
+  { id: "gray", title: "Серый", light: "#eeeeee", dark: "#1f1f1f" },
+  { id: "black", title: "Чёрный", light: "#141414", dark: "#070707" },
 ] as const;
 type Fond = (typeof FONDS)[number]["id"];
 
@@ -96,13 +95,6 @@ const ELEMENTS = [
   { id: "button", title: "Кнопка" },
 ] as const;
 type Element = (typeof ELEMENTS)[number]["id"];
-
-const THEMES = [
-  { id: "system", title: "Система" },
-  { id: "light", title: "Светлая" },
-  { id: "dark", title: "Тёмная" },
-] as const;
-type Theme = (typeof THEMES)[number]["id"];
 
 const CHIP =
   "h-30 px-10 br-full font-mono font-12 font-w-600 text-foreground-muted transition hover:text-foreground aria-pressed:bg-secondary aria-pressed:text-secondary-foreground";
@@ -119,15 +111,14 @@ export function ShadowBuilder({ css }: { css: CssMap }) {
   const [fond, setFond] = useState<Fond>("white");
   const [color, setColor] = useState<Color>("surface");
   const [el, setEl] = useState<Element>("button");
-  const [theme, setTheme] = useState<Theme>("system");
 
   const c = COLORS.find((x) => x.id === color) ?? COLORS[0];
   const f = FONDS.find((x) => x.id === fond) ?? FONDS[0];
 
-  const preview =
+  const element =
     el === "svg" ? (
       <span
-        className={`size-56 br-xl grid place-items-center ${c.bg} ${c.text} ${shadow}`}
+        className={`size-56 br-[100%] grid place-items-center ${c.bg} ${c.text} ${shadow}`}
       >
         <Layers width={24} height={24} aria-hidden="true" />
       </span>
@@ -145,6 +136,19 @@ export function ShadowBuilder({ css }: { css: CssMap }) {
     el === "svg"
       ? `<span ${attr}="${cls}">…</span>`
       : `<button ${attr}="${cls}">Кнопка</button>`;
+
+  const side = (theme: "light" | "dark", label: string) => (
+    <div
+      data-theme={theme}
+      style={{ background: f[theme] }}
+      className="flex flex-col items-center justify-center gap-10 min-h-140 p-8"
+    >
+      <span className="font-11 font-w-600 uppercase letter-s-6 text-foreground-subtle">
+        {label}
+      </span>
+      {element}
+    </div>
+  );
 
   return (
     <Builder
@@ -175,7 +179,9 @@ export function ShadowBuilder({ css }: { css: CssMap }) {
                   aria-label={x.title}
                   aria-pressed={fond === x.id}
                   onClick={() => setFond(x.id)}
-                  style={{ background: x.color }}
+                  style={{
+                    background: `linear-gradient(90deg, ${x.light} 50%, ${x.dark} 50%)`,
+                  }}
                   className={SWATCH}
                 />
               ))}
@@ -205,26 +211,16 @@ export function ShadowBuilder({ css }: { css: CssMap }) {
           <Field label="Элемент">
             <Seg value={el} options={ELEMENTS} onChange={setEl} />
           </Field>
-          <Field label="Тема">
-            <Seg value={theme} options={THEMES} onChange={setTheme} />
-          </Field>
         </>
       }
       preview={
-        <div
-          data-theme={theme === "system" ? undefined : theme}
-          className="min-w-0"
-        >
-          <Canvas className="min-h-180">
-            <ClassStyle css={css} classes={[shadow]} />
-            <div
-              style={{ background: f.color }}
-              className="flex items-center justify-center min-h-140 br-lg"
-            >
-              {preview}
-            </div>
-          </Canvas>
-        </div>
+        <Canvas className="min-h-180">
+          <ClassStyle css={css} classes={[shadow]} />
+          <div className="grid grid-cols-2 overflow-hidden br-lg">
+            {side("light", "Светлая")}
+            {side("dark", "Тёмная")}
+          </div>
+        </Canvas>
       }
       output={<Output classes={cls.split(" ")} css={css} code={code} />}
     />

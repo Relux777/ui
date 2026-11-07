@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.6 | MIT | Flex и Grid: 147 классов RenDit Code */
+/*! RenDit UI v0.3.7 | MIT | Flex и Grid: 147 классов RenDit Code */
 @layer utilities {
   .order-first {
     order: -9999;

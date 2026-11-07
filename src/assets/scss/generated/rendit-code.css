@@ -1,4 +1,4 @@
-/*! RenDit Code v0.3.5 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.3.7 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-content { syntax: "*"; inherits: false; initial-value: ""; }
@@ -1677,6 +1677,9 @@
   }
   .br-2xl {
     border-radius: var(--radius-2xl);
+  }
+  .br-\[100\%\] {
+    border-radius: 100%;
   }
   .br-full {
     border-radius: 9999px;
