@@ -25,3 +25,19 @@ export const TABLE_CLASSES = [
   "hover:shadow-4",
   "dark:shadow-none",
 ];
+
+// фоны и текст конструктора — тоже просим у движка, чтобы вкладка «CSS» показывала их правила
+export const BODY_CLASSES = [
+  "bg-surface",
+  "bg-surface-muted",
+  "bg-surface-inverse",
+  "bg-primary",
+  "bg-secondary",
+  "bg-accent",
+  "bg-transparent",
+  "text-foreground",
+  "text-foreground-inverse",
+  "text-primary-foreground",
+  "text-secondary-foreground",
+  "text-accent-foreground",
+];

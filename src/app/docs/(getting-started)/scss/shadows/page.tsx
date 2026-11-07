@@ -10,7 +10,7 @@ import { ClassTable } from "../../../../_docs/class-table";
 import { Code, CodeBlock, Example } from "../../../../_docs/docs";
 import type { TocItem } from "../../../../_docs/toc";
 import { ShadowBuilder } from "./_builder";
-import { SHADOW_CLASSES, TABLE_CLASSES } from "./_classes";
+import { BODY_CLASSES, SHADOW_CLASSES, TABLE_CLASSES } from "./_classes";
 
 const HREF = "/docs/scss/shadows";
 
@@ -25,7 +25,7 @@ const TOC: TocItem[] = [
 ];
 
 export default async function ShadowsPage() {
-  const css = await classCss(SHADOW_CLASSES);
+  const css = await classCss([...SHADOW_CLASSES, ...BODY_CLASSES]);
   return (
     <ClassPage
       href={HREF}

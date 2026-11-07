@@ -143,7 +143,9 @@ export async function readTokens(file) {
   for (const m of css
     .replace(/\/\*[\s\S]*?\*\//g, "")
     .matchAll(/--([a-zA-Z][\w-]*)\s*:\s*([^;{}]+);/g)) {
-    if (!values.has(m[1])) values.set(m[1], m[2].trim());
+    if (values.has(m[1])) continue;
+    // sass 1.107+ переносит длинные значения на несколько строк — схлопываем в одну
+    values.set(m[1], m[2].replace(/\s+/g, " ").trim());
   }
 
   // цвет — это значение-цвет или ссылка на другой цвет: --primary: var(--gray-950)
@@ -154,7 +156,7 @@ export async function readTokens(file) {
     for (const [name, value] of values) {
       if (colors.has(name) || /^(shadow|radius|gradient|ease)-/.test(name))
         continue;
-      const ref = /^var\(--([\w-]+)\)$/.exec(value);
+      const ref = /^var\(\s*--([\w-]+)\s*\)$/.exec(value);
       if (looksLikeColor(value) || (ref && colors.has(ref[1]))) {
         colors.add(name);
         changed = true;

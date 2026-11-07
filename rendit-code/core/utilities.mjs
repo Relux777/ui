@@ -492,7 +492,7 @@ export function createUtilities(theme) {
   colorUtil("text", "color");
   fn("text", (ctx) => {
     const { parsed } = ctx;
-    if (!parsed || parsed.kind !== "arbitrary") return null;
+    if (parsed?.kind !== "arbitrary") return null;
     if (
       parsed.hint === "length" ||
       (!parsed.hint && looksLikeLength(parsed.value))

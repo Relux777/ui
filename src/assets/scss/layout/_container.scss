@@ -5,22 +5,30 @@
 @use "../tools/mixins" as *;
 
 $container-widths: (
-    sm: 700px,
-    md: 720px,
-    lg: 960px,
-    xl: 1140px,
-    "2xl": 1320px, // в кавычках: без них Sass читает 2xl как число 2 с единицей xl
+  sm: 700px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  "2xl": 1320px, // в кавычках: без них Sass читает 2xl как число 2 с единицей xl
 ) !default;
 
 @layer layout {
-    .container {
-        width: 100%;
-        margin-inline: auto;
-        padding-inline-start: max(var(--container-gutter, 10px), env(safe-area-inset-left));
-        padding-inline-end: max(var(--container-gutter, 10px), env(safe-area-inset-right));
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline-start: max(
+      var(--container-gutter, 10px),
+      env(safe-area-inset-left)
+    );
+    padding-inline-end: max(
+      var(--container-gutter, 10px),
+      env(safe-area-inset-right)
+    );
 
-        @each $name, $width in $container-widths {
-            @include up($name) { max-width: $width; }
-        }
+    @each $name, $width in $container-widths {
+      @include up($name) {
+        max-width: $width;
+      }
     }
+  }
 }

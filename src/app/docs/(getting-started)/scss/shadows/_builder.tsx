@@ -1,7 +1,8 @@
 "use client";
 
-// Конструктор теней: выберите тень, элемент (текст / SVG / кнопка) и тему — превью и CSS от движка.
-// data-theme на превью меняет токены внутри него, тему сайта не трогает.
+// Конструктор теней: тень, фон позади, цвет кнопки, элемент (SVG / кнопка) и тема. Превью и CSS — от движка.
+// data-theme оборачивает холст, чтобы токены кнопки (bg-surface и другие) перекрашивались вместе с темой.
+// Фон и цвет выбираются цветными свотчами — сразу видно, что выбираешь.
 
 import { Layers } from "@boxicons/react/Layers";
 import { useState } from "react";
@@ -34,8 +35,63 @@ const SHADOWS = [
   "shadow-none",
 ];
 
+// цвет кнопки/элемента: семантические токены, меняются с темой
+const COLORS = [
+  {
+    id: "surface",
+    title: "Поверхность",
+    bg: "bg-surface",
+    text: "text-foreground",
+  },
+  {
+    id: "muted",
+    title: "Приглушённый",
+    bg: "bg-surface-muted",
+    text: "text-foreground",
+  },
+  {
+    id: "inverse",
+    title: "Инверсия",
+    bg: "bg-surface-inverse",
+    text: "text-foreground-inverse",
+  },
+  {
+    id: "primary",
+    title: "Primary",
+    bg: "bg-primary",
+    text: "text-primary-foreground",
+  },
+  {
+    id: "secondary",
+    title: "Secondary",
+    bg: "bg-secondary",
+    text: "text-secondary-foreground",
+  },
+  {
+    id: "accent",
+    title: "Accent",
+    bg: "bg-accent",
+    text: "text-accent-foreground",
+  },
+  {
+    id: "transparent",
+    title: "Прозрачный",
+    bg: "bg-transparent",
+    text: "text-foreground",
+  },
+] as const;
+type Color = (typeof COLORS)[number]["id"];
+
+// фон позади — куда падает тень
+const FONDS = [
+  { id: "white", title: "Белый", color: "#ffffff" },
+  { id: "gray", title: "Светло-серый", color: "#eeeeee" },
+  { id: "graphite", title: "Графит", color: "#1a1a1a" },
+  { id: "black", title: "Чёрный", color: "#070707" },
+] as const;
+type Fond = (typeof FONDS)[number]["id"];
+
 const ELEMENTS = [
-  { id: "card", title: "Текст" },
   { id: "svg", title: "SVG" },
   { id: "button", title: "Кнопка" },
 ] as const;
@@ -51,36 +107,44 @@ type Theme = (typeof THEMES)[number]["id"];
 const CHIP =
   "h-30 px-10 br-full font-mono font-12 font-w-600 text-foreground-muted transition hover:text-foreground aria-pressed:bg-secondary aria-pressed:text-secondary-foreground";
 
+// свотч: круг с цветом, у выбранного — кольцо secondary
+const SWATCH =
+  "size-28 br-full border-2 border-border transition-[border-color,scale] duration-200 hover:scale-110 aria-pressed:border-secondary motion-reduce:transition-none";
+
+const CHECKER =
+  "conic-gradient(#c8c8c8 25%, transparent 0 50%, #c8c8c8 0 75%, transparent 0)";
+
 export function ShadowBuilder({ css }: { css: CssMap }) {
   const [shadow, setShadow] = useState("shadow-4");
-  const [el, setEl] = useState<Element>("card");
+  const [fond, setFond] = useState<Fond>("white");
+  const [color, setColor] = useState<Color>("surface");
+  const [el, setEl] = useState<Element>("button");
   const [theme, setTheme] = useState<Theme>("system");
 
+  const c = COLORS.find((x) => x.id === color) ?? COLORS[0];
+  const f = FONDS.find((x) => x.id === fond) ?? FONDS[0];
+
   const preview =
-    el === "card" ? (
-      <div className={`p-20 br-xl bg-surface ${shadow} font-14`}>
-        Карточка с текстом
-      </div>
-    ) : el === "svg" ? (
+    el === "svg" ? (
       <span
-        className={`size-56 br-xl grid place-items-center bg-surface ${shadow}`}
+        className={`size-56 br-xl grid place-items-center ${c.bg} ${c.text} ${shadow}`}
       >
         <Layers width={24} height={24} aria-hidden="true" />
       </span>
     ) : (
-      <span
-        className={`px-20 py-10 br-full bg-surface ${shadow} font-13 font-w-600`}
+      <button
+        type="button"
+        className={`px-20 py-10 br-full ${c.bg} ${c.text} ${shadow} font-13 font-w-600`}
       >
         Кнопка
-      </span>
+      </button>
     );
 
+  const cls = `${c.bg} ${c.text} ${shadow}`;
   const code = (attr: "className" | "class") =>
-    el === "card"
-      ? `<div ${attr}="${shadow}">Карточка с текстом</div>`
-      : el === "svg"
-        ? `<span ${attr}="${shadow}">…</span>`
-        : `<button ${attr}="${shadow}">Кнопка</button>`;
+    el === "svg"
+      ? `<span ${attr}="${cls}">…</span>`
+      : `<button ${attr}="${cls}">Кнопка</button>`;
 
   return (
     <Builder
@@ -101,6 +165,43 @@ export function ShadowBuilder({ css }: { css: CssMap }) {
               ))}
             </div>
           </Field>
+          <Field label="Фон" note={f.title}>
+            <div className="flex gap-8">
+              {FONDS.map((x) => (
+                <button
+                  key={x.id}
+                  type="button"
+                  title={x.title}
+                  aria-label={x.title}
+                  aria-pressed={fond === x.id}
+                  onClick={() => setFond(x.id)}
+                  style={{ background: x.color }}
+                  className={SWATCH}
+                />
+              ))}
+            </div>
+          </Field>
+          <Field label="Цвет кнопки" note={c.title}>
+            <div className="flex gap-8">
+              {COLORS.map((x) => (
+                <button
+                  key={x.id}
+                  type="button"
+                  title={x.title}
+                  aria-label={x.title}
+                  aria-pressed={color === x.id}
+                  onClick={() => setColor(x.id)}
+                  style={{
+                    background:
+                      x.id === "transparent"
+                        ? CHECKER
+                        : `var(${x.bg.replace("bg-", "--")})`,
+                  }}
+                  className={SWATCH}
+                />
+              ))}
+            </div>
+          </Field>
           <Field label="Элемент">
             <Seg value={el} options={ELEMENTS} onChange={setEl} />
           </Field>
@@ -110,17 +211,22 @@ export function ShadowBuilder({ css }: { css: CssMap }) {
         </>
       }
       preview={
-        <Canvas>
-          <div
-            data-theme={theme === "system" ? undefined : theme}
-            className="flex items-center justify-center min-h-160"
-          >
+        <div
+          data-theme={theme === "system" ? undefined : theme}
+          className="min-w-0"
+        >
+          <Canvas className="min-h-180">
             <ClassStyle css={css} classes={[shadow]} />
-            {preview}
-          </div>
-        </Canvas>
+            <div
+              style={{ background: f.color }}
+              className="flex items-center justify-center min-h-140 br-lg"
+            >
+              {preview}
+            </div>
+          </Canvas>
+        </div>
       }
-      output={<Output classes={[shadow]} css={css} code={code} />}
+      output={<Output classes={cls.split(" ")} css={css} code={code} />}
     />
   );
 }

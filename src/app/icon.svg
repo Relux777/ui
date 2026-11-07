@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <title>RenDit UI</title>
   <!-- Фавикон RenDit UI (знак «Layers»). Цвет меняется с темой браузера. Форма — src/assets/svg/Rendit_UI_logo.svg -->
   <style>
     g { stroke: #111; } .fill { fill: #111; }

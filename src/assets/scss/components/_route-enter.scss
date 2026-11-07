@@ -17,27 +17,27 @@
 // и стеклянные шапка и нижнее меню оказывались под ним — пропадали и теряли размытие.
 
 @keyframes route-enter {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 }
 
 @layer components {
+  .route-enter > * {
+    animation: route-enter 0.26s cubic-bezier(0.2, 0, 0, 1) backwards;
+  }
+
+  // Первая загрузка и перезагрузка — без проявления: страница видна сразу, как приходит по сети, иначе на
+  // медленном интернете каждый блок появлялся бы по очереди. Анимация есть, но длится 0 с — когда
+  // data-first-load снимут, она не перезапустится и уже показанное не мигнёт.
+  // Атрибут ставит и снимает встроенный скрипт config/route-enter.ts.
+  [data-first-load] .route-enter > * {
+    animation-duration: 0s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .route-enter > * {
-        animation: route-enter 0.26s cubic-bezier(0.2, 0, 0, 1) backwards;
+      animation: none;
     }
-
-    // Первая загрузка и перезагрузка — без проявления: страница видна сразу, как приходит по сети, иначе на
-    // медленном интернете каждый блок появлялся бы по очереди. Анимация есть, но длится 0 с — когда
-    // data-first-load снимут, она не перезапустится и уже показанное не мигнёт.
-    // Атрибут ставит и снимает встроенный скрипт config/route-enter.ts.
-    [data-first-load] .route-enter > * {
-        animation-duration: 0s;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .route-enter > * {
-            animation: none;
-        }
-    }
+  }
 }

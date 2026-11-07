@@ -1,8 +1,8 @@
 {
-  "version": "0.3.5",
+  "version": "0.3.6",
   "full": {
-    "bytes": 277559,
-    "minBytes": 214644
+    "bytes": 279686,
+    "minBytes": 214782
   },
   "modules": [
     {
@@ -12,8 +12,8 @@
       "file": "rendit-core",
       "required": true,
       "classes": [],
-      "bytes": 37218,
-      "minBytes": 25101
+      "bytes": 39345,
+      "minBytes": 25239
     },
     {
       "id": "layout",

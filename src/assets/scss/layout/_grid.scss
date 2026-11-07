@@ -16,19 +16,19 @@
 //     меняются классами gutter-N, gutter-x-N, gutter-y-N (тоже с вариантами: md:gutter-32).
 
 @layer layout {
-    .row {
-        --gutter-x: 20px;
-        --gutter-y: 0px;
-        display: flex;
-        flex-wrap: wrap;
-        row-gap: var(--gutter-y);
-        margin-inline: calc(var(--gutter-x) / -2);
+  .row {
+    --gutter-x: 20px;
+    --gutter-y: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: var(--gutter-y);
+    margin-inline: calc(var(--gutter-x) / -2);
 
-        > * {
-            flex-shrink: 0;
-            width: 100%;
-            max-width: 100%;
-            padding-inline: calc(var(--gutter-x) / 2);
-        }
+    > * {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 100%;
+      padding-inline: calc(var(--gutter-x) / 2);
     }
+  }
 }

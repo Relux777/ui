@@ -10,8 +10,8 @@ import {
   type DocsPlatform,
 } from "./_platform-data";
 
-export { DOCS_PLATFORMS };
 export type { DocsPlatform };
+export { DOCS_PLATFORMS };
 
 const KEY = "docs-platform";
 const DEFAULT: DocsPlatform = DEFAULT_PLATFORM;

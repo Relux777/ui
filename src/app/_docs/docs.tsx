@@ -179,7 +179,7 @@ export function DocHeader({
           Справка
         </Link>
         {path.map((part, i) => (
-          <span key={`${i}-${part}`} className="contents">
+          <span key={part} className="contents">
             <ChevronRight size="xs" aria-hidden="true" />
             <span
               aria-current={i === path.length - 1 ? "page" : undefined}

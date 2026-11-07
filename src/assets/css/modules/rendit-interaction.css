@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.5 | MIT | Взаимодействие: 22 классов RenDit Code */
+/*! RenDit UI v0.3.6 | MIT | Взаимодействие: 22 классов RenDit Code */
 @layer utilities {
   .pointer-events-auto {
     pointer-events: auto;

@@ -1,4 +1,4 @@
-/*! RenDit Code v0.3.4 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.3.5 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-content { syntax: "*"; inherits: false; initial-value: ""; }
@@ -1008,6 +1008,9 @@
   }
   .min-h-160 {
     min-height: 160px;
+  }
+  .min-h-180 {
+    min-height: 180px;
   }
   .min-h-200 {
     min-height: 200px;
@@ -3024,6 +3027,11 @@
   }
   .transition-\[border-color\,box-shadow\] {
     transition-property: border-color,box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  .transition-\[border-color\,scale\] {
+    transition-property: border-color,scale;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
   }
