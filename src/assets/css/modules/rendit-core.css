@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.3.7 | MIT | основа: токены обеих тем, сброс, база, .container, .row, компоненты */
+/*! RenDit UI v0.3.8 | MIT | основа: токены обеих тем, сброс, база, .container, .row, компоненты */
 @layer theme, reset, base, layout, components, utilities;
 @layer theme {
   :root {
@@ -287,11 +287,12 @@
     ), 0 8px 10px -6px rgb(var(--shadow-color) / 0.1); /* поповеры */
     --shadow-6: 0 25px 50px -12px rgb(var(--shadow-color) / 0.25); /* модалки */
     /* кромка плавающей панели (меню YouTube на iOS), светлая тема: белый блик по верхнему краю,
-           еле заметный контур в 1px и мягкая рассеянная тень — панель «приподнята», но без грязной полосы снизу */
+           еле заметный контур в 1px и заметная мягкая тень — панель «приподнята», но без грязной полосы снизу;
+           тень чуть заметнее shadow-6, чтобы блок с кромкой читался выше */
     --shadow-7: inset 0 1px 0 0 rgb(255 255 255 / 0.7),
-    0 0 0 1px rgb(var(--shadow-color) / 0.04),
-    0 1px 2px 0 rgb(var(--shadow-color) / 0.04),
-    0 6px 20px -6px rgb(var(--shadow-color) / 0.1);
+    0 0 0 1px rgb(var(--shadow-color) / 0.06),
+    0 2px 4px 0 rgb(var(--shadow-color) / 0.06),
+    0 12px 32px -10px rgb(var(--shadow-color) / 0.18);
     /* ── из ReluxCode ── */
     /* 8 (Relux shadow-1): объёмное стекло — блики и тени по краям, для кнопок и плашек */
     --shadow-8: inset 0 0 0 1px color-mix(
@@ -421,10 +422,10 @@
     --shadow-6: 0 25px 50px -12px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(
       255 255 255 / 0.1
     );
-    /* как на фото: светлая кромка сверху плавно гаснет к бокам, снизу — едва заметная */
-    --shadow-7: inset 0 1.5px 1px -0.5px rgb(255 255 255 / 0.22),
-    inset 0 -1px 1px -0.5px rgb(255 255 255 / 0.08),
-    0 12px 32px -12px rgb(var(--shadow-color) / 0.9);
+    /* как на фото: светлая кромка сверху плавно гаснет к бокам, снизу — едва заметная; тень глубже, чем у shadow-6 */
+    --shadow-7: inset 0 1.5px 1px -0.5px rgb(255 255 255 / 0.26),
+    inset 0 -1px 1px -0.5px rgb(255 255 255 / 0.1),
+    0 16px 40px -12px rgb(var(--shadow-color) / 0.95);
     /* стекло ReluxCode в тёмной теме: светлые блики слабее, тёмные — сильнее */
     --glass-reflex-dark: 2;
     --glass-reflex-light: 0.2;
@@ -915,10 +916,23 @@
   inherits: false;
   initial-value: 0deg;
 }
+@property --tilt-mx {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --tilt-my {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
 @layer components {
   .tilt {
     transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
     transition: --tilt-x 0.7s var(--ease-spring), --tilt-y 0.7s var(--ease-spring);
+  }
+  .tilt[data-spot] {
+    will-change: transform;
   }
   @media (prefers-reduced-motion: reduce) {
     .tilt {
@@ -933,7 +947,7 @@
     border-radius: inherit;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.6s ease, --mx 0.4s ease-out, --my 0.4s ease-out;
+    transition: opacity 0.6s ease, --tilt-mx 0.4s ease-out, --tilt-my 0.4s ease-out;
   }
   .tilt-light::before, .tilt-light::after {
     content: "";
@@ -942,11 +956,11 @@
     border-radius: inherit;
   }
   .tilt-light::before {
-    background: radial-gradient(180px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-300) 10%, transparent), transparent 70%), radial-gradient(360px circle at calc(var(--mx) - 80px) calc(var(--my) + 50px), color-mix(in oklab, var(--pink-200) 9%, transparent), transparent 70%), radial-gradient(380px circle at calc(var(--mx) + 100px) calc(var(--my) - 40px), color-mix(in oklab, var(--lime-200) 10%, transparent), transparent 70%);
+    background: radial-gradient(180px circle at var(--tilt-mx) var(--tilt-my), color-mix(in oklab, var(--violet-300) 10%, transparent), transparent 70%), radial-gradient(360px circle at calc(var(--tilt-mx) - 80px) calc(var(--tilt-my) + 50px), color-mix(in oklab, var(--pink-200) 9%, transparent), transparent 70%), radial-gradient(380px circle at calc(var(--tilt-mx) + 100px) calc(var(--tilt-my) - 40px), color-mix(in oklab, var(--lime-200) 10%, transparent), transparent 70%);
   }
   .tilt-light::after {
     padding: 1px;
-    background: radial-gradient(200px circle at var(--mx) var(--my), color-mix(in oklab, var(--violet-400) 32%, transparent), transparent 70%);
+    background: radial-gradient(200px circle at var(--tilt-mx) var(--tilt-my), color-mix(in oklab, var(--violet-400) 32%, transparent), transparent 70%);
     mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
   }
   [data-spot] > .tilt-light {

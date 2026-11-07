@@ -7,7 +7,7 @@ export const DOCS_TABS = [
     id: "guide",
     title: "Справка",
     short: "Справка",
-    href: "/docs/install",
+    href: "/docs",
   },
   {
     id: "components",

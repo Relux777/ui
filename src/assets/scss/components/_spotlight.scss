@@ -2,7 +2,7 @@
 // .spotlight — «прожектор»: тусклое пятно света по панели и подсвеченный кусок кромки идут за курсором.
 // Слой кладётся внутрь панели с position и isolation: <nav class="relative isolate …"><span class="spotlight" />…
 // Координаты курсора — --mx/--my на панели, включение — атрибут data-spot на панели
-// (всё это делает компонент Header/spotlight.tsx, только для мыши). Цвет — --spotlight (по умолчанию secondary).
+// (всё это делает компонент components/ui/Spotlight, только для мыши). Цвет — --spotlight (по умолчанию secondary).
 
 // зарегистрированы — свет плавно догоняет курсор transition'ом, а не прыгает за ним
 @property --mx {

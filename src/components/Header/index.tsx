@@ -4,7 +4,7 @@
 // стеклянной таблетке (blur 12, shadow-7); название и версия уходят;
 // вверху экрана проявляется градиент цвета фона — содержимое плавно уходит под шапку.
 // У самой шапки размытия нет никогда: элемент с backdrop-filter стал бы «корнем» размытия, и стекло таблеток
-// внутри него ничего бы не размывало. «Прожектор» (spotlight.tsx) — тусклый свет за курсором по таблеткам.
+// внутри него ничего бы не размывало. «Прожектор» (components/ui/Spotlight) — тусклый свет за курсором по таблеткам.
 // Открыли поиск (data-search на <html>, ставит Search) — шапка сворачивается так же, как после прокрутки:
 // полю нужно место; на телефоне уходят «Начать» и кружок меню. В справке по центру — вкладки раздела
 // (DocsTabs), третья таблетка; сетка 1fr · auto · 1fr держит их ровно посередине, а с открытым поиском
@@ -16,9 +16,9 @@ import RenDitLogos from "@/assets/svg/Rendit_UI_logo.svg";
 import { DocsTabs } from "@/components/DocsTabs";
 import { MenuSheet } from "@/components/ui/MenuSheet";
 import { SearchComponent } from "@/components/ui/Search";
+import { Spotlight } from "@/components/ui/Spotlight";
 import { version } from "../../../package.json";
 import { HomeLink } from "./home-link";
-import { Spotlight } from "./spotlight";
 
 // таблетка: прозрачная наверху, стеклянная после прокрутки
 const PILL =

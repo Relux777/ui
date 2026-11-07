@@ -20,12 +20,32 @@
   initial-value: 0deg;
 }
 
+// место света --tilt-mx / --tilt-my: свои, а не общие --mx / --my прожектора — чтобы два компонента,
+// оказавшись на одной карточке, не спорили за одни переменные. Пишутся на карточку, читаются слоем .tilt-light
+// внутри — поэтому inherits: true.
+@property --tilt-mx {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --tilt-my {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
 @layer components {
   .tilt {
     transform: perspective(1200px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
     transition:
       --tilt-x 0.7s var(--ease-spring),
       --tilt-y 0.7s var(--ease-spring);
+
+    // подсказка браузеру — только пока курсор на карточке (data-spot ставит компонент Tilt)
+    &[data-spot] {
+      will-change: transform;
+    }
 
     @media (prefers-reduced-motion: reduce) {
       transform: none;
@@ -35,7 +55,7 @@
 
   // Свет за курсором — мягкие цвета RenDit, как свечение .aura вверху страницы: лиловое ядро, рядом розовая
   // и лаймовая дымка; кромка у курсора подсвечена лиловым. Слой над содержимым (свет идёт и по карточкам
-  // внутри), клики проходят насквозь. Место — --mx / --my (зарегистрированы в _spotlight.scss: свет плавно
+  // внутри), клики проходят насквозь. Место — --tilt-mx / --tilt-my (зарегистрированы выше: свет плавно
   // догоняет курсор), включение — data-spot на карточке.
   .tilt-light {
     position: absolute;
@@ -46,8 +66,8 @@
     opacity: 0;
     transition:
       opacity 0.6s ease,
-      --mx 0.4s ease-out,
-      --my 0.4s ease-out;
+      --tilt-mx 0.4s ease-out,
+      --tilt-my 0.4s ease-out;
 
     &::before,
     &::after {
@@ -60,17 +80,19 @@
     &::before {
       background:
         radial-gradient(
-          180px circle at var(--mx) var(--my),
+          180px circle at var(--tilt-mx) var(--tilt-my),
           color-mix(in oklab, var(--violet-300) 10%, transparent),
           transparent 70%
         ),
         radial-gradient(
-          360px circle at calc(var(--mx) - 80px) calc(var(--my) + 50px),
+          360px circle at calc(var(--tilt-mx) - 80px)
+            calc(var(--tilt-my) + 50px),
           color-mix(in oklab, var(--pink-200) 9%, transparent),
           transparent 70%
         ),
         radial-gradient(
-          380px circle at calc(var(--mx) + 100px) calc(var(--my) - 40px),
+          380px circle at calc(var(--tilt-mx) + 100px)
+            calc(var(--tilt-my) - 40px),
           color-mix(in oklab, var(--lime-200) 10%, transparent),
           transparent 70%
         );
@@ -80,7 +102,7 @@
     &::after {
       padding: 1px;
       background: radial-gradient(
-        200px circle at var(--mx) var(--my),
+        200px circle at var(--tilt-mx) var(--tilt-my),
         color-mix(in oklab, var(--violet-400) 32%, transparent),
         transparent 70%
       );

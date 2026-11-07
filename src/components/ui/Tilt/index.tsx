@@ -3,8 +3,8 @@
 // 3D-наклон карточки за курсором (.tilt, RenDit SCSS components/_tilt.scss) и мягкий свет цветов RenDit,
 // который бежит по ней за курсором (.tilt-light):
 //   <div className="tilt relative isolate …"><Tilt />…</div>
-// Кладётся внутрь карточки и раз в кадр пишет на неё углы --tilt-x / --tilt-y и место света --mx / --my —
-// плавность даёт CSS. Только мышь и трекпад: на телефоне курсора нет, а наклон под пальцем мешал бы нажимать.
+// Кладётся внутрь карточки и раз в кадр пишет на неё углы --tilt-x / --tilt-y и место света
+// --tilt-mx / --tilt-my — плавность даёт CSS. Только мышь и трекпад: на телефоне курсора нет, а наклон под пальцем мешал бы нажимать.
 
 import { useEffect, useRef } from "react";
 
@@ -20,13 +20,15 @@ export function Tilt({
     const card = ref.current?.parentElement;
     if (!card || !matchMedia("(hover: hover) and (pointer: fine)").matches)
       return;
+    // «уменьшение движения»: наклон и свет не нужны — CSS уже это знает, но и JS нечего делать
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let frame = 0;
     let x = 0;
     let y = 0;
     const paint = () => {
       frame = 0;
-      card.style.setProperty("--mx", `${x}px`);
-      card.style.setProperty("--my", `${y}px`);
+      card.style.setProperty("--tilt-mx", `${x}px`);
+      card.style.setProperty("--tilt-my", `${y}px`);
       // сторона под курсором уходит вглубь: курсор у верха — верх от нас, у левого края — левый край
       const fx = x / card.offsetWidth - 0.5;
       const fy = y / card.offsetHeight - 0.5;

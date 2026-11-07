@@ -1,4 +1,4 @@
-/*! RenDit Code v0.3.7 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.3.8 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-content { syntax: "*"; inherits: false; initial-value: ""; }
@@ -557,6 +557,10 @@
   .size-32 {
     width: 32px;
     height: 32px;
+  }
+  .size-34 {
+    width: 34px;
+    height: 34px;
   }
   .size-36 {
     width: 36px;
@@ -1893,6 +1897,9 @@
   .bg-blue-500\/12 {
     background-color: color-mix(in oklab, var(--blue-500) 12%, transparent);
   }
+  .bg-blue-500\/15 {
+    background-color: color-mix(in oklab, var(--blue-500) 15%, transparent);
+  }
   .bg-blue-500\/30 {
     background-color: color-mix(in oklab, var(--blue-500) 30%, transparent);
   }
@@ -2419,6 +2426,9 @@
   .pt-6 {
     padding-top: 6px;
   }
+  .pt-8 {
+    padding-top: 8px;
+  }
   .pt-safe {
     padding-top: env(safe-area-inset-top);
   }
@@ -2445,6 +2455,9 @@
   }
   .pr-6 {
     padding-right: 6px;
+  }
+  .pb-10 {
+    padding-bottom: 10px;
   }
   .pb-110 {
     padding-bottom: 110px;
@@ -4065,6 +4078,9 @@
     }
   }
   @media (width < 620px) {
+    .max-sm\:mx-auto {
+      margin-inline: auto;
+    }
     .max-sm\:hidden {
       display: none;
     }
@@ -4074,14 +4090,23 @@
     .max-sm\:grid-cols-1 {
       grid-template-columns: repeat(1, minmax(0, 1fr));
     }
-    .max-sm\:justify-around {
-      justify-content: space-around;
+    .max-sm\:flex-col {
+      flex-direction: column;
+    }
+    .max-sm\:items-center {
+      align-items: center;
+    }
+    .max-sm\:justify-center {
+      justify-content: center;
     }
     .max-sm\:pt-24 {
       padding-top: 24px;
     }
     .max-sm\:pl-\[calc\(var\(--depth\)\*22px_\+_24px\)\] {
       padding-left: calc(var(--depth) * 22px + 24px);
+    }
+    .max-sm\:text-center {
+      text-align: center;
     }
     [data-search] .max-sm\:\[\[data-search\]_\&\]\:w-0 {
       width: 0;
@@ -4134,6 +4159,10 @@
     .sm\:size-24 {
       width: 24px;
       height: 24px;
+    }
+    .sm\:size-38 {
+      width: 38px;
+      height: 38px;
     }
     .sm\:size-40 {
       width: 40px;
@@ -4193,6 +4222,12 @@
     .sm\:gap-12 {
       gap: 12px;
     }
+    .sm\:gap-16 {
+      gap: 16px;
+    }
+    .sm\:gap-20 {
+      gap: 20px;
+    }
     .sm\:br-full {
       border-radius: 9999px;
     }
@@ -4208,11 +4243,26 @@
     .sm\:p-24 {
       padding: 24px;
     }
+    .sm\:px-14 {
+      padding-inline: 14px;
+    }
     .sm\:px-20 {
       padding-inline: 20px;
     }
+    .sm\:pt-16 {
+      padding-top: 16px;
+    }
+    .sm\:pb-14 {
+      padding-bottom: 14px;
+    }
+    .sm\:font-13 {
+      font-size: calc(13px * var(--text-scale, 1));
+    }
     .sm\:font-15 {
       font-size: calc(15px * var(--text-scale, 1));
+    }
+    .sm\:font-24 {
+      font-size: calc(24px * var(--text-scale, 1));
     }
     .sm\:font-44 {
       font-size: calc(44px * var(--text-scale, 1));
@@ -4445,6 +4495,9 @@
   }
   .dark\:text-green-500:where([data-theme="dark"], [data-theme="dark"] *) {
     color: var(--green-500);
+  }
+  .dark\:text-lime-400:where([data-theme="dark"], [data-theme="dark"] *) {
+    color: var(--lime-400);
   }
   .dark\:text-orange-400:where([data-theme="dark"], [data-theme="dark"] *) {
     color: var(--orange-400);

@@ -1,4 +1,4 @@
-﻿// npm run test:e2e — смена страниц: новая страница проявляется прозрачностью (без View Transitions и без
+// npm run test:e2e — смена страниц: новая страница проявляется прозрачностью (без View Transitions и без
 // накладки цвета фона — блоки не окрашиваются), не сдвигается; постоянные части не мигают; при загрузке
 // и перезагрузке страница видна сразу.
 
@@ -42,9 +42,9 @@ describe("смена страниц", { skip: skip ?? false }, () => {
     await page.goto("/");
     await sleep(1300);
     const rec = await page.sample(PAGES_STATE, 1500);
-    await page.click(NAV_LINK("/docs/install"));
+    await page.click(NAV_LINK("/docs"));
     const rows = (await rec.done()).map((r) => r.v);
-    const docs = rows.filter((r) => r.path === "/docs/install");
+    const docs = rows.filter((r) => r.path === "/docs");
     assert.ok(docs.length > 5, "кадры после перехода записаны");
     for (const r of rows) {
       assert.equal(r.vt, false, "без View Transitions");
@@ -70,13 +70,13 @@ describe("смена страниц", { skip: skip ?? false }, () => {
 
   test("внутри вкладки «Справка»: боковое меню не мигает, проявляется только страница", async () => {
     const page = await browser.page();
-    await page.goto("/docs");
+    await page.goto("/docs/install");
     await sleep(1300);
     const rec = await page.sample(PAGES_STATE, 1500);
-    await page.click(NAV_LINK("/docs/install"));
+    await page.click(NAV_LINK("/docs"));
     const rows = (await rec.done())
       .map((r) => r.v)
-      .filter((r) => r.path === "/docs/install");
+      .filter((r) => r.path === "/docs");
     assert.ok(rows.length > 5);
     const layout = rows.map((r) => r.pages.find((p) => !p.inDocs)?.opacity);
     assert.ok(
@@ -95,8 +95,8 @@ describe("смена страниц", { skip: skip ?? false }, () => {
     const page = await browser.page();
     await page.goto("/");
     await sleep(1300);
-    await page.click(NAV_LINK("/docs/install"));
-    await page.waitFor("location.pathname === '/docs/install'");
+    await page.click(NAV_LINK("/docs"));
+    await page.waitFor("location.pathname === '/docs'");
     await sleep(800);
     const rec = await page.sample(PAGES_STATE, 1200);
     await page.eval("history.back()");

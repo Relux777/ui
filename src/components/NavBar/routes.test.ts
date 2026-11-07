@@ -12,7 +12,7 @@ test("пункт текущей страницы", () => {
   assert.equal(activeIndex("/docs/install"), at("Справка"));
 });
 
-test("«Справка» выбрана во всём разделе /docs, хоть и ведёт на установку", () => {
+test("«Справка» выбрана во всём разделе /docs и ведёт на обзор", () => {
   for (const path of [
     "/docs",
     "/docs/colors",
@@ -21,6 +21,7 @@ test("«Справка» выбрана во всём разделе /docs, хо
     "/docs/install/nextjs",
   ])
     assert.equal(activeIndex(path), at("Справка"), path);
+  assert.equal(ROUTES[at("Справка")].href, "/docs");
 });
 
 test("похожий префикс — не совпадение", () => {

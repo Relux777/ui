@@ -111,7 +111,7 @@ describe("нижнее меню", { skip: skip ?? false }, () => {
       })()`,
       4200,
     );
-    await page.click(NAV_LINK("/docs/install"));
+    await page.click(NAV_LINK("/docs"));
     await sleep(1200);
     // другая вкладка «Справки» — другой layout
     await page.click(TAB_LINK("/docs/components"));
@@ -120,7 +120,7 @@ describe("нижнее меню", { skip: skip ?? false }, () => {
     const rows = await rec.done();
     assert.deepEqual(runs(rows.map((r) => r.v.path)), [
       "/",
-      "/docs/install",
+      "/docs",
       "/docs/components",
       "/",
     ]);
@@ -148,16 +148,17 @@ describe("нижнее меню", { skip: skip ?? false }, () => {
   test("линза и aria-current — на пункте текущей страницы", async () => {
     const page = await browser.page();
     await page.goto("/docs/install");
+    await sleep(900); // шапка и вкладки доехали — клик по координатам не промахнётся
     const state = () =>
       page.eval(`({
         current: document.querySelector('nav[aria-label="Основное меню"] [aria-current="page"]')?.getAttribute('href'),
         lens: ${NAV_GLASS}.style.getPropertyValue('--nb-i'),
       })`);
-    assert.deepEqual(await state(), { current: "/docs/install", lens: "1" });
-    // «Справка» выбрана во всём разделе, хоть и ведёт на установку
+    assert.deepEqual(await state(), { current: "/docs", lens: "1" });
+    // «Справка» выбрана во всём разделе и ведёт на обзор
     await page.click(TAB_LINK("/docs/components"));
     await page.waitFor("location.pathname === '/docs/components'");
-    assert.deepEqual(await state(), { current: "/docs/install", lens: "1" });
+    assert.deepEqual(await state(), { current: "/docs", lens: "1" });
     // переход не через меню (ссылка в шапке) — линза тоже переезжает
     await page.click('header a[href="/"]');
     await page.waitFor("location.pathname === '/'");
@@ -169,13 +170,13 @@ describe("нижнее меню", { skip: skip ?? false }, () => {
     const page = await browser.page();
     await page.goto("/docs/components");
     await sleep(1300);
-    await page.click(NAV_LINK("/docs/install"));
-    await page.waitFor("location.pathname === '/docs/install'");
+    await page.click(NAV_LINK("/docs"));
+    await page.waitFor("location.pathname === '/docs'");
     await page.wheel(400, 6);
-    await page.waitFor("scrollY > 1000");
-    await page.click(NAV_LINK("/docs/install"));
+    await page.waitFor("scrollY > 300");
+    await page.click(NAV_LINK("/docs"));
     await page.waitFor("scrollY === 0");
-    assert.equal(await page.eval("location.pathname"), "/docs/install");
+    assert.equal(await page.eval("location.pathname"), "/docs");
     assert.deepEqual(page.errors, []);
     await page.close();
   });
@@ -250,8 +251,8 @@ describe("нижнее меню", { skip: skip ?? false }, () => {
       })()`,
       3200,
     );
-    await page.tap(NAV_LINK("/docs/install"));
-    await page.waitFor("location.pathname === '/docs/install'");
+    await page.tap(NAV_LINK("/docs"));
+    await page.waitFor("location.pathname === '/docs'");
     await sleep(900);
     // вкладка в доке над меню
     await page.tap(TAB_LINK("/docs/components"));
@@ -259,7 +260,7 @@ describe("нижнее меню", { skip: skip ?? false }, () => {
     const rows = await rec.done();
     assert.deepEqual(runs(rows.map((r) => r.v.path)), [
       "/",
-      "/docs/install",
+      "/docs",
       "/docs/components",
     ]);
     const first = rows[0].v;

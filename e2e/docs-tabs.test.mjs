@@ -53,7 +53,7 @@ describe("вкладки справки", { skip: skip ?? false }, () => {
     );
     assert.deepEqual(box.labels, [true, true, true], "подписи видны");
     assert.ok(box.height <= 40, `тонкая капсула: ${box.height}`);
-    assert.equal(box.current, "/docs/install");
+    assert.equal(box.current, "/docs");
     assert.equal(
       await page.eval(`!!(${INLINE_TABS})`),
       false,
@@ -84,8 +84,8 @@ describe("вкладки справки", { skip: skip ?? false }, () => {
 
     await page.click(TAB_LINK("/docs/releases"));
     await page.waitFor("location.pathname === '/docs/releases'");
-    await page.click(TAB_LINK("/docs/install"));
-    await page.waitFor("location.pathname === '/docs/install'");
+    await page.click(TAB_LINK("/docs"));
+    await page.waitFor("location.pathname === '/docs'");
     await page.waitFor(
       `[...document.querySelectorAll('nav[aria-label="Документация"]')].some((n) => n.checkVisibility())`,
     );
