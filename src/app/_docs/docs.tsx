@@ -59,7 +59,7 @@ export function Example({
   children: ReactNode;
 }) {
   return (
-    <div className="br-xl border bg-surface overflow-hidden">
+    <div className="min-w-0 br-xl border bg-surface overflow-hidden">
       <div className="flex flex-col gap-4 px-20 pt-16">
         <h3 className="font-16 font-w-500">{title}</h3>
         {note && <p className="font-13 text-foreground-muted">{note}</p>}

@@ -58,7 +58,7 @@ export function Part({
   children?: ReactNode;
 }) {
   return (
-    <section className={`flex flex-col gap-16 ${className}`}>
+    <section className={`flex flex-col gap-16 min-w-0 ${className}`}>
       <Heading id={id}>{title}</Heading>
       {lead && <Lead>{lead}</Lead>}
       {children}

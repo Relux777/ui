@@ -68,6 +68,7 @@ export const COMPONENTS: ComponentItem[] = [
     title: "Поле ввода",
     text: "Подпись, подсказка, ошибка, иконка слева и кнопка справа.",
     group: "Формы",
+    ready: true,
     preview: (
       <div className="flex flex-col gap-6 w-full max-w-200">
         <span className="font-12 font-w-600">Почта</span>
@@ -142,8 +143,9 @@ export const COMPONENTS: ComponentItem[] = [
   {
     id: "select",
     title: "Выбор",
-    text: "Свой выпадающий список вместо системного: поиск, иконки, группы.",
+    text: "Профи-конструктор: стили, анимации, поиск, группы и ссылки.",
     group: "Формы",
+    ready: true,
     preview: (
       <div className="flex flex-col gap-4 w-full max-w-200">
         <span className={`${FIELD} justify-between text-foreground`}>
@@ -176,11 +178,28 @@ export const COMPONENTS: ComponentItem[] = [
     title: "Вкладки",
     text: "Сегменты, подчёркивание, вкладки с иконками и счётчиками.",
     group: "Навигация",
+    ready: true,
     preview: (
       <div className="flex gap-2 p-3 br-full bg-foreground/5 font-12 font-w-600">
         <span className="px-12 py-6 br-full bg-surface shadow-2">Фото</span>
         <span className="px-12 py-6 text-foreground-muted">Видео</span>
         <span className="px-12 py-6 text-foreground-muted">Файлы</span>
+      </div>
+    ),
+  },
+  {
+    id: "navigation",
+    title: "Навигация",
+    text: "Ссылки в ряд или колонкой: активный пункт, иконки и метки.",
+    group: "Навигация",
+    ready: true,
+    preview: (
+      <div className="flex flex-wrap items-center gap-4 p-4 br-lg border bg-surface font-12 font-w-600">
+        <span className="px-10 py-5 br-md bg-secondary/10 text-secondary">
+          Главная
+        </span>
+        <span className="px-10 py-5 text-foreground-muted">Компоненты</span>
+        <span className="px-10 py-5 text-foreground-muted">Блог</span>
       </div>
     ),
   },
@@ -216,10 +235,11 @@ export const COMPONENTS: ComponentItem[] = [
     ),
   },
   {
-    id: "dropdown",
+    id: "menu",
     title: "Меню",
     text: "Выпадающее меню действий: иконки, разделители, горячие клавиши.",
     group: "Навигация",
+    ready: true,
     preview: (
       <div className="flex flex-col gap-2 w-160 p-4 br-lg border bg-surface shadow-4 font-12">
         <span className="px-8 py-5 br-md bg-foreground/5">Изменить</span>

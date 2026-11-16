@@ -25,7 +25,7 @@ import {
 } from "./copy-button";
 
 export const LABEL =
-  "font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle";
+  "font-12 font-w-700 uppercase letter-s-6 text-foreground-muted";
 const SEG =
   "h-30 px-10 br-full font-12 font-w-600 text-foreground-muted whitespace-nowrap transition hover:text-foreground aria-pressed:bg-surface aria-pressed:text-foreground aria-pressed:shadow-2";
 

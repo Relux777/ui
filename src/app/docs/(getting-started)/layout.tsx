@@ -1,6 +1,8 @@
 // Вкладка «Справка»: левое меню (на телефоне и планшете его нет — всё меню открывает кружок справа в шапке),
 // страница справа. Меню при переходах внутри вкладки стоит на месте, проявляется только страница (.route-enter).
+// Внизу — «Предыдущая» и «Следующая» по порядку оглавления (docs/_pager.tsx).
 
+import { DocsPager } from "../_pager";
 import { DocsSidebar } from "../_sidebar";
 
 export default function GettingStartedLayout({
@@ -16,6 +18,7 @@ export default function GettingStartedLayout({
       </aside>
       <main className="route-enter min-w-0 flex flex-col gap-48">
         {children}
+        <DocsPager />
       </main>
     </div>
   );

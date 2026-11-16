@@ -1,10 +1,15 @@
 // Вкладка «Компоненты» — свой layout: сетка всех компонентов (page.tsx, список — _list.tsx); у готового
-// компонента будет своя страница с живым примером и кодом под каждую платформу.
+// компонента будет своя страница с живым примером и кодом под каждую платформу. Внизу — переход дальше.
+
+import { DocsPager } from "../_pager";
 
 export default function ComponentsLayout({
   children,
 }: LayoutProps<"/docs/components">) {
   return (
-    <main className="route-enter container py-48 max-sm:pt-24">{children}</main>
+    <main className="route-enter container py-48 max-sm:pt-24">
+      {children}
+      <DocsPager className="mt-40" />
+    </main>
   );
 }

@@ -76,7 +76,7 @@ const colorName = ({ family, step }: Pick) =>
 // ── Общее ───────────────────────────────────────────────────────────────────
 
 const PANEL = "br-xl border bg-surface shadow-1";
-const LABEL = "font-12 font-w-700 uppercase letter-s-6 text-foreground-subtle";
+const LABEL = "font-12 font-w-700 uppercase letter-s-6 text-foreground-muted";
 
 // островок темы: внутри токены своей темы
 function Theme({

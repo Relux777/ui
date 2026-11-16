@@ -1,0 +1,100 @@
+// Обычный <select> с нативным пикером (Chrome 135+): appearance: base-select и ::picker(select).
+// Такой список — родной для браузера, но оформлен токенами RenDit UI: рамка, фон, радиус, опции,
+// галочка выбранного и пружина появления. В остальных браузерах остаётся системный список.
+
+.native-select {
+  appearance: none;
+  border: 0;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--secondary) 35%, transparent);
+  }
+}
+
+.native-select-wrap:has(.native-select:open) .native-select-chevron {
+  rotate: 180deg;
+}
+
+@supports (appearance: base-select) {
+  .native-select {
+    appearance: base-select;
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+  }
+
+  .native-select::picker-icon {
+    display: none;
+  }
+
+  .native-select::picker(select) {
+    appearance: base-select;
+    margin-block: 6px;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md, 12px);
+    background: var(--surface);
+    color: var(--foreground);
+    box-shadow: var(--shadow-5);
+  }
+
+  .native-select option {
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm, 8px);
+    transition:
+      background-color 0.15s,
+      color 0.15s;
+  }
+
+  .native-select option:hover {
+    background: color-mix(in oklab, var(--secondary) 10%, transparent);
+  }
+
+  .native-select option:focus-visible {
+    outline: none;
+    background: color-mix(in oklab, var(--secondary) 10%, transparent);
+  }
+
+  .native-select option:checked {
+    background: color-mix(in oklab, var(--secondary) 12%, transparent);
+    color: var(--foreground);
+    font-weight: 500;
+  }
+
+  .native-select option::checkmark {
+    order: 1;
+    margin-left: auto;
+    color: var(--secondary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .native-select::picker(select) {
+      opacity: 0;
+      translate: 0 -8px;
+      scale: 0.98;
+      transform-origin: top;
+      transition:
+        opacity 0.2s,
+        translate 0.2s ease,
+        scale 0.2s ease,
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete;
+    }
+
+    .native-select:open::picker(select) {
+      opacity: 1;
+      translate: 0;
+      scale: 1;
+    }
+
+    @starting-style {
+      .native-select:open::picker(select) {
+        opacity: 0;
+        translate: 0 -8px;
+        scale: 0.98;
+      }
+    }
+  }
+}
