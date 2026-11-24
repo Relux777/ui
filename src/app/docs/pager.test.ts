@@ -21,6 +21,10 @@ test("у первой страницы нет предыдущей, у посл�
 
 test("после справки — «Компоненты», затем их страницы и «Обновления»", () => {
   assert.deepEqual(docsNeighbors("/docs/components", DOCS_PAGES).next, {
+    title: "Кнопка",
+    href: "/docs/components/button",
+  });
+  assert.deepEqual(docsNeighbors("/docs/components/button", DOCS_PAGES).next, {
     title: "Поле ввода",
     href: "/docs/components/input",
   });

@@ -30,8 +30,9 @@ export const COMPONENTS: ComponentItem[] = [
   {
     id: "button",
     title: "Кнопка",
-    text: "Главная, обычная, контурная, призрачная; размеры, иконка, загрузка.",
+    text: "Главная, контурная, призрачная, стеклянная и металлик; размеры, иконки, анимации, светлая и тёмная тема.",
     group: "Действия",
+    ready: true,
     preview: (
       <div className="flex items-center gap-8">
         <span className={`${BTN} bg-primary text-primary-foreground`}>

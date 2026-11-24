@@ -48,10 +48,19 @@ describe("кнопки страниц", { skip: skip ?? false }, () => {
     await page.goto("/docs/components");
     assert.equal(
       await page.eval(`${pager("next")}.getAttribute("href")`),
-      "/docs/components/input",
+      "/docs/components/button",
     );
     await page.eval(`${pager("next")}.click()`);
-    await page.waitFor("location.pathname === '/docs/components/input'");
+    await page.waitFor("location.pathname === '/docs/components/button'");
+    assert.equal(
+      await page.eval(`${pager("next")}.getAttribute("href")`),
+      "/docs/components/input",
+    );
+    await page.goto("/docs/components/input");
+    assert.equal(
+      await page.eval(`${pager("next")}.getAttribute("href")`),
+      "/docs/components/input/constructor",
+    );
 
     await page.goto("/docs/components/tabs");
     assert.equal(

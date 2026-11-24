@@ -7,6 +7,7 @@ import type { DocsGroup } from "./_nav";
 export type PagerPage = { title: string; href: string };
 
 export const COMPONENT_PAGES: PagerPage[] = [
+  { title: "Кнопка", href: "/docs/components/button" },
   { title: "Поле ввода", href: "/docs/components/input" },
   {
     title: "Конструктор поля",

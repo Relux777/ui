@@ -412,8 +412,42 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
     await page.close();
   });
 
+  test("кнопка: варианты, металлик и тёмная тема", async () => {
+    const page = await browser.page({ width: 1440, height: 900 });
+    await page.goto("/docs/components/button");
+    await sleep(300);
+    const info = await page.eval(`(() => {
+      const metal = document.querySelector('#metal').closest('section').querySelector('button');
+      const dark = document.querySelector('#themes').closest('section').querySelector('[data-theme="dark"]');
+      return {
+        buttons: document.querySelectorAll('main button').length,
+        metalClass: metal.className,
+        metalBg: getComputedStyle(metal).backgroundImage,
+        darkPanel: !!dark,
+      };
+    })()`);
+    assert.ok(info.buttons >= 20, "все варианты на месте");
+    assert.match(info.metalClass, /bg-\[linear-gradient\(115deg/);
+    assert.match(info.metalBg, /linear-gradient/, "металлик собран градиентом");
+    assert.equal(info.darkPanel, true, "есть панель тёмной темы");
+    assert.deepEqual(page.errors, []);
+    await page.close();
+  });
+
   test("пейджер ведёт по страницам компонентов", async () => {
     const page = await browser.page({ width: 1440, height: 900 });
+    await page.goto("/docs/components/button");
+    await sleep(200);
+    assert.deepEqual(
+      await page.eval(`(() => {
+        const nav = document.querySelector('nav[aria-label="Страницы справки"]');
+        return {
+          prev: nav.querySelector('a[rel=prev]').getAttribute('href'),
+          next: nav.querySelector('a[rel=next]').getAttribute('href'),
+        };
+      })()`),
+      { prev: "/docs/components", next: "/docs/components/input" },
+    );
     await page.goto("/docs/components/input");
     await sleep(200);
     assert.deepEqual(
@@ -424,7 +458,10 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
           next: nav.querySelector('a[rel=next]').getAttribute('href'),
         };
       })()`),
-      { prev: "/docs/components", next: "/docs/components/input/constructor" },
+      {
+        prev: "/docs/components/button",
+        next: "/docs/components/input/constructor",
+      },
     );
     await page.goto("/docs/components/input/constructor");
     await sleep(200);
