@@ -1,15 +1,17 @@
 // components/_sheet.scss
 // .sheet — окно-лист на <dialog>: на телефоне выезжает снизу (как sheet в iOS и Android), с 620px — панель
-// справа во всю высоту (как модалка right в ozon). Открывается dialog.showModal(): браузер сам держит фокус
-// внутри, Esc закрывает, страница под окном недоступна; лист — в верхнем слое (top layer), поэтому ни
-// размытие, ни прозрачность предков на него не действуют.
+// справа во всю высоту (как модалка right в ozon). .modal — модальное окно с выбором позиции (ниже).
+// Открывается dialog.showModal(): браузер сам держит фокус внутри, Esc закрывает, страница под окном
+// недоступна; окно — в верхнем слое (top layer), поэтому ни размытие, ни прозрачность предков на него
+// не действуют.
 // Появление и уход — переходы с @starting-style и transition-behavior: allow-discrete (где их нет — сразу).
-// Прокрутка страницы под открытым листом выключена (html:has(.sheet[open])).
+// Прокрутка страницы под открытым окном выключена (html:has(.sheet[open], .modal[open])).
 // Разметка: <dialog class="sheet"><div class="…во всю высоту листа…">…</div></dialog>.
 @use "../tools/mixins" as *;
 
 @layer components {
-  .sheet {
+  .sheet,
+  .modal {
     position: fixed;
     margin: 0;
     padding: 0;
@@ -113,13 +115,216 @@
     }
   }
 
-  html:has(.sheet[open]) {
+  // ── модальное окно (.modal) — то же стекло и затемнение, что у .sheet, но позиция пропсом ─────────
+  // data-pos="center" — карточка по центру (по умолчанию), right/left — панель сбоку, bottom — лист снизу.
+  // На телефоне позиция своя — data-phone (по умолчанию bottom: лист смахивается вниз за шапку).
+  // data-inline — окно внутри родительской рамки (превью в конструкторе): absolute, без верхнего слоя.
+  .modal {
+    // центр: высота по содержимому (fit-content не тянется между top и bottom, поэтому margin: auto
+    // центрирует по обеим осям), максимум — экран минус поля; прокручивается содержимое внутри.
+    // Появление и уход — translate + opacity: карточка не успевает уехать за экран, поэтому гаснет
+    // за 0.25 с (display: none включается только в конце 0.5 с — резкого исчезновения нет).
+    // Без scale: масштаб заставлял бы перерисовывать текст и тень каждый кадр — как у .sheet, только сдвиг
+    inset: 0;
+    margin: auto;
+    width: min(480px, calc(100vw - 32px));
+    height: fit-content;
+    max-height: calc(100dvh - 32px);
+    border-radius: 28px;
+    translate: 0 24px;
+    opacity: 0;
+    transition:
+      translate 0.5s var(--ease-spring),
+      opacity 0.25s ease,
+      display 0.5s allow-discrete,
+      overlay 0.5s allow-discrete;
+
+    &[open] {
+      translate: 0 0;
+      opacity: 1;
+    }
+
+    @starting-style {
+      &[open] {
+        translate: 0 24px;
+        opacity: 0;
+      }
+    }
+
+    // панель справа (высота — между inset, как у .sheet на планшете)
+    &[data-pos="right"] {
+      inset: 8px 8px 8px auto;
+      margin: 0;
+      width: min(380px, calc(100vw - 16px));
+      height: auto;
+      translate: calc(100% + 16px) 0;
+      // панель уезжает за край целиком — гаснуть не нужно
+      opacity: 1;
+
+      &[open] {
+        translate: 0 0;
+      }
+
+      @starting-style {
+        &[open] {
+          translate: calc(100% + 16px) 0;
+        }
+      }
+    }
+
+    // панель слева
+    &[data-pos="left"] {
+      inset: 8px auto 8px 8px;
+      margin: 0;
+      width: min(380px, calc(100vw - 16px));
+      height: auto;
+      translate: calc(-100% - 16px) 0;
+      opacity: 1;
+
+      &[open] {
+        translate: 0 0;
+      }
+
+      @starting-style {
+        &[open] {
+          translate: calc(-100% - 16px) 0;
+        }
+      }
+    }
+
+    // лист снизу — и на компьютере, если выбрали bottom
+    &[data-pos="bottom"] {
+      inset: auto 0 0;
+      margin: 0;
+      width: 100%;
+      height: fit-content;
+      max-height: 85dvh;
+      border-radius: 28px 28px 0 0;
+      padding-bottom: env(safe-area-inset-bottom);
+      translate: 0 100%;
+      opacity: 1;
+
+      &[open] {
+        translate: 0 0;
+      }
+
+      @starting-style {
+        &[open] {
+          translate: 0 100%;
+        }
+      }
+    }
+
+    // превью: окно внутри родительской рамки
+    &[data-inline] {
+      position: absolute;
+      width: min(480px, calc(100% - 16px));
+      max-height: calc(100% - 16px);
+    }
+
+    // затемнение появляется плавно, а размытие — сразу: анимировать backdrop-filter — это заново
+    // фильтровать весь экран на каждом кадре (на слабых дёргается). Цвет дешёвый — он и плавный.
+    // При смахивании вниз размытие по-прежнему следует за пальцем (--sheet-drag), как у .sheet.
+    &::backdrop {
+      transition:
+        background-color 0.35s ease,
+        display 0.35s allow-discrete,
+        overlay 0.35s allow-discrete;
+    }
+
+    // телефон — позиция из data-phone (правила ниже data-pos, поэтому на телефоне побеждают)
+    @include down(sm) {
+      &[data-phone="bottom"] {
+        inset: auto 0 0;
+        margin: 0;
+        width: 100%;
+        height: fit-content;
+        max-height: 85dvh;
+        border-radius: 28px 28px 0 0;
+        padding-bottom: env(safe-area-inset-bottom);
+        translate: 0 100%;
+        opacity: 1;
+
+        &[open] {
+          translate: 0 0;
+        }
+
+        @starting-style {
+          &[open] {
+            translate: 0 100%;
+          }
+        }
+      }
+
+      &[data-phone="right"] {
+        inset: 8px 8px 8px auto;
+        margin: 0;
+        width: min(85vw, 380px);
+        height: auto;
+        translate: calc(100% + 16px) 0;
+        opacity: 1;
+
+        &[open] {
+          translate: 0 0;
+        }
+
+        @starting-style {
+          &[open] {
+            translate: calc(100% + 16px) 0;
+          }
+        }
+      }
+
+      &[data-phone="left"] {
+        inset: 8px auto 8px 8px;
+        margin: 0;
+        width: min(85vw, 380px);
+        height: auto;
+        translate: calc(-100% - 16px) 0;
+        opacity: 1;
+
+        &[open] {
+          translate: 0 0;
+        }
+
+        @starting-style {
+          &[open] {
+            translate: calc(-100% - 16px) 0;
+          }
+        }
+      }
+
+      &[data-phone="center"] {
+        inset: 0;
+        margin: auto;
+        width: min(480px, calc(100vw - 32px));
+        height: fit-content;
+        max-height: calc(100dvh - 32px);
+        border-radius: 28px;
+        translate: 0 24px;
+
+        &[open] {
+          translate: 0 0;
+        }
+
+        @starting-style {
+          &[open] {
+            translate: 0 24px;
+          }
+        }
+      }
+    }
+  }
+
+  html:has(.sheet[open], .modal[open]:not([data-inline])) {
     overflow: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .sheet,
-    .sheet::backdrop {
+    .sheet::backdrop,
+    .modal,
+    .modal::backdrop {
       transition: none;
     }
   }

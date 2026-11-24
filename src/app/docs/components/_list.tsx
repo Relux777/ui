@@ -252,8 +252,9 @@ export const COMPONENTS: ComponentItem[] = [
   {
     id: "modal",
     title: "Окно",
-    text: "Окно по центру и лист снизу на телефоне: смахивается, размытие под ним.",
+    text: "Окно по центру, справа, слева и снизу; на телефоне — своя позиция, внизу смахивается.",
     group: "Окна и подсказки",
+    ready: true,
     preview: (
       <div className="relative w-full max-w-220 h-120 br-lg bg-foreground/8 grid place-items-center">
         <span className="flex flex-col gap-6 w-150 p-12 br-lg bg-surface shadow-5">

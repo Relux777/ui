@@ -19,6 +19,8 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
       "/docs/components/input",
       "/docs/components/select",
       "/docs/components/tabs",
+      "/docs/components/modal",
+      "/docs/components/modal/constructor",
     ]);
     browser = await launch();
   });
@@ -147,6 +149,7 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
       `document.querySelector('${PREVIEW} [role=combobox]').click()`,
     );
     await page.waitFor(`${VISIBLE_LISTS}.length > 0`);
+    await sleep(200); // обработчик Esc вешается эффектом после открытия — не гоняемся с ним
     await page.send("Input.dispatchKeyEvent", {
       type: "keyDown",
       key: "Escape",
@@ -391,6 +394,7 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
       ),
       ["Изменить⌘E", "Скопировать⌘C", "В архив", "Удалить⌫"],
     );
+    await sleep(300); // обработчик Esc вешается эффектом после открытия — не гоняемся с ним
     await page.send("Input.dispatchKeyEvent", {
       type: "keyDown",
       key: "Escape",
@@ -464,9 +468,159 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
       })()`),
       {
         prev: "/docs/components/menu",
+        next: "/docs/components/modal",
+      },
+    );
+    await page.goto("/docs/components/modal");
+    await sleep(200);
+    assert.deepEqual(
+      await page.eval(`(() => {
+        const nav = document.querySelector('nav[aria-label="Страницы справки"]');
+        return {
+          prev: nav.querySelector('a[rel=prev]').getAttribute('href'),
+          next: nav.querySelector('a[rel=next]').getAttribute('href'),
+        };
+      })()`),
+      {
+        prev: "/docs/components/menu/constructor",
+        next: "/docs/components/modal/constructor",
+      },
+    );
+    await page.goto("/docs/components/modal/constructor");
+    await sleep(200);
+    assert.deepEqual(
+      await page.eval(`(() => {
+        const nav = document.querySelector('nav[aria-label="Страницы справки"]');
+        return {
+          prev: nav.querySelector('a[rel=prev]').getAttribute('href'),
+          next: nav.querySelector('a[rel=next]').getAttribute('href'),
+        };
+      })()`),
+      {
+        prev: "/docs/components/modal",
         next: "/docs/releases",
       },
     );
+    await page.close();
+  });
+
+  test("окно: открытие, Esc и затемнение", async () => {
+    const page = await browser.page({ width: 1440, height: 900 });
+    await page.goto("/docs/components/modal");
+    await sleep(300);
+    await page.eval(`${button("Открыть по центру")}.click()`);
+    await page.waitFor(`!!document.querySelector('dialog.modal[open]')`);
+    assert.equal(
+      await page.eval(`getComputedStyle(document.documentElement).overflow`),
+      "hidden",
+      "страница под окном не прокручивается",
+    );
+    // запомнили открытое окно (на странице их несколько — по одному на пример)
+    const index = await page.eval(
+      `[...document.querySelectorAll('dialog.modal')].findIndex((d) => d.open)`,
+    );
+    await page.send("Input.dispatchKeyEvent", {
+      type: "keyDown",
+      key: "Escape",
+      code: "Escape",
+      windowsVirtualKeyCode: 27,
+    });
+    // уход анимацией: окно уже закрыто, но ещё видно — гаснет и уезжает, а не пропадает кадром
+    const exit = await page.eval(`(() => {
+      const d = [...document.querySelectorAll('dialog.modal')][${index}];
+      const cs = getComputedStyle(d);
+      return { open: d.open, display: cs.display, opacity: Number(cs.opacity) };
+    })()`);
+    assert.equal(exit.open, false, "окно закрыто");
+    assert.notEqual(
+      exit.display,
+      "none",
+      "display выключается только в конце ухода",
+    );
+    assert.ok(exit.opacity < 1, "окно гаснет, а не исчезает рывком");
+    await page.waitFor(
+      `getComputedStyle([...document.querySelectorAll('dialog.modal')][${index}]).display === 'none'`,
+    );
+    assert.deepEqual(page.errors, []);
+    await page.close();
+  });
+
+  test("окно: позиции в конструкторе и закрытие из контента", async () => {
+    const page = await browser.page({ width: 1440, height: 1000 });
+    await page.goto("/docs/components/modal/constructor");
+    await sleep(300);
+    await page.eval(`${button("Открыть окно")}.click()`);
+    await page.waitFor(`!!document.querySelector('${PREVIEW} dialog[open]')`);
+    assert.deepEqual(
+      await page.eval(`(() => {
+        const d = document.querySelector('${PREVIEW} dialog');
+        return { pos: d.dataset.pos, phone: d.dataset.phone, inline: d.dataset.inline };
+      })()`),
+      { pos: "center", phone: "bottom", inline: "true" },
+      "по умолчанию: центр, на телефоне снизу, окно в рамке",
+    );
+    // позиция «Справа» — окно у правого края рамки
+    await page.eval(
+      `[...document.querySelectorAll('button')].filter((b) => b.textContent.trim() === 'Справа')[0].click()`,
+    );
+    await page.waitFor(
+      `document.querySelector('${PREVIEW} dialog')?.dataset.pos === 'right'`,
+    );
+    await sleep(700); // появление окна (пружина 0.5с) доходит до конца — замер не спотыкается о scale
+    const right = await page.eval(`(() => {
+      const d = document.querySelector('${PREVIEW} dialog');
+      const box = d.parentElement.getBoundingClientRect();
+      const r = d.getBoundingClientRect();
+      return { atRight: box.right - r.right < 16, taller: r.height > 200 };
+    })()`);
+    assert.ok(right.atRight, "окно прижато к правому краю рамки");
+    assert.ok(right.taller, "панель во всю высоту рамки");
+    // на телефоне — «По центру» (второй сегмент)
+    await page.eval(
+      `[...document.querySelectorAll('button')].filter((b) => b.textContent.trim() === 'По центру')[1].click()`,
+    );
+    await page.waitFor(
+      `document.querySelector('${PREVIEW} dialog')?.dataset.phone === 'center'`,
+    );
+    // подложка как у настоящего окна: видна и ловит клик, пока окно открыто
+    const backdrop = await page.eval(`(() => {
+      const el = document.querySelector('${PREVIEW} [data-modal-backdrop]');
+      if (!el) return null;
+      const cs = getComputedStyle(el);
+      return { opacity: cs.opacity, blur: cs.backdropFilter || cs.webkitBackdropFilter };
+    })()`);
+    assert.equal(backdrop?.opacity, "1", "подложка показана");
+    assert.match(backdrop?.blur ?? "", /blur\(8px\)/, "фон под окном размыт");
+    // класс фона из поля уходит на окно: фон меняется
+    const bgBefore = await page.eval(
+      `getComputedStyle(document.querySelector('${PREVIEW} dialog')).backgroundColor`,
+    );
+    await page.eval(`(() => {
+      const input = document.querySelector('input[aria-label="Класс фона окна"]');
+      const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      set.call(input, 'bg-primary');
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    })()`);
+    await page.waitFor(
+      `document.querySelector('${PREVIEW} dialog').className.includes('bg-primary')`,
+    );
+    const bgAfter = await page.eval(
+      `getComputedStyle(document.querySelector('${PREVIEW} dialog')).backgroundColor`,
+    );
+    assert.notEqual(bgAfter, bgBefore, "фон окна перекрасился");
+    // клик по подложке закрывает
+    await page.eval(
+      `document.querySelector('${PREVIEW} [data-modal-backdrop]').click()`,
+    );
+    await page.waitFor(`!document.querySelector('${PREVIEW} dialog[open]')`);
+    // открыли снова и закрыли кнопкой контента
+    await page.eval(`${button("Открыть окно")}.click()`);
+    await page.waitFor(`!!document.querySelector('${PREVIEW} dialog[open]')`);
+    await page.eval(
+      `[...document.querySelectorAll('${PREVIEW} dialog button')].find((b) => b.textContent.trim() === 'Отмена').click()`,
+    );
+    await page.waitFor(`!document.querySelector('${PREVIEW} dialog[open]')`);
+    assert.deepEqual(page.errors, []);
     await page.close();
   });
 });

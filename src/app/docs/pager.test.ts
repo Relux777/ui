@@ -71,6 +71,17 @@ test("после справки — «Компоненты», затем их с
   assert.deepEqual(
     docsNeighbors("/docs/components/menu/constructor", DOCS_PAGES).next,
     {
+      title: "Окно",
+      href: "/docs/components/modal",
+    },
+  );
+  assert.deepEqual(docsNeighbors("/docs/components/modal", DOCS_PAGES).next, {
+    title: "Конструктор окна",
+    href: "/docs/components/modal/constructor",
+  });
+  assert.deepEqual(
+    docsNeighbors("/docs/components/modal/constructor", DOCS_PAGES).next,
+    {
       title: "Обновления",
       href: "/docs/releases",
     },

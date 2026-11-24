@@ -64,13 +64,21 @@ describe("кнопки страниц", { skip: skip ?? false }, () => {
     await page.goto("/docs/components/menu/constructor");
     assert.equal(
       await page.eval(`${pager("next")}.getAttribute("href")`),
+      "/docs/components/modal",
+    );
+    await page.eval(`${pager("next")}.click()`);
+    await page.waitFor("location.pathname === '/docs/components/modal'");
+
+    await page.goto("/docs/components/modal/constructor");
+    assert.equal(
+      await page.eval(`${pager("next")}.getAttribute("href")`),
       "/docs/releases",
     );
     await page.eval(`${pager("next")}.click()`);
     await page.waitFor("location.pathname === '/docs/releases'");
     assert.equal(
       await page.eval(`${pager("prev")}.getAttribute("href")`),
-      "/docs/components/menu/constructor",
+      "/docs/components/modal/constructor",
     );
     await sleep(100);
     assert.deepEqual(page.errors, []);

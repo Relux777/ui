@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*! RenDit UI v0.4.0 | MIT | готовый CSS: стили RenDit SCSS + 3292 классов RenDit Code */
+/*! RenDit UI v0.5.0 | MIT | готовый CSS: стили RenDit SCSS + 3292 классов RenDit Code */
 @layer theme, reset, base, layout, components, utilities;
 @layer theme {
   :root {
@@ -994,7 +994,8 @@
   }
 }
 @layer components {
-  .sheet {
+  .sheet,
+  .modal {
     position: fixed;
     margin: 0;
     padding: 0;
@@ -1011,26 +1012,31 @@
     /* biome-ignore lint/suspicious/noDuplicateProperties: запасное transition для браузеров без allow-discrete */
     transition: translate 0.5s var(--ease-spring), display 0.5s allow-discrete, overlay 0.5s allow-discrete;
   }
-  .sheet::backdrop {
+  .sheet::backdrop,
+  .modal::backdrop {
     background: rgba(0, 0, 0, 0);
     backdrop-filter: blur(0);
     transition: background-color 0.35s ease, backdrop-filter 0.35s ease, display 0.35s allow-discrete, overlay 0.35s allow-discrete;
   }
-  .sheet[open]::backdrop {
+  .sheet[open]::backdrop,
+  .modal[open]::backdrop {
     background: rgb(0, 0, 0, calc(28% * (1 - var(--sheet-drag, 0))));
     backdrop-filter: blur(calc(8px * (1 - var(--sheet-drag, 0))));
   }
-  .sheet[data-dragging]::backdrop {
+  .sheet[data-dragging]::backdrop,
+  .modal[data-dragging]::backdrop {
     transition: none;
   }
   @starting-style {
-    .sheet[open]::backdrop {
+    .sheet[open]::backdrop,
+    .modal[open]::backdrop {
       background: rgba(0, 0, 0, 0);
       backdrop-filter: blur(0);
     }
   }
   @media (width < 620px) {
-    .sheet {
+    .sheet,
+    .modal {
       inset: auto 0 0;
       width: 100%;
       max-height: 85dvh;
@@ -1038,37 +1044,194 @@
       padding-bottom: env(safe-area-inset-bottom);
       translate: 0 100%;
     }
-    .sheet[open] {
+    .sheet[open],
+    .modal[open] {
       translate: 0 0;
     }
     @starting-style {
-      .sheet[open] {
+      .sheet[open],
+      .modal[open] {
         translate: 0 100%;
       }
     }
   }
   @media (width >= 620px) {
-    .sheet {
+    .sheet,
+    .modal {
       inset: 8px 8px 8px auto;
       width: min(380px, 100vw - 16px);
       border-radius: 28px;
       translate: calc(100% + 16px) 0;
     }
-    .sheet[open] {
+    .sheet[open],
+    .modal[open] {
       translate: 0 0;
     }
     @starting-style {
-      .sheet[open] {
+      .sheet[open],
+      .modal[open] {
         translate: calc(100% + 16px) 0;
       }
     }
   }
-  html:has(.sheet[open]) {
+  .modal {
+    inset: 0;
+    margin: auto;
+    width: min(480px, 100vw - 32px);
+    height: fit-content;
+    max-height: calc(100dvh - 32px);
+    border-radius: 28px;
+    translate: 0 24px;
+    opacity: 0;
+    transition: translate 0.5s var(--ease-spring), opacity 0.25s ease, display 0.5s allow-discrete, overlay 0.5s allow-discrete;
+  }
+  .modal[open] {
+    translate: 0 0;
+    opacity: 1;
+  }
+  @starting-style {
+    .modal[open] {
+      translate: 0 24px;
+      opacity: 0;
+    }
+  }
+  .modal[data-pos=right] {
+    inset: 8px 8px 8px auto;
+    margin: 0;
+    width: min(380px, 100vw - 16px);
+    height: auto;
+    translate: calc(100% + 16px) 0;
+    opacity: 1;
+  }
+  .modal[data-pos=right][open] {
+    translate: 0 0;
+  }
+  @starting-style {
+    .modal[data-pos=right][open] {
+      translate: calc(100% + 16px) 0;
+    }
+  }
+  .modal[data-pos=left] {
+    inset: 8px auto 8px 8px;
+    margin: 0;
+    width: min(380px, 100vw - 16px);
+    height: auto;
+    translate: calc(-100% - 16px) 0;
+    opacity: 1;
+  }
+  .modal[data-pos=left][open] {
+    translate: 0 0;
+  }
+  @starting-style {
+    .modal[data-pos=left][open] {
+      translate: calc(-100% - 16px) 0;
+    }
+  }
+  .modal[data-pos=bottom] {
+    inset: auto 0 0;
+    margin: 0;
+    width: 100%;
+    height: fit-content;
+    max-height: 85dvh;
+    border-radius: 28px 28px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    translate: 0 100%;
+    opacity: 1;
+  }
+  .modal[data-pos=bottom][open] {
+    translate: 0 0;
+  }
+  @starting-style {
+    .modal[data-pos=bottom][open] {
+      translate: 0 100%;
+    }
+  }
+  .modal[data-inline] {
+    position: absolute;
+    width: min(480px, 100% - 16px);
+    max-height: calc(100% - 16px);
+  }
+  .modal::backdrop {
+    transition: background-color 0.35s ease, display 0.35s allow-discrete, overlay 0.35s allow-discrete;
+  }
+  @media (width < 620px) {
+    .modal[data-phone=bottom] {
+      inset: auto 0 0;
+      margin: 0;
+      width: 100%;
+      height: fit-content;
+      max-height: 85dvh;
+      border-radius: 28px 28px 0 0;
+      padding-bottom: env(safe-area-inset-bottom);
+      translate: 0 100%;
+      opacity: 1;
+    }
+    .modal[data-phone=bottom][open] {
+      translate: 0 0;
+    }
+    @starting-style {
+      .modal[data-phone=bottom][open] {
+        translate: 0 100%;
+      }
+    }
+    .modal[data-phone=right] {
+      inset: 8px 8px 8px auto;
+      margin: 0;
+      width: min(85vw, 380px);
+      height: auto;
+      translate: calc(100% + 16px) 0;
+      opacity: 1;
+    }
+    .modal[data-phone=right][open] {
+      translate: 0 0;
+    }
+    @starting-style {
+      .modal[data-phone=right][open] {
+        translate: calc(100% + 16px) 0;
+      }
+    }
+    .modal[data-phone=left] {
+      inset: 8px auto 8px 8px;
+      margin: 0;
+      width: min(85vw, 380px);
+      height: auto;
+      translate: calc(-100% - 16px) 0;
+      opacity: 1;
+    }
+    .modal[data-phone=left][open] {
+      translate: 0 0;
+    }
+    @starting-style {
+      .modal[data-phone=left][open] {
+        translate: calc(-100% - 16px) 0;
+      }
+    }
+    .modal[data-phone=center] {
+      inset: 0;
+      margin: auto;
+      width: min(480px, 100vw - 32px);
+      height: fit-content;
+      max-height: calc(100dvh - 32px);
+      border-radius: 28px;
+      translate: 0 24px;
+    }
+    .modal[data-phone=center][open] {
+      translate: 0 0;
+    }
+    @starting-style {
+      .modal[data-phone=center][open] {
+        translate: 0 24px;
+      }
+    }
+  }
+  html:has(.sheet[open], .modal[open]:not([data-inline])) {
     overflow: hidden;
   }
   @media (prefers-reduced-motion: reduce) {
     .sheet,
-    .sheet::backdrop {
+    .sheet::backdrop,
+    .modal,
+    .modal::backdrop {
       transition: none;
     }
   }
@@ -1201,7 +1364,7 @@
   }
 }
 
-/*! RenDit Code v0.4.0 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.5.0 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @layer utilities {

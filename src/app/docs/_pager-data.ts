@@ -28,6 +28,11 @@ export const COMPONENT_PAGES: PagerPage[] = [
     title: "Конструктор меню",
     href: "/docs/components/menu/constructor",
   },
+  { title: "Окно", href: "/docs/components/modal" },
+  {
+    title: "Конструктор окна",
+    href: "/docs/components/modal/constructor",
+  },
 ];
 
 export function pagerPages(nav: readonly DocsGroup[]): PagerPage[] {
