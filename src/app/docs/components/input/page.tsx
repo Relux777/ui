@@ -3,12 +3,16 @@
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { CreditCard } from "@boxicons/react/CreditCard";
 import { Envelope } from "@boxicons/react/Envelope";
+import { EyeClosed } from "@boxicons/react/EyeClosed";
 import { FileCode } from "@boxicons/react/FileCode";
 import { Lock } from "@boxicons/react/Lock";
+import { PaperPlane } from "@boxicons/react/PaperPlane";
 import { Phone } from "@boxicons/react/Phone";
 import { Search } from "@boxicons/react/Search";
 import { User } from "@boxicons/react/User";
+import { X } from "@boxicons/react/X";
 import Link from "next/link";
 import { Input } from "@/components/ui/Input";
 import { Part } from "../../../_docs/class-page";
@@ -40,6 +44,7 @@ const TOC: TocItem[] = [
   { id: "form", title: "В форме" },
   { id: "style", title: "Стиль и фокус" },
   { id: "phone", title: "Телефон" },
+  { id: "unusual", title: "Необычные варианты" },
   { id: "props", title: "Свойства" },
 ];
 
@@ -622,6 +627,385 @@ export default function InputPage() {
           <Code>inputMode=&quot;tel&quot;</Code>. Для суммы —{" "}
           <Code>inputMode=&quot;decimal&quot;</Code>. На телефоне держите{" "}
           <Code>font-16</Code>.
+        </Callout>
+      </Part>
+
+      <Part
+        id="unusual"
+        title="Необычные варианты"
+        lead={
+          <>
+            Поле — это <Code>wrapperClassName</Code>: стекло, градиентная рамка,
+            мягкая тень, подсветка линии, командный поиск, плитка-иконка, OTP и
+            готовые блоки. Работает в обеих темах, форма и фокус — классами.
+          </>
+        }
+      >
+        <Example
+          title="стекло на цветной подложке"
+          code={`<div className="p-20 br-xl bg-[linear-gradient(135deg,var(--secondary),#3b2f6b_60%,var(--violet-900))]">
+  <Input
+    label="Почта"
+    placeholder="you@example.com"
+    icon={<Envelope />}
+    labelClassName="text-white/80"
+    iconClassName="size-18 text-white/70"
+    placeholderClassName="placeholder:text-white/50"
+    wrapperClassName="h-48 px-14 gap-10 br-full liquid-glass border border-white/30 text-white focus-within:border-white/60 focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,white_18%,transparent)]"
+  />
+</div>`}
+        >
+          <div className="p-20 br-xl bg-[linear-gradient(135deg,var(--secondary),#3b2f6b_60%,var(--violet-900))]">
+            <Input
+              label="Почта"
+              placeholder="you@example.com"
+              icon={<Envelope width={18} height={18} />}
+              labelClassName="text-white/80"
+              iconClassName="size-18 text-white/70"
+              placeholderClassName="placeholder:text-white/50"
+              wrapperClassName="h-48 px-14 gap-10 br-full liquid-glass border border-white/30 text-white focus-within:border-white/60 focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,white_18%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="градиентная рамка"
+          code={`<div className="p-px br-full bg-[linear-gradient(135deg,var(--secondary),var(--accent))]">
+  <Input
+    placeholder="Градиентная рамка"
+    icon={<Search />}
+    wrapperClassName="h-46 px-14 gap-10 br-full border-transparent bg-surface"
+  />
+</div>`}
+        >
+          <div className="max-w-320 p-px br-full bg-[linear-gradient(135deg,var(--secondary),var(--accent))]">
+            <Input
+              placeholder="Градиентная рамка"
+              icon={<Search width={18} height={18} />}
+              wrapperClassName="h-46 px-14 gap-10 br-full border-transparent bg-surface"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="мягкое (neumorphic)"
+          code={`<Input
+  placeholder="Мягкое поле"
+  wrapperClassName="h-46 px-14 gap-10 br-16 border border-transparent bg-background shadow-[inset_2px_3px_6px_rgb(0_0_0/0.08),inset_-2px_-2px_6px_rgb(255_255_255/0.7)] dark:shadow-[inset_2px_3px_6px_rgb(0_0_0/0.5),inset_-2px_-2px_6px_rgb(255_255_255/0.04)] focus-within:border-secondary/40 focus-within:shadow-[inset_2px_3px_6px_rgb(0_0_0/0.06),0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+/>`}
+        >
+          <div className="max-w-320">
+            <Input
+              placeholder="Мягкое поле"
+              wrapperClassName="h-46 px-14 gap-10 br-16 border border-transparent bg-background shadow-[inset_2px_3px_6px_rgb(0_0_0/0.08),inset_-2px_-2px_6px_rgb(255_255_255/0.7)] dark:shadow-[inset_2px_3px_6px_rgb(0_0_0/0.5),inset_-2px_-2px_6px_rgb(255_255_255/0.04)] focus-within:border-secondary/40 focus-within:shadow-[inset_2px_3px_6px_rgb(0_0_0/0.06),0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="линия с подсветкой"
+          code={`<Input
+  placeholder="Ваше имя"
+  wrapperClassName="h-46 px-0 gap-10 br-0 border-0 border-b-2 border-border bg-transparent focus-within:border-secondary focus-within:shadow-[0_6px_18px_-10px_var(--secondary)]"
+/>`}
+        >
+          <div className="max-w-320">
+            <Input
+              placeholder="Ваше имя"
+              wrapperClassName="h-46 px-0 gap-10 br-0 border-0 border-b-2 border-border bg-transparent focus-within:border-secondary focus-within:shadow-[0_6px_18px_-10px_var(--secondary)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="командный поиск с клавишей"
+          code={`<Input
+  type="search"
+  placeholder="Класс, компонент или тема…"
+  icon={<Search />}
+  end={<kbd className="px-6 py-2 br-sm border bg-surface font-11 font-mono">⌘K</kbd>}
+  wrapperClassName="h-52 px-16 gap-12 br-16 border border-transparent bg-foreground/5 focus-within:bg-surface focus-within:border-secondary focus-within:shadow-[0_10px_30px_-18px_rgb(0_0_0/0.4)]"
+/>`}
+        >
+          <div className="max-w-400">
+            <Input
+              type="search"
+              placeholder="Класс, компонент или тема…"
+              icon={<Search width={18} height={18} />}
+              end={
+                <kbd className="px-6 py-2 br-sm border bg-surface font-11 font-mono text-foreground-muted">
+                  ⌘K
+                </kbd>
+              }
+              wrapperClassName="h-52 px-16 gap-12 br-16 border border-transparent bg-foreground/5 focus-within:bg-surface focus-within:border-secondary focus-within:shadow-[0_10px_30px_-18px_rgb(0_0_0/0.4)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="иконка в плитке"
+          code={`<Input
+  label="Профиль"
+  placeholder="Имя пользователя"
+  icon={<User />}
+  iconClassName="size-36 br-full grid place-items-center bg-secondary/10 text-secondary [&>svg]:size-18"
+  wrapperClassName="h-52 pl-10 pr-14 gap-10 br-full border bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+/>`}
+        >
+          <div className="max-w-320">
+            <Input
+              label="Профиль"
+              placeholder="Имя пользователя"
+              icon={<User width={18} height={18} />}
+              iconClassName="size-36 br-full grid place-items-center bg-secondary/10 text-secondary [&>svg]:size-18"
+              wrapperClassName="h-52 pl-10 pr-14 gap-10 br-full border bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="тональное с переходом"
+          code={`<Input
+  label="Заметка"
+  placeholder="Что-нибудь важное"
+  wrapperClassName="h-46 px-14 gap-10 br-lg border border-transparent bg-surface-muted focus-within:bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+/>`}
+        >
+          <div className="max-w-320">
+            <Input
+              label="Заметка"
+              placeholder="Что-нибудь важное"
+              wrapperClassName="h-46 px-14 gap-10 br-lg border border-transparent bg-surface-muted focus-within:bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="код из четырёх ячеек (OTP)"
+          code={`<div className="flex items-center gap-8">
+  {["1", "2", "3", "4"].map((n) => (
+    <input
+      key={n}
+      aria-label={\`Цифра \${n}\`}
+      inputMode="numeric"
+      maxLength={1}
+      className="size-52 text-center font-20 font-w-700 br-lg border bg-surface outline-none transition-[border-color,box-shadow] focus:border-secondary focus:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+    />
+  ))}
+</div>`}
+        >
+          <div className="flex items-center gap-8">
+            {["1", "2", "3", "4"].map((n) => (
+              <input
+                key={n}
+                aria-label={`Цифра ${n}`}
+                inputMode="numeric"
+                maxLength={1}
+                className="size-52 text-center font-20 font-w-700 br-lg border bg-surface outline-none transition-[border-color,box-shadow] motion-reduce:transition-none focus:border-secondary focus:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+              />
+            ))}
+          </div>
+        </Example>
+
+        <Example
+          title="сумма с валютой"
+          code={`<Input
+  label="Сумма"
+  inputMode="decimal"
+  placeholder="0"
+  inputClassName="font-24 font-w-700"
+  end={<span className="font-20 font-w-700 text-foreground-muted">₽</span>}
+  wrapperClassName="h-56 px-16 gap-8 br-16 border bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+/>`}
+        >
+          <div className="max-w-320">
+            <Input
+              label="Сумма"
+              inputMode="decimal"
+              placeholder="0"
+              inputClassName="font-24 font-w-700"
+              end={
+                <span className="font-20 font-w-700 text-foreground-muted">
+                  ₽
+                </span>
+              }
+              wrapperClassName="h-56 px-16 gap-8 br-16 border bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="пароль с надёжностью"
+          code={`<div className="flex flex-col gap-8">
+  <Input
+    type="password"
+    label="Пароль"
+    defaultValue="renDit2026"
+    end={
+      <button type="button" aria-label="Показать пароль" className="text-foreground-muted hover:text-foreground">
+        <EyeClosed width={18} height={18} />
+      </button>
+    }
+  />
+  <div className="flex items-center gap-6">
+    <span className="h-4 w-1/3 br-full bg-secondary" />
+    <span className="h-4 w-1/3 br-full bg-secondary/60" />
+    <span className="h-4 w-1/3 br-full bg-foreground/10" />
+  </div>
+  <span className="font-12 text-foreground-muted">Надёжность: средняя</span>
+</div>`}
+        >
+          <div className="flex max-w-320 flex-col gap-8">
+            <Input
+              type="password"
+              label="Пароль"
+              defaultValue="renDit2026"
+              end={
+                <button
+                  type="button"
+                  aria-label="Показать пароль"
+                  className="text-foreground-muted transition-colors hover:text-foreground"
+                >
+                  <EyeClosed width={18} height={18} />
+                </button>
+              }
+            />
+            <div className="flex items-center gap-6">
+              <span className="h-4 w-1/3 br-full bg-secondary" />
+              <span className="h-4 w-1/3 br-full bg-secondary/60" />
+              <span className="h-4 w-1/3 br-full bg-foreground/10" />
+            </div>
+            <span className="font-12 text-foreground-muted">
+              Надёжность: средняя
+            </span>
+          </div>
+        </Example>
+
+        <Example
+          title="телефон с префиксом"
+          code={`<Input
+  type="tel"
+  inputMode="tel"
+  placeholder="(999) 000-00-00"
+  icon={<span className="font-13 font-w-600 text-foreground-muted">+7</span>}
+  iconClassName="shrink-0"
+  wrapperClassName="h-46 px-14 gap-10 br-full border bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+/>`}
+        >
+          <div className="max-w-320">
+            <Input
+              type="tel"
+              inputMode="tel"
+              placeholder="(999) 000-00-00"
+              icon={
+                <span className="font-13 font-w-600 text-foreground-muted">
+                  +7
+                </span>
+              }
+              iconClassName="shrink-0"
+              wrapperClassName="h-46 px-14 gap-10 br-full border bg-surface focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="карта оплаты"
+          code={`<Input
+  label="Карта"
+  inputMode="numeric"
+  placeholder="0000 0000 0000 0000"
+  inputClassName="font-18"
+  end={<span className="px-10 py-4 br-md bg-foreground/5 font-11 font-w-700">VISA</span>}
+  icon={<CreditCard />}
+  wrapperClassName="h-52 px-16 gap-10 br-16 border bg-[linear-gradient(135deg,var(--surface),color-mix(in_oklab,var(--secondary)_8%,var(--surface)))] focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+/>`}
+        >
+          <div className="max-w-360">
+            <Input
+              label="Карта"
+              inputMode="numeric"
+              placeholder="0000 0000 0000 0000"
+              inputClassName="font-18"
+              end={
+                <span className="px-10 py-4 br-md bg-foreground/5 font-11 font-w-700">
+                  VISA
+                </span>
+              }
+              icon={<CreditCard width={18} height={18} />}
+              wrapperClassName="h-52 px-16 gap-10 br-16 border bg-[linear-gradient(135deg,var(--surface),color-mix(in_oklab,var(--secondary)_8%,var(--surface)))] focus-within:border-secondary focus-within:shadow-[0_0_0_4px_color-mix(in_oklab,var(--secondary)_14%,transparent)]"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="теги в одном поле"
+          code={`<div className="flex flex-wrap items-center gap-6 min-h-46 px-10 py-5 br-lg border bg-surface focus-within:border-secondary">
+  <span className="inline-flex items-center gap-4 h-28 px-8 br-full bg-secondary/10 font-12 text-secondary">
+    Дизайн <X width={12} height={12} />
+  </span>
+  <span className="inline-flex items-center gap-4 h-28 px-8 br-full bg-secondary/10 font-12 text-secondary">
+    Код <X width={12} height={12} />
+  </span>
+  <input
+    aria-label="Новый тег"
+    placeholder="Добавить тег…"
+    className="flex-1 min-w-120 h-32 bg-transparent font-16 outline-none placeholder:text-foreground-subtle"
+  />
+</div>`}
+        >
+          <div className="flex flex-wrap items-center gap-6 max-w-360 min-h-46 px-10 py-5 br-lg border bg-surface focus-within:border-secondary">
+            <span className="inline-flex items-center gap-4 h-28 px-8 br-full bg-secondary/10 font-12 text-secondary">
+              Дизайн <X width={12} height={12} aria-hidden="true" />
+            </span>
+            <span className="inline-flex items-center gap-4 h-28 px-8 br-full bg-secondary/10 font-12 text-secondary">
+              Код <X width={12} height={12} aria-hidden="true" />
+            </span>
+            <input
+              aria-label="Новый тег"
+              placeholder="Добавить тег…"
+              className="flex-1 min-w-120 h-32 bg-transparent font-16 outline-none placeholder:text-foreground-subtle"
+            />
+          </div>
+        </Example>
+
+        <Example
+          title="композер сообщения"
+          code={`<div className="flex items-center gap-8 p-6 h-56 br-full border bg-surface shadow-[0_10px_30px_-22px_rgb(0_0_0/0.5)] focus-within:border-secondary">
+  <input
+    aria-label="Сообщение"
+    placeholder="Написать сообщение…"
+    className="flex-1 min-w-0 h-44 px-10 bg-transparent font-16 outline-none placeholder:text-foreground-subtle"
+  />
+  <button
+    type="button"
+    aria-label="Отправить"
+    className="size-44 shrink-0 grid place-items-center br-full bg-primary text-primary-foreground transition-[transform,opacity] hover:opacity-90 active:scale-92"
+  >
+    <PaperPlane width={18} height={18} />
+  </button>
+</div>`}
+        >
+          <div className="flex max-w-400 items-center gap-8 p-6 h-56 br-full border bg-surface shadow-[0_10px_30px_-22px_rgb(0_0_0/0.5)] focus-within:border-secondary">
+            <input
+              aria-label="Сообщение"
+              placeholder="Написать сообщение…"
+              className="flex-1 min-w-0 h-44 px-10 bg-transparent font-16 outline-none placeholder:text-foreground-subtle"
+            />
+            <button
+              type="button"
+              aria-label="Отправить"
+              className="size-44 shrink-0 grid place-items-center br-full bg-primary text-primary-foreground transition-[transform,opacity] motion-reduce:transition-none hover:opacity-90 active:scale-92"
+            >
+              <PaperPlane width={18} height={18} aria-hidden="true" />
+            </button>
+          </div>
+        </Example>
+
+        <Callout tone="tip">
+          Все варианты — та же разметка <Code>Input</Code> плюс{" "}
+          <Code>wrapperClassName</Code>; OTP, теги и композер собраны вручную,
+          это обычные <Code>input</Code> и <Code>div</Code>. На телефоне держите{" "}
+          <Code>font-16</Code>: iOS не приближает страницу.
         </Callout>
       </Part>
 

@@ -5,6 +5,7 @@
 import { Bolt } from "@boxicons/react/Bolt";
 import { ChevronRight } from "@boxicons/react/ChevronRight";
 import { Crown } from "@boxicons/react/Crown";
+import { Diamond } from "@boxicons/react/Diamond";
 import { Plus } from "@boxicons/react/Plus";
 import { Sparkles } from "@boxicons/react/Sparkles";
 import { Star } from "@boxicons/react/Star";
@@ -33,12 +34,19 @@ const TOC: TocItem[] = [
 const BTN =
   "inline-flex items-center justify-center gap-8 h-44 px-20 br-full font-13 font-w-600 select-none transition-[background-color,border-color,color,box-shadow,translate,scale] duration-200 ease-out motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:scale-97";
 
-const SPAN = "inline-flex items-center justify-center";
-const SHINE =
-  "bg-[linear-gradient(115deg,#f6f7fa_0%,#dfe3ea_22%,#aeb6c6_42%,#f3f5f9_58%,#c7cdd9_78%,#e9ecf2_100%)] dark:bg-[linear-gradient(115deg,#3a3f4a_0%,#20242c_22%,#596172_42%,#2b303a_58%,#454b58_78%,#23272f_100%)]";
+// металлик: общая часть — кромка, блик, подъём и «перелив» градиента при наведении и нажатии.
+// Позиция градиента при hover уезжает вперёд, при нажатии — ещё дальше (active сильнее hover в движке),
+// поэтому кнопка «переливается» и от клика. Всё на переходах: без @keyframes и лишних перерисовок.
+const METAL_BASE = `relative isolate overflow-hidden inline-flex items-center justify-center gap-8 h-46 px-24 br-full font-13 font-w-700 select-none border border-white/60 dark:border-white/10 bg-[size:220%_100%] bg-[position:0%_50%] shadow-[inset_0_1px_0_rgb(255_255_255/0.85),inset_0_-2px_4px_rgb(0_0_0/0.18),0_2px_4px_rgb(0_0_0/0.14),0_10px_24px_-10px_rgb(0_0_0/0.35)] transition-[background-position,translate,scale,box-shadow] duration-700 ease-out motion-reduce:transition-none hover:bg-[position:100%_50%] hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.95),inset_0_-2px_4px_rgb(0_0_0/0.18),0_4px_8px_rgb(0_0_0/0.14),0_18px_34px_-12px_rgb(0_0_0/0.4)] active:bg-[position:200%_50%] active:translate-y-0 active:scale-97 active:shadow-[inset_0_1px_0_rgb(255_255_255/0.9),inset_0_-2px_5px_rgb(0_0_0/0.22),0_1px_2px_rgb(0_0_0/0.18)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(120%_90%_at_50%_0%,rgb(255_255_255/0.85),transparent_55%)] before:opacity-60 before:transition-opacity before:duration-500 hover:before:opacity-95`;
 
-// «металлик»: стальной градиент катается по кнопке при наведении, край светится, нажатие утапливает
-const METAL = `${SPAN} relative isolate overflow-hidden gap-8 h-46 px-24 br-full font-13 font-w-700 select-none text-gray-950 dark:text-gray-100 border border-white/60 dark:border-white/10 ${SHINE} bg-[size:220%_100%] bg-[position:0%_50%] shadow-[inset_0_1px_0_rgb(255_255_255/0.85),inset_0_-2px_4px_rgb(0_0_0/0.18),0_2px_4px_rgb(0_0_0/0.14),0_10px_24px_-10px_rgb(0_0_0/0.35)] dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-2px_4px_rgb(0_0_0/0.5),0_2px_4px_rgb(0_0_0/0.4),0_10px_24px_-10px_rgb(0_0_0/0.6)] transition-[background-position,translate,scale,box-shadow] duration-700 ease-out motion-reduce:transition-none hover:bg-[position:100%_50%] hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.95),inset_0_-2px_4px_rgb(0_0_0/0.18),0_4px_8px_rgb(0_0_0/0.14),0_18px_34px_-12px_rgb(0_0_0/0.4)] active:translate-y-0 active:scale-97 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(120%_90%_at_50%_0%,rgb(255_255_255/0.85),transparent_55%)] before:opacity-60 before:transition-opacity before:duration-500 hover:before:opacity-95`;
+// «металлик» по умолчанию: серебро в светлой теме, тёмная сталь — в тёмной
+const METAL = `${METAL_BASE} bg-[linear-gradient(115deg,#f6f7fa_0%,#dfe3ea_22%,#aeb6c6_42%,#f3f5f9_58%,#c7cdd9_78%,#e9ecf2_100%)] dark:bg-[linear-gradient(115deg,#3a3f4a_0%,#20242c_22%,#596172_42%,#2b303a_58%,#454b58_78%,#23272f_100%)] text-gray-950 dark:text-gray-100`;
+
+// металлы коллекции: золото, медь, хром (перелив) и тёмная сталь
+const METAL_GOLD = `${METAL_BASE} bg-[linear-gradient(115deg,#fff6d6_0%,#f3d78b_20%,#b07c24_42%,#ffe9b3_58%,#d9a63d_78%,#fff3c6_100%)] text-[#2f2206]`;
+const METAL_COPPER = `${METAL_BASE} bg-[linear-gradient(115deg,#ffe7d8_0%,#eda173_20%,#8d4728_42%,#ffd6bb_58%,#c9784a_78%,#ffe2cd_100%)] text-[#34180b]`;
+const METAL_CHROME = `${METAL_BASE} bg-[linear-gradient(115deg,#c8d3ff_0%,#e5caff_18%,#ffd3e7_36%,#c9ffea_54%,#c9e7ff_72%,#e7daff_88%,#c8d3ff_100%)] text-gray-900`;
+const METAL_STEEL = `${METAL_BASE} bg-[linear-gradient(115deg,#3a3f4a_0%,#20242c_22%,#596172_42%,#2b303a_58%,#454b58_78%,#23272f_100%)] text-gray-100`;
 
 export default function ButtonPage() {
   return (
@@ -368,12 +376,58 @@ export default function ButtonPage() {
             </button>
           </div>
         </Example>
+        <Example
+          title="коллекция: серебро, золото, медь, хром и сталь"
+          code={`const METAL_BASE =
+  "relative isolate overflow-hidden inline-flex items-center justify-center gap-8 h-46 px-24 br-full font-13 font-w-700 select-none border border-white/60 bg-[size:220%_100%] bg-[position:0%_50%] transition-[background-position,translate,scale,box-shadow] duration-700 ease-out motion-reduce:transition-none hover:bg-[position:100%_50%] hover:-translate-y-1 active:bg-[position:200%_50%] active:translate-y-0 active:scale-97 ...";
+
+const gold = \`\${METAL_BASE} bg-[linear-gradient(115deg,#fff6d6_0%,#f3d78b_20%,#b07c24_42%,#ffe9b3_58%,#d9a63d_78%,#fff3c6_100%)] text-[#2f2206]\`;
+const copper = \`\${METAL_BASE} bg-[linear-gradient(115deg,#ffe7d8_0%,#eda173_20%,#8d4728_42%,#ffd6bb_58%,#c9784a_78%,#ffe2cd_100%)] text-[#34180b]\`;
+const chrome = \`\${METAL_BASE} bg-[linear-gradient(115deg,#c8d3ff_0%,#e5caff_18%,#ffd3e7_36%,#c9ffea_54%,#c9e7ff_72%,#e7daff_88%,#c8d3ff_100%)] text-gray-900\`;
+const steel = \`\${METAL_BASE} bg-[linear-gradient(115deg,#3a3f4a_0%,#20242c_22%,#596172_42%,#2b303a_58%,#454b58_78%,#23272f_100%)] text-gray-100\`;
+
+<div className="p-24 br-24 border border-white/10 bg-[linear-gradient(180deg,#0c0e12,#15171d)]">
+  <button className={gold}>Золото</button>
+  <button className={copper}>Медь</button>
+  <button className={chrome}>Хром</button>
+  <button className={steel}>Сталь</button>
+</div>`}
+        >
+          <div className="p-24 br-24 border border-white/10 bg-[radial-gradient(140%_120%_at_15%_0%,rgb(58_63_74/0.55),transparent_55%),radial-gradient(120%_120%_at_85%_100%,rgb(74_63_120/0.5),transparent_55%),linear-gradient(180deg,#0c0e12,#15171d)]">
+            <p className="font-11 font-w-700 uppercase letter-s-6 text-white/50">
+              Металлическая коллекция
+            </p>
+            <div className="mt-16 flex flex-wrap items-center gap-14">
+              <button type="button" className={METAL}>
+                <Crown width={18} height={18} aria-hidden="true" /> Серебро
+              </button>
+              <button type="button" className={METAL_GOLD}>
+                <Sparkles width={18} height={18} aria-hidden="true" /> Золото
+              </button>
+              <button type="button" className={METAL_COPPER}>
+                <Diamond width={18} height={18} aria-hidden="true" /> Медь
+              </button>
+              <button type="button" className={METAL_CHROME}>
+                <Star width={18} height={18} aria-hidden="true" /> Хром
+              </button>
+              <button type="button" className={METAL_STEEL}>
+                Сталь
+              </button>
+            </div>
+            <p className="mt-14 font-12 text-white/40">
+              Наведите и нажмите: градиент переливается вперёд, кнопка
+              приподнимается, блик становится ярче.
+            </p>
+          </div>
+        </Example>
         <Callout tone="tip">
           Как устроено: <Code>bg-[linear-gradient(…)]</Code> +{" "}
           <Code>bg-[size:220%_100%]</Code> + <Code>bg-[position:0%_50%]</Code> —
-          при наведении позиция едет в <Code>100%_50%</Code>, градиент
-          «катается» по кнопке. Блик — псевдоэлемент <Code>before:</Code> с
-          радиальным градиентом и <Code>hover:before:opacity-95</Code>.
+          при наведении позиция едет в <Code>100%_50%</Code>, при нажатии — в{" "}
+          <Code>200%_50%</Code> (в движке <Code>active:</Code> сильнее{" "}
+          <Code>hover:</Code>): градиент «переливается» и от клика. Блик —
+          псевдоэлемент <Code>before:</Code> с радиальным градиентом и{" "}
+          <Code>hover:before:opacity-95</Code>.
         </Callout>
       </Part>
 

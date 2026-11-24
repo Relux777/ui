@@ -434,6 +434,27 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
     await page.close();
   });
 
+  test("поле ввода: необычные варианты и OTP", async () => {
+    const page = await browser.page({ width: 1440, height: 900 });
+    await page.goto("/docs/components/input");
+    await sleep(300);
+    const info = await page.eval(`(() => {
+      const section = document.querySelector('#unusual').closest('section');
+      return {
+        fields: section.querySelectorAll('input').length,
+        otp: section.querySelectorAll('input[size], input').length,
+        cards: section.querySelectorAll('h3').length,
+        toc: !!document.querySelector('[aria-label="На этой странице"] a[href="#unusual"]')
+          || !!document.querySelector('a[href="#unusual"]'),
+      };
+    })()`);
+    assert.ok(info.fields >= 8, "в разделе есть поля");
+    assert.ok(info.cards >= 6, "варианты на месте");
+    assert.equal(info.toc, true, "раздел есть в оглавлении страницы");
+    assert.deepEqual(page.errors, []);
+    await page.close();
+  });
+
   test("пейджер ведёт по страницам компонентов", async () => {
     const page = await browser.page({ width: 1440, height: 900 });
     await page.goto("/docs/components/button");
