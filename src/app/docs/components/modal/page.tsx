@@ -7,6 +7,7 @@ import { FileCode } from "@boxicons/react/FileCode";
 import Link from "next/link";
 import { Content1 } from "@/components/ui/Modal/content/content_1";
 import { Content2 } from "@/components/ui/Modal/content/content_2";
+import { ModalTrigger } from "@/components/ui/Modal/trigger";
 import { Part } from "../../../_docs/class-page";
 import {
   Callout,
@@ -27,6 +28,7 @@ export const metadata = { title: "Окно" };
 const TOC: TocItem[] = [
   { id: "install", title: "Установка" },
   { id: "source", title: "Код компонента" },
+  { id: "trigger", title: "Кнопка-триггер" },
   { id: "center", title: "По центру" },
   { id: "sides", title: "Справа и слева" },
   { id: "bottom", title: "Снизу" },
@@ -41,6 +43,11 @@ const MODAL_SRC = readFileSync(
 
 const CONTENT_SRC = readFileSync(
   join(process.cwd(), "src/components/ui/Modal/content/content_1.tsx"),
+  "utf8",
+);
+
+const TRIGGER_SRC = readFileSync(
+  join(process.cwd(), "src/components/ui/Modal/trigger.tsx"),
   "utf8",
 );
 
@@ -132,6 +139,11 @@ export default function ModalPage() {
                       "пример содержимого: текст и кнопки",
                       CONTENT_SRC,
                     ],
+                    [
+                      "trigger.tsx",
+                      "кнопка-открывашка — по желанию",
+                      TRIGGER_SRC,
+                    ],
                   ].map(([file, note, code]) => (
                     <div key={file} className="flex items-start gap-10">
                       <span className="size-36 shrink-0 grid place-items-center br-lg bg-secondary/10 text-secondary">
@@ -167,7 +179,9 @@ export default function ModalPage() {
                   Кнопка открывает окно через <Code>ref</Code>, кнопки контента
                   закрывают его хуком <Code>useModalClose()</Code> — пропсы
                   контенту не нужны. Позиция — пропсом <Code>position</Code>, на
-                  телефоне — <Code>phone</Code>.
+                  телефоне — <Code>phone</Code>. Если страница серверная —
+                  возьмите <Code>ModalTrigger</Code> ниже, он прячет{" "}
+                  <Code>useRef</Code> и <Code>onClick</Code> в отдельный файл.
                 </>
               ),
               block: <CodeBlock file="app/page.tsx" code={PAGE_SRC} />,
@@ -237,6 +251,72 @@ export default function ModalPage() {
           </DownloadFile>
         </div>
         <CodeBlock file="src/components/ui/Modal/index.tsx" code={MODAL_SRC} />
+      </Part>
+
+      <Part
+        id="trigger"
+        title="Кнопка-триггер"
+        lead={
+          <>
+            <Code>ModalTrigger</Code> — кнопка и окно в одном клиентском файле:
+            серверные страница и шапка остаются серверными, а{" "}
+            <Code>useRef</Code> и <Code>onClick</Code> живут здесь. Контент
+            передаётся как <Code>children</Code> — разметку через границу сервер
+            → клиент передавать можно.
+          </>
+        }
+      >
+        <Example
+          title="открыть окно из серверной страницы"
+          code={`import { ModalTrigger } from "@/components/ui/Modal/trigger";
+import { Content1 } from "@/components/ui/Modal/content/content_1";
+
+export default function Page() {
+  return (
+    <ModalTrigger
+      title="Удалить файл?"
+      button="Удалить файл"
+      buttonClassName="h-44 px-20 br-full bg-primary text-primary-foreground font-13 font-w-600 transition hover:opacity-85 active:scale-97"
+    >
+      <Content1 />
+    </ModalTrigger>
+  );
+}`}
+        >
+          <ModalTrigger
+            title="Удалить файл?"
+            button="Удалить файл"
+            buttonClassName="h-44 px-20 br-full bg-primary text-primary-foreground font-13 font-w-600 transition motion-reduce:transition-none hover:opacity-85 active:scale-97"
+          >
+            <Content1 />
+          </ModalTrigger>
+        </Example>
+        <div className="flex flex-col gap-10 sm:flex-row sm:items-center">
+          <p className="flex-1 font-13 text-foreground-muted">
+            <Code>trigger.tsx</Code> — один файл: кнопка, <Code>ref</Code> и{" "}
+            <Code>Modal</Code>. Кнопка получает{" "}
+            <Code>aria-haspopup=&quot;dialog&quot;</Code> и стили из{" "}
+            <Code>buttonClassName</Code>.
+          </p>
+          <DownloadFile
+            code={TRIGGER_SRC}
+            filename="trigger.tsx"
+            variant="solid"
+            className="max-sm:w-full"
+          >
+            Скачать trigger.tsx
+          </DownloadFile>
+        </div>
+        <CodeBlock
+          file="src/components/ui/Modal/trigger.tsx"
+          code={TRIGGER_SRC}
+        />
+        <Callout tone="tip">
+          Триггер не обязателен: если кнопка уже в клиентском компоненте (шапка,
+          меню, поиск) — просто заведите там <Code>useRef</Code> и рендерите{" "}
+          <Code>Modal</Code>, как в «Установке». Отдельный файл нужен, только
+          чтобы не превращать серверную страницу в клиентскую.
+        </Callout>
       </Part>
 
       <Part

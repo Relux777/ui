@@ -108,7 +108,8 @@ src/components/NavBar      нижнее меню «Жидкое стекло»: 
 src/components/DocsTabs    вкладки справки (tabs.ts — данные и выбор по адресу, под тестом)
 src/components/ui/Sheet       окно-лист на <dialog> (.sheet): смахивание, размытие под листом, тень под верхом при прокрутке
 src/components/ui/Modal      модальное окно на <dialog> (.modal в _sheet.scss): позиции center/right/left/bottom + phone,
-                             содержимое — content/content_N.tsx, inline — окно в рамке для превью
+                             содержимое — content/content_N.tsx, trigger.tsx — кнопка-открывашка (окно+кнопка в клиентском файле),
+                             inline — окно в рамке для превью
 src/components/ui/QuickNav    «Быстрый переход» — только разделы страницы (элементы с data-toc), открывает openQuickNav()
 src/components/ui/MenuSheet   «всё меню» шапки: вкладки, поиск по классам, платформа, все страницы справки
 src/app/docs/_nav.ts       оглавление справки как у Tailwind (группы, у страницы classes — для меню и поиска filterDocsNav);

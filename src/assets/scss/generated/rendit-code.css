@@ -1,4 +1,4 @@
-/*! RenDit Code v0.6.0 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
+/*! RenDit Code v0.7.0 | RenDit UI | сгенерировано из классов в исходниках, не редактировать */
 @property --rd-tx { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-ty { syntax: "*"; inherits: false; initial-value: 0; }
 @property --rd-content { syntax: "*"; inherits: false; initial-value: ""; }
@@ -2188,8 +2188,14 @@
   .bg-background {
     background-color: var(--background);
   }
+  .bg-background\/50 {
+    background-color: color-mix(in oklab, var(--background) 50%, transparent);
+  }
   .bg-background\/70 {
     background-color: color-mix(in oklab, var(--background) 70%, transparent);
+  }
+  .bg-background\/80 {
+    background-color: color-mix(in oklab, var(--background) 80%, transparent);
   }
   .bg-black\/28 {
     background-color: color-mix(in oklab, var(--black) 28%, transparent);
@@ -4081,6 +4087,9 @@
   [data-search] .\[\[data-search\]_\&\]\:bg-foreground\/5 {
     background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
   }
+  [data-weak] .\[\[data-weak\]_\&\]\:bg-background\/85 {
+    background-color: color-mix(in oklab, var(--background) 85%, transparent);
+  }
   :is([data-scrolled],[data-search]) .\[\:is\(\[data-scrolled\]\,\[data-search\]\)_\&\]\:pr-8 {
     padding-right: 8px;
   }
@@ -4122,6 +4131,9 @@
   }
   :is([data-scrolled],[data-search]) .\[\:is\(\[data-scrolled\]\,\[data-search\]\)_\&\]\:backdrop-blur-12 {
     backdrop-filter: blur(12px);
+  }
+  [data-weak] .\[\[data-weak\]_\&\]\:\[backdrop-filter\:none\] {
+    backdrop-filter: none;
   }
   .\[\&_\*\]\:transition-colors * {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;

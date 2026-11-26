@@ -364,6 +364,13 @@ export const DOCS_NAV: DocsGroup[] = [
         classes: ["blur-*", "backdrop-blur-*"],
         keywords: "blur filter backdrop-filter стекло glass",
       },
+      {
+        title: "Производительность",
+        href: "/docs/scss/performance",
+        classes: ["motion-reduce-*", "data-weak"],
+        keywords:
+          "производительность слабые устройства data-weak оптимизация backdrop-filter blur",
+      },
     ],
   },
   {

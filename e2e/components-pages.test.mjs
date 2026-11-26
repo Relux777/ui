@@ -603,6 +603,23 @@ describe("страницы компонентов", { skip: skip ?? false }, () 
     await page.close();
   });
 
+  test("окно: кнопка-триггер открывает окно", async () => {
+    const page = await browser.page({ width: 1440, height: 900 });
+    await page.goto("/docs/components/modal");
+    await sleep(300);
+    await page.eval(`${button("Удалить файл")}.click()`);
+    await page.waitFor(`!!document.querySelector('dialog.modal[open]')`);
+    await page.send("Input.dispatchKeyEvent", {
+      type: "keyDown",
+      key: "Escape",
+      code: "Escape",
+      windowsVirtualKeyCode: 27,
+    });
+    await page.waitFor(`!document.querySelector('dialog.modal[open]')`);
+    assert.deepEqual(page.errors, []);
+    await page.close();
+  });
+
   test("окно: позиции в конструкторе и закрытие из контента", async () => {
     const page = await browser.page({ width: 1440, height: 1000 });
     await page.goto("/docs/components/modal/constructor");
